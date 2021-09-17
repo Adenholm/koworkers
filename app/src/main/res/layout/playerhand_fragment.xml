@@ -5,9 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.playerhand.PlayerhandFragment">
 
-    <TextView
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <LinearLayout
+            android:id="@+id/handLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></LinearLayout>
+    </HorizontalScrollView>
 
 </FrameLayout>

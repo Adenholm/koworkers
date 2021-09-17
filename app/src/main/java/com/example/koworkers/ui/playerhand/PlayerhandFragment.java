@@ -11,10 +11,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.koworkers.R;
+import com.example.koworkers.model.pieces.Piece;
+
+import java.util.ArrayList;
 
 public class PlayerhandFragment extends Fragment {
+
+    private LinearLayout handLinearLayout;
 
     private PlayerhandViewModel mViewModel;
 
@@ -32,7 +38,14 @@ public class PlayerhandFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(PlayerhandViewModel.class);
-        // TODO: Use the ViewModel
+
+        handLinearLayout = getView().findViewById(R.id.handLinearLayout);
+
+        populateHand();
+    }
+
+    private void populateHand(){
+
     }
 
 }
