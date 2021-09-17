@@ -6,10 +6,26 @@ import com.example.koworkers.model.Colour;
 
 import java.util.ArrayList;
 
-public interface Piece {
+public abstract class Piece implements IPiece{
+    private final Colour colour;
+    private final int imageResource;
 
-    ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions);
-    Colour getColour();
-    int getImageResource();
+    protected Piece(Colour colour, int imageResource) {
+        this.colour = colour;
+        this.imageResource = imageResource;
+    }
 
+
+    @Override
+    public abstract ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions);
+
+    @Override
+    public Colour getColour() {
+        return colour;
+    }
+
+    @Override
+    public int getImageResource() {
+        return imageResource;
+    }
 }

@@ -7,26 +7,15 @@ import com.example.koworkers.model.Colour;
 
 import java.util.ArrayList;
 
-public class Grasshopper implements Piece{
-    private final Colour colour;
-    private final int imageResource = R.drawable.white_hexagon; //TODO change picture
+public class Grasshopper extends Piece {
 
     public Grasshopper(Colour colour){
-        this.colour = colour;
+        super(colour, R.drawable.white_hexagon); //TODO change picture
     }
 
     @Override
-    public ArrayList<Point> getPossibleMoves() {
+    public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         return null;
     }
 
-    @Override
-    public Colour getColour() {
-        return colour;
-    }
-
-    @Override
-    public int getImageResource() {
-        return imageResource;
-    }
 }

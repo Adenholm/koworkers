@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.Colour;
-import com.example.koworkers.model.pieces.Piece;
+import com.example.koworkers.model.pieces.IPiece;
 
 public class PieceStackFragment extends Fragment {
 
@@ -27,10 +27,10 @@ public class PieceStackFragment extends Fragment {
     private TextView numberText;
 
 
-    private final Piece piece;
+    private final IPiece piece;
     private int numberOfPieces;
 
-    public PieceStackFragment(Piece piece, int numberOfPieces){
+    public PieceStackFragment(IPiece piece, int numberOfPieces){
         this.piece = piece;
         this.numberOfPieces = numberOfPieces;
     }

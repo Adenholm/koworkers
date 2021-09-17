@@ -3,23 +3,23 @@ package com.example.koworkers.model.pieces;
 import com.example.koworkers.model.Colour;
 
 public class PieceFactory {
-    public Piece createNewQueen(Colour colour){
+    public IPiece createNewQueen(Colour colour){
         return new Queen(colour);
     }
 
-    public Piece createNewAnt(Colour colour){
+    public IPiece createNewAnt(Colour colour){
         return new Ant(colour);
     }
 
-    public Piece createNewBeetle(Colour colour){
+    public IPiece createNewBeetle(Colour colour){
         return new Beetle(colour);
     }
 
-    public Piece createNewGrasshopper(Colour colour){
+    public IPiece createNewGrasshopper(Colour colour){
         return new Grasshopper(colour);
     }
 
-    public Piece createNewSpider(Colour colour){
+    public IPiece createNewSpider(Colour colour){
         return new Spider(colour);
     }
 }
