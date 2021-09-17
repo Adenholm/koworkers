@@ -20,7 +20,7 @@ public class Ant implements Piece{
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         ArrayList<Point> possibleMoves = new ArrayList<>();
         for(int i=1;i<boardPositions.size();i++){
-            ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(0),boardPositions.get(i))
+            ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(0),boardPositions.get(i));
             for(int j=0;j<currentList.size();j++){
                 if(!alreadyInList(possibleMoves,currentList.get(j)) &&!alreadyInList(boardPositions,currentList.get(j))){
                     possibleMoves.add(currentList.get(j));
