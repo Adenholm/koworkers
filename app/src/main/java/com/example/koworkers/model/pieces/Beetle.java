@@ -15,7 +15,7 @@ public class Beetle implements Piece{
 
     @Override
     public ArrayList<Point> getPossibleMoves() {
-        return null;
+
     }
 
     @Override
