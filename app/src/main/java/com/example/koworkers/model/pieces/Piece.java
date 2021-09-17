@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public interface Piece {
 
-    public ArrayList<Point> getPossibleMoves();
-    public Colour getColour();
+    ArrayList<Point> getPossibleMoves();
+    Colour getColour();
+    int getImageResource();
 }
