@@ -43,7 +43,7 @@ public class Ant implements Piece{
         ArrayList<Point> currentMoves = new ArrayList<>();
         for(int i=-1;i<=1;i++) {
             for (int j = -1; j <= 1; j++) {
-                if (i == 3 && j != 1) {
+                if (i == 1 && j != 0) {
                     break;
                 }
 
