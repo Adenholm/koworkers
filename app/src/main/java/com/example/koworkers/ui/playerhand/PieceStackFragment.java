@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.koworkers.R;
 import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.pieces.Piece;
+import com.example.koworkers.viewmodel.PieceStackViewModel;
 
 public class PieceStackFragment extends Fragment {
 

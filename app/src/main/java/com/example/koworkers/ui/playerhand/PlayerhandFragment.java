@@ -14,9 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.koworkers.R;
-import com.example.koworkers.model.pieces.Piece;
-
-import java.util.ArrayList;
+import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
 public class PlayerhandFragment extends Fragment {
 
