@@ -2,7 +2,9 @@ package com.example.koworkers.ui.board;
 
 import static java.lang.Math.sqrt;
 
-import com.example.koworkers.ui.board.Point;
+import com.example.koworkers.model.IPublisher;
+import com.example.koworkers.model.Isubscriber;
+import com.example.koworkers.model.Point;
 
 import androidx.lifecycle.ViewModel;
 
@@ -11,8 +13,19 @@ import com.example.koworkers.model.pieces.Piece;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BoardViewModel extends ViewModel {
+public class BoardViewModel extends ViewModel implements Isubscriber {
     // TODO: Implement the ViewModel
+
+
+    @Override
+    public void update() {
+        //TODO:
+    }
+
+    public void notifySubscriber() {
+
+    }
+
     HashMap<Piece, Point> viewCoordinates = new HashMap<>();
 
     private  final int r=15; //från hexagonens mitt till hörn
@@ -34,6 +47,7 @@ public class BoardViewModel extends ViewModel {
             viewCoordinate.setX(point.getX()*(int)x_offset);
         }
         viewCoordinates.put(piece, viewCoordinate);
+        notifySubscriber();
 
     }
 

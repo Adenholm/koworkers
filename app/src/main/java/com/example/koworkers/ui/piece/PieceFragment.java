@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.pieces.Piece;
-import com.example.koworkers.ui.board.Point;
+import com.example.koworkers.model.Point;
 
 public class PieceFragment extends Fragment {
     private Point point;

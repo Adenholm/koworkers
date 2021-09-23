@@ -1,4 +1,4 @@
-package com.example.koworkers.ui.board;
+package com.example.koworkers.model;
 
 public class Point {
     private int x;

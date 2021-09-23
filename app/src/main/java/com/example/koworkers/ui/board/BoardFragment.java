@@ -2,7 +2,6 @@ package com.example.koworkers.ui.board;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import android.graphics.Point;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,12 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.koworkers.R;
+import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.pieces.Piece;
 import com.example.koworkers.ui.piece.PieceFragment;
 
 import java.util.ArrayList;
 
-public class BoardFragment extends Fragment {
+public class BoardFragment extends Fragment implements Isubscriber {
+    @Override
+    public void update() {
+        populate();
+    }
+
     ArrayList <PieceFragment> pieceFragments =new ArrayList<>();
     private void populate(){
             for (Piece key: mViewModel.viewCoordinates.keySet()){
