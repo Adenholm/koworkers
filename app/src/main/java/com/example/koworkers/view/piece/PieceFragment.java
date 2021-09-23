@@ -1,4 +1,4 @@
-package com.example.koworkers.ui.piece;
+package com.example.koworkers.view.piece;
 
 import androidx.lifecycle.ViewModelProvider;
 

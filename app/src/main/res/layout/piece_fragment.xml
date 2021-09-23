@@ -5,7 +5,7 @@
     android:id="@+id/boardPiece"
     android:layout_width="50dp"
     android:layout_height="50dp"
-    tools:context=".ui.piece.PieceFragment">
+    tools:context=".view.piece.PieceFragment">
 
     <ImageView
         android:id="@+id/boardPieceImage"

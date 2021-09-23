@@ -1,4 +1,4 @@
-package com.example.koworkers.ui.playerhand;
+package com.example.koworkers.view.playerhand;
 
 import androidx.lifecycle.ViewModelProvider;
 

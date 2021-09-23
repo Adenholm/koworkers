@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="96dp"
     android:layout_height="96dp"
-    tools:context=".ui.playerhand.PieceStackFragment">
+    tools:context=".view.playerhand.PieceStackFragment">
 
     <ImageView
         android:id="@+id/hexagonImage"

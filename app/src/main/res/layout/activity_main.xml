@@ -8,7 +8,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.example.koworkers.ui.board.BoardFragment"
+        android:name="com.example.koworkers.view.board.BoardFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="96dp"
@@ -19,7 +19,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
-        android:name="com.example.koworkers.ui.playerhand.PlayerhandFragment"
+        android:name="com.example.koworkers.view.playerhand.PlayerhandFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
