@@ -63,6 +63,9 @@ public class superPieceFragment extends Fragment {
         }
         if(piece.getInsect().equals(Insect.beetle)){
             insectImage.setImageResource(R.drawable.beetle);
+
+        if(piece.getInsect().equals(Insect.grasshopper)){
+            insectImage.setImageResource(R.drawable.grasshopper);
         }*/
 
 
