@@ -16,7 +16,7 @@ public class Grasshopper implements Piece{
     }
 
     @Override
-    public ArrayList<Point> getPossibleMoves() {
+    public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         return null;
     }
 

@@ -19,11 +19,11 @@ public class Beetle implements Piece{
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         ArrayList<Point> possibleMoves = new ArrayList<>();
         //Beetle can move 1 step, the surrounding pieces of the beetle is the moves it can take
-        ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(0));
+        ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(0),boardPositions.get(0));
         for(int i=0;i<currentList.size();i++){
             //checks if the piece is still connected to the hive if it moves to the place
-            for(int j=0;j<getSurroundingCoordinates(currentList.get(i)).size();j++){
-                if(boardPositions.contains(getSurroundingCoordinates(currentList.get(i)).get(j))){
+            for(int j=0;j<getSurroundingCoordinates(currentList.get(i),boardPositions.get(0)).size();j++){
+                if(boardPositions.contains(getSurroundingCoordinates(currentList.get(i),boardPositions.get(0)).get(j))){
                     possibleMoves.add(currentList.get(i));
                 }
             }
@@ -31,7 +31,7 @@ public class Beetle implements Piece{
         return possibleMoves;
     }
 
-    private ArrayList<Point> getSurroundingCoordinates(Point personalPosition){
+    private ArrayList<Point> getSurroundingCoordinates(Point personalPosition, Point beetlePosition){
         ArrayList<Point> currentMoves = new ArrayList<>();
         for(int i=-1;i<=1;i++) {
             for (int j = -1; j <= 1; j++) {
@@ -39,7 +39,7 @@ public class Beetle implements Piece{
                     break;
                 }
                 Point currentPoint = new Point(personalPosition.x + i, personalPosition.y + j);
-                if (personalPosition.x == currentPoint.x && personalPosition.y == currentPoint.y) {
+                if (personalPosition == currentPoint || beetlePosition == currentPoint)  {
                     break;
                 }
                 currentMoves.add(currentPoint);
