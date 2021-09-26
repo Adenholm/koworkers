@@ -19,6 +19,7 @@ public class PlayerTurn implements IPublisher{
         currentPlayer = whiteHand;
     }
 
+
     /**
      * moves the provided Piece to the provided position on the board and changes to the pther players turn
      * @param piece the piece to be moved
@@ -30,6 +31,7 @@ public class PlayerTurn implements IPublisher{
         switchPlayer();
         notifySubscribers();
     }
+
 
     /**
      * Places the provided piece on the board at the provided point and removes it from the players hand.
@@ -45,6 +47,7 @@ public class PlayerTurn implements IPublisher{
         notifySubscribers();
     }
 
+
     /**
      * checks wheter the current Players queen should be placed.
      * @return true if the player has played 3 turns and still haven't placed their queen
@@ -56,6 +59,7 @@ public class PlayerTurn implements IPublisher{
         return false;
     }
 
+
     /**
      * returns a list with the current players pieces
      * @return current players pieces
@@ -64,10 +68,21 @@ public class PlayerTurn implements IPublisher{
         return currentPlayer.getPieces;
     }
 
+
+    /**
+     * returns current Players Colour
+     * @return current Players colour
+     */
+    public Colour getCurrentPlayersColour(){
+        return currentPlayer.getColour();
+    }
+
+
     @Override
     public void subscribe(ISubscriber subscriber){
         subscribers.add(subscriber);
     }
+
 
     @Override
     private void notifySubscribers(){
@@ -75,6 +90,7 @@ public class PlayerTurn implements IPublisher{
             subscriber.update;
         }
     }
+
 
     /**
      * Changes currentPlayer to the other colour that's not currently playing
