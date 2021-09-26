@@ -1,6 +1,7 @@
 package com.example.koworkers.ui.playerhand;
 
 import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -23,7 +24,6 @@ public class PieceStackFragment extends Fragment {
     private PieceStackViewModel mViewModel;
 
     private TextView numberText;
-    private FragmentContainerView pieceStackContainer;
     private PieceFragment pieceFragment;
 
 
@@ -51,11 +51,12 @@ public class PieceStackFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(PieceStackViewModel.class);
 
         numberText = getView().findViewById(R.id.numberText);
-        pieceStackContainer = getView().findViewById(R.id.pieceStackContainer);
 
+        //adds the pieceFragment
+        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
         pieceFragment = new PieceFragment();
-
-        pieceStackContainer.addView(pieceFragment.getView());
+        ft.add(R.id.pieceFrame, pieceFragment);
+        ft.commit();
 
         numberText.setText(numberOfPieces);
     }

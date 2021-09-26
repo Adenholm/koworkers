@@ -6,11 +6,12 @@
     android:layout_height="96dp"
     tools:context=".ui.playerhand.PieceStackFragment">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/pieceStackContainer"
-        android:name="com.example.koworkers.ui.piece.PieceFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <FrameLayout
+        android:id="@+id/pieceFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/numberText"
