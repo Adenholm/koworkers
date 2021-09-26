@@ -6,18 +6,11 @@
     android:layout_height="96dp"
     tools:context=".ui.playerhand.PieceStackFragment">
 
-    <ImageView
-        android:id="@+id/hexagonImage"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/pieceStackContainer"
+        android:name="com.example.koworkers.ui.piece.PieceFragment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="TODO"
-        android:src="@drawable/white_hexagon" />
-
-    <ImageView
-        android:id="@+id/insectImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/numberText"
