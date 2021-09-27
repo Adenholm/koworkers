@@ -6,46 +6,77 @@ import java.util.ArrayList;
 
 public class PlayerTurn implements IPublisher{
 
+    private static PlayerTurn instance = null;
+
     private final Board board = new Board();
     private final PlayerHand blackHand = new PlayerHand();
     private final PlayerHand whiteHand = new PlayerHand();
 
     private PlayerHand currentPlayer;
 
-    private final ArrayList<ISubscriber> subscribers;
+    private IPiece selectedPiece;
 
-    public PlayerTurn(ArrayList<ISubscriber> subscribers){
-        this.subscribers = subscribers;
+    private final ArrayList<ISubscriber> subscribers = new ArrayList<>();
+
+    /**
+     * Constructor that should never be called, use getInstance() instead.
+     */
+    protected PlayerTurn(){
         currentPlayer = whiteHand;
     }
 
-
     /**
-     * moves the provided Piece to the provided position on the board and changes to the pther players turn
-     * @param piece the piece to be moved
-     * @param point point where piece should be moved
+     * Returns the single instance of the PlayerTurn class.
      */
-    public void movePiece(IPiece piece, Point point){
-        board.movePiece(piece, point);
-        currentPlayer.incNumberOfTurns;
-        switchPlayer();
-        notifySubscribers();
+    public static PlayerTurn getInstance(){
+        if (instance == null) {
+            instance = new PlayerTurn();
+        }
+        return instance;
     }
 
 
     /**
+     * moves the selected Piece to the provided position on the board and changes to the other players turn.
+     * @param point point where piece should be moved
+     */
+    public void movePiece(Point point){
+        if(selectedPiece!= null && getCurrentPlayerHandPieces().contains(selectedPiece)){
+            currentPlayer.removePiece(selectedPiece);
+            board.placePiece(selectedPiece, point);
+        }else if(selectedPiece!= null){
+            board.movePiece(selectedPiece, point);
+        }
+        currentPlayer.incNumberOfTurns();
+        switchPlayer();
+        notifySubscribers();
+        selectedPiece = null;
+    }
+
+    public void selectPiece(IPiece piece){
+        selectedPiece = piece;
+    }
+
+    public boolean aPieceIsSelected(){
+        return selectedPiece != null;
+    }
+
+
+    /*
      * Places the provided piece on the board at the provided point and removes it from the players hand.
      * also changes the currentplayer
      * @param piece the piece to be placed
      * @param point point where piece should be placed
      */
+    /*
     public void placePiece(IPiece piece, Point point){
         currentPlayer.removePiece(piece);
         board.placePiece(piece, point);
-        currentPlayer.incNumberOfTurns;
+        currentPlayer.incNumberOfTurns();
         switchPlayer();
         notifySubscribers();
     }
+    */
 
 
     /**
@@ -53,10 +84,7 @@ public class PlayerTurn implements IPublisher{
      * @return true if the player has played 3 turns and still haven't placed their queen
      */
     public boolean playersQueenShouldBePlaced(){
-        if(!currentPlayer.queenHasBeenPlayed() && currentPlayer.getNumberOfTurns() == 3){
-            return true;
-        }
-        return false;
+        return !currentPlayer.queenHasBeenPlayed() && currentPlayer.getNumberOfTurns() == 3;
     }
 
 
@@ -65,7 +93,7 @@ public class PlayerTurn implements IPublisher{
      * @return current players pieces
      */
     public ArrayList<IPiece> getCurrentPlayerHandPieces(){
-        return currentPlayer.getPieces;
+        return currentPlayer.getPieces();
     }
 
 
@@ -87,7 +115,7 @@ public class PlayerTurn implements IPublisher{
     @Override
     private void notifySubscribers(){
         for(ISubscriber subscriber: subscribers){
-            subscriber.update;
+            subscriber.update();
         }
     }
 
