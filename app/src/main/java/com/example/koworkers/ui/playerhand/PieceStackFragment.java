@@ -61,8 +61,15 @@ public class PieceStackFragment extends Fragment {
         numberText.setText(numberOfPieces);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        pieceFragment.onDestroy();
+    }
+
     public void incNumberOfPieces(){
         numberOfPieces++;
+        numberText.setText(numberOfPieces);
     }
 
     public IPiece getPiece() {

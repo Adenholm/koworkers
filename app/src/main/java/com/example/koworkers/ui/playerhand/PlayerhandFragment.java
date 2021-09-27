@@ -18,10 +18,15 @@ import com.example.koworkers.R;
 import com.example.koworkers.model.pieces.IPiece;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerhandFragment extends Fragment {
 
+    //private final Map<String, PieceStackFragment> pieceStackMap = new HashMap<>(); //TODO
     private LinearLayout handLinearLayout;
+
+    private final ArrayList<PieceStackFragment> pieceStacksInHand = new ArrayList<>();
 
     private PlayerhandViewModel mViewModel;
 
@@ -46,25 +51,25 @@ public class PlayerhandFragment extends Fragment {
         populateHand();
     }
 
-    public void update(){
+    public void update() {
         populateHand();
     }
 
     /**
      * creates stacks of pieces and adds to the linear layout
      */
-    private void populateHand(){
+    private void populateHand() {
         ArrayList<PieceStackFragment> pieceStacks = new ArrayList<>();
         boolean stackAlreadyExists = false;
-        for(IPiece piece: mViewModel.getPieces()){
-            for (PieceStackFragment piecestack : pieceStacks) {
-                if (piecestack.getPiece().getImageResource() == piece.getImageResource()) {
-                    piecestack.incNumberOfPieces();
+        for (IPiece piece : mViewModel.getPieces()) {
+            for (PieceStackFragment pieceStack : pieceStacks) {
+                if (pieceStack.getPiece().getImageResource() == piece.getImageResource()) {
+                    pieceStack.incNumberOfPieces();
                     stackAlreadyExists = true;
                     break;
                 }
             }
-            if(!stackAlreadyExists){
+            if (!stackAlreadyExists) {
                 pieceStacks.add(PieceStackFragment.newInstance(piece));
             }
             stackAlreadyExists = false;
@@ -73,16 +78,22 @@ public class PlayerhandFragment extends Fragment {
     }
 
     /**
-     * adds the provided list of PieceStackFragments to the Linear Layout
+     * adds the provided list of PieceStackFragments to the Linear Layout and removes the prevoius list
+     *
      * @param pieceStacks to be added to Linear Layout
      */
-    private void addToLinearLayout(ArrayList<PieceStackFragment> pieceStacks){
-        assert getFragmentManager() != null;
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        for(PieceStackFragment pieceStack: pieceStacks){
-            ft.add(R.id.handLinearLayout,pieceStack);
+    private void addToLinearLayout(ArrayList<PieceStackFragment> pieceStacks) {
+        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+        for (PieceStackFragment pieceStack : pieceStacksInHand) {
+            ft.remove(pieceStack);
+        }
+        for (PieceStackFragment pieceStack : pieceStacks) {
+            ft.add(R.id.handLinearLayout, pieceStack);
         }
         ft.commit();
+
+        pieceStacksInHand.clear();
+        pieceStacksInHand.addAll(pieceStacks);
     }
 
 }
