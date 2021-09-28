@@ -1,16 +1,14 @@
 package com.example.koworkers.ui.board;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.Isubscriber;
@@ -20,6 +18,7 @@ import com.example.koworkers.ui.piece.PieceFragment;
 import java.util.ArrayList;
 
 public class BoardFragment extends Fragment implements Isubscriber {
+    //notifieras av BVM
     @Override
     public void update() {
         populate();
@@ -27,7 +26,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     ArrayList <PieceFragment> pieceFragments =new ArrayList<>();
     private void populate(){
-            for (Piece key: mViewModel.viewCoordinates.keySet()){
+            for (Piece key: mViewModel.viewCoordinates.keySet()){//Gör om hashmapen av pieces å points till en arrayList av Piecefragments
                 PieceFragment pf = new PieceFragment();
                 pf.setPiece(key);
                 pf.setPoint(mViewModel.viewCoordinates.get(key)); //inte så OOP, mst förbättras
