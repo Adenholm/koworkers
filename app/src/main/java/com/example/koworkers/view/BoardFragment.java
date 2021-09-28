@@ -1,4 +1,4 @@
-package com.example.koworkers.ui.board;
+package com.example.koworkers.view;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.koworkers.R;
+import com.example.koworkers.viewmodel.BoardViewModel;
 
 public class BoardFragment extends Fragment {
 

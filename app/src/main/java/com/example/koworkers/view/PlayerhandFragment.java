@@ -1,4 +1,4 @@
-package com.example.koworkers.ui.playerhand;
+package com.example.koworkers.view;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,10 +16,9 @@ import android.widget.LinearLayout;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.pieces.IPiece;
+import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PlayerhandFragment extends Fragment {
 
