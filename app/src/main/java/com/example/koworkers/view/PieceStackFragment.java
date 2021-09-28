@@ -1,6 +1,5 @@
-package com.example.koworkers.ui.playerhand;
+package com.example.koworkers.view;
 
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.pieces.IPiece;
-import com.example.koworkers.ui.piece.PieceFragment;
+import com.example.koworkers.viewmodel.PieceStackViewModel;
 
 public class PieceStackFragment extends Fragment {
 
