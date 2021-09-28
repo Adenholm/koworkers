@@ -1,10 +1,11 @@
 package com.example.koworkers.model.pieces;
 
-import android.graphics.Point;
+
 import android.net.wifi.aware.AwareResources;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.Colour;
+import com.example.koworkers.model.Point;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class Ant implements Piece{
                     break;
                 }
 
-                Point currentPoint = new Point(otherPosition.x + i, otherPosition.y + j);
+                Point currentPoint = new Point(otherPosition.getX() + i, otherPosition.getY() + j);
                 if (personalPosition == currentPoint) {
                     break;
                 }

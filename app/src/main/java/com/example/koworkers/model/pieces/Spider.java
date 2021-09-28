@@ -1,9 +1,10 @@
 package com.example.koworkers.model.pieces;
 
-import android.graphics.Point;
+
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.Colour;
+import com.example.koworkers.model.Point;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class Spider implements Piece{
             secondPositions.addAll(calculateMoves(boardPositions, firstPositions.get(i)));
         }
         for(int i=0;i<secondPositions.size();i++){
-            thirdPositions.addAll(calculateMoves(boardPositions,secondPositions.get(i));
+            thirdPositions.addAll(calculateMoves(boardPositions,secondPositions.get(i)));
         }
         return thirdPositions;
     }
@@ -57,7 +58,7 @@ public class Spider implements Piece{
                 if (i == 1 && j != 0) {
                     break;
                 }
-                Point currentPoint = new Point(personalPosition.x + i, personalPosition.y + j);
+                Point currentPoint = new Point(personalPosition.getX() + i, personalPosition.getY() + j);
                 if (personalPosition == currentPoint || spiderPosition == currentPoint)  {
                     break;
                 }
