@@ -1,5 +1,7 @@
 package com.example.koworkers.ui.playerhand;
 
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -11,33 +13,31 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.koworkers.R;
-import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.pieces.IPiece;
+import com.example.koworkers.ui.piece.PieceFragment;
 
 public class PieceStackFragment extends Fragment {
 
     private PieceStackViewModel mViewModel;
 
-    private ImageView hexagonImage;
-    private ImageView insectImage;
     private TextView numberText;
+    private PieceFragment pieceFragment;
 
 
     private final IPiece piece;
     private int numberOfPieces;
 
-    public PieceStackFragment(IPiece piece, int numberOfPieces){
+    public PieceStackFragment(IPiece piece){
         this.piece = piece;
-        this.numberOfPieces = numberOfPieces;
+        numberOfPieces = 1;
     }
 
-    /*public static PieceStackFragment newInstance() {
-        return new PieceStackFragment();
-    }*/
+    public static PieceStackFragment newInstance(IPiece piece) {
+        return new PieceStackFragment(piece);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -50,18 +50,29 @@ public class PieceStackFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(PieceStackViewModel.class);
 
-        hexagonImage = getView().findViewById(R.id.hexagonImage);
-        insectImage = getView().findViewById(R.id.insectImage);
         numberText = getView().findViewById(R.id.numberText);
 
-        if(piece.getColour().equals(Colour.WHITE)){
-            hexagonImage.setImageResource(R.drawable.white_hexagon);
-        }else{
-            hexagonImage.setImageResource(R.drawable.white_hexagon); //TODO ändra till svart hexagon
-        }
+        //adds the pieceFragment
+        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+        pieceFragment = new PieceFragment();
+        ft.add(R.id.pieceFrame, pieceFragment);
+        ft.commit();
 
-        //insectImage.setImageResource(piece.getImage());
         numberText.setText(numberOfPieces);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        pieceFragment.onDestroy();
+    }
+
+    public void incNumberOfPieces(){
+        numberOfPieces++;
+        numberText.setText(numberOfPieces);
+    }
+
+    public IPiece getPiece() {
+        return piece;
+    }
 }

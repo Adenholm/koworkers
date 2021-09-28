@@ -8,6 +8,6 @@ import java.util.ArrayList;
 
 public class PlayerhandViewModel extends ViewModel {
     public ArrayList<IPiece> getPieces(){
-        return null;
+        return new ArrayList<>();
     }
 }
