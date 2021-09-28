@@ -9,14 +9,14 @@ public class PlayerTurn implements IPublisher{
     private static PlayerTurn instance = null;
 
     private final Board board = new Board();
-    private final PlayerHand blackHand = new PlayerHand();
-    private final PlayerHand whiteHand = new PlayerHand();
+    private final PlayerHand blackHand = new PlayerHand(Colour.BLACK);
+    private final PlayerHand whiteHand = new PlayerHand(Colour.WHITE);
 
     private PlayerHand currentPlayer;
 
     private IPiece selectedPiece;
 
-    private final ArrayList<ISubscriber> subscribers = new ArrayList<>();
+    //private final ArrayList<ISubscriber> subscribers = new ArrayList<>();
 
     /**
      * Constructor that should never be called, use getInstance() instead.
