@@ -16,7 +16,7 @@ public class PlayerTurn implements IPublisher{
 
     private IPiece selectedPiece;
 
-    //private final ArrayList<ISubscriber> subscribers = new ArrayList<>();
+    private final ArrayList<Isubscriber> subscribers = new ArrayList<>();
 
     /**
      * Constructor that should never be called, use getInstance() instead.
@@ -43,7 +43,7 @@ public class PlayerTurn implements IPublisher{
     public void movePiece(Point point){
         if(selectedPiece!= null && getCurrentPlayerHandPieces().contains(selectedPiece)){
             currentPlayer.removePiece(selectedPiece);
-            board.placePiece(selectedPiece, point);
+            //board.placePiece(selectedPiece, point);
         }else if(selectedPiece!= null){
             board.movePiece(selectedPiece, point);
         }
@@ -107,14 +107,14 @@ public class PlayerTurn implements IPublisher{
 
 
     @Override
-    public void subscribe(ISubscriber subscriber){
+    public void subscribe(Isubscriber subscriber){
         subscribers.add(subscriber);
     }
 
 
     @Override
-    private void notifySubscribers(){
-        for(ISubscriber subscriber: subscribers){
+    public void notifySubscribers(){
+        for(Isubscriber subscriber: subscribers){
             subscriber.update();
         }
     }
