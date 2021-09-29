@@ -1,4 +1,4 @@
-package com.example.koworkers.ui.piece;
+package com.example.koworkers.view;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,8 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.koworkers.R;
+import com.example.koworkers.viewmodel.PieceViewModel;
+import com.example.koworkers.model.pieces.Piece;
+import com.example.koworkers.model.Point;
 
 public class PieceFragment extends Fragment {
+    private Point point;
+    private Piece piece;
+
+    public void setPoint(Point point){
+        this.point=point;
+    }
+    public void setPiece(Piece piece){
+        this.piece=piece;
+    }
 
     private PieceViewModel mViewModel;
 
