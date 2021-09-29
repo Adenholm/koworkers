@@ -1,6 +1,6 @@
 package com.example.koworkers.model.pieces;
 
-import android.graphics.Point;
+import com.example.koworkers.model.Point;
 
 import com.example.koworkers.model.Colour;
 
