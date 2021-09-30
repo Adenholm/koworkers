@@ -4,9 +4,9 @@ import com.example.koworkers.model.pieces.IPiece;
 
 import java.util.ArrayList;
 
-public class PlayerTurn implements IPublisher{
+public class Hive implements IPublisher{
 
-    private static PlayerTurn instance = null;
+    private static Hive instance = null;
 
     private final Board board = new Board();
     private final PlayerHand blackHand = new PlayerHand(Colour.BLACK);
@@ -21,16 +21,16 @@ public class PlayerTurn implements IPublisher{
     /**
      * Constructor that should never be called, use getInstance() instead.
      */
-    protected PlayerTurn(){
+    protected Hive(){
         currentPlayer = whiteHand;
     }
 
     /**
      * Returns the single instance of the PlayerTurn class.
      */
-    public static PlayerTurn getInstance(){
+    public static Hive getInstance(){
         if (instance == null) {
-            instance = new PlayerTurn();
+            instance = new Hive();
         }
         return instance;
     }
