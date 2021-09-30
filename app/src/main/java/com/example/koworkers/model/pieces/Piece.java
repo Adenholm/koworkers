@@ -6,7 +6,7 @@ import com.example.koworkers.model.Colour;
 
 import java.util.ArrayList;
 
-public abstract class Piece implements IPiece{
+abstract class Piece implements IPiece{
     private final Colour colour;
     private final int imageResource;
 
