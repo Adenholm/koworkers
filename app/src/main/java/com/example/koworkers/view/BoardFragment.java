@@ -28,6 +28,8 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     private FrameLayout boardFrame;
 
+    private ArrayList<PieceImage> pieceImages;
+
     @Override
     public void update() {
         populate();
@@ -60,8 +62,20 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
         boardFrame = getView().findViewById(R.id.boardFrame);
 
-        init();
+        initialize();
 
+    }
+
+    private void initialize(){
+        int offset = 500 * (int) getContext().getResources().getDisplayMetrics().density;
+
+        for(IPiece piece: mViewModel.getPiecesOnBoard()){
+            pieceImages.add(new PieceImage(piece, getContext(), mViewModel.getCoordinates(piece), offset, 60, 2));
+        }
+
+        for(PieceImage pieceImage: pieceImages){
+            boardFrame.addView(pieceImage.getImage());
+        }
     }
 
     private void init(){
@@ -81,10 +95,5 @@ public class BoardFragment extends Fragment implements Isubscriber {
         ft.commit();
     }
 
-    private void setMargins(View view, int left, int top, int right, int bottom){
-        int d = (int) getContext().getResources().getDisplayMetrics().density;
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
-        layoutParams.setMargins(left*d, top*d, right*d, bottom*d);
-    }
 
 }
