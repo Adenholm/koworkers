@@ -4,6 +4,7 @@ import static java.lang.Math.sqrt;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.koworkers.model.Board;
 import com.example.koworkers.model.IPublisher;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.Point;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher {
-    // TODO: Implement the ViewModel
+    private Board mBoard;
     ArrayList<Isubscriber> subscribers=new ArrayList<>();
     //BVM notifierar boardfragment
     @Override
@@ -29,11 +30,11 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     //BVM notifieras av board
     @Override
     public void update() {
-        //placement();
+        placement(mBoard.newPiece, mBoard.newPoint); //Tar Piecen och pointen från board
     }
 
 
-    HashMap<Piece, Point> viewCoordinates = new HashMap<>();
+    public HashMap<Piece, Point> viewCoordinates = new HashMap<>();
 
     private  final int r=15; //från hexagonens mitt till hörn
 

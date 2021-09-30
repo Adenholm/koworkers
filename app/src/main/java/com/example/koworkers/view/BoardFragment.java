@@ -13,10 +13,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.koworkers.R;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.pieces.Piece;
-import com.example.koworkers.ui.piece.PieceFragment;
+import com.example.koworkers.viewmodel.BoardViewModel;
 
 import java.util.ArrayList;
-import com.example.koworkers.viewmodel.BoardViewModel;
 
 public class BoardFragment extends Fragment implements Isubscriber {
     //notifieras av BVM
