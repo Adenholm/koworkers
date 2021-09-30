@@ -11,27 +11,28 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.koworkers.R;
+import com.example.koworkers.model.Colour;
+import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PieceViewModel;
 import com.example.koworkers.model.pieces.Piece;
 import com.example.koworkers.model.Point;
 
 public class PieceFragment extends Fragment {
-    private Point point;
-    private Piece piece;
 
-    public void setPoint(Point point){
-        this.point=point;
-    }
-    public void setPiece(Piece piece){
-        this.piece=piece;
-    }
+    //private Point point;
+    private final IPiece piece;
 
     private PieceViewModel mViewModel;
 
-    public static PieceFragment newInstance() {
-        return new PieceFragment();
+    private PieceFragment(IPiece piece){
+        this.piece = piece;
+    }
+
+    public static PieceFragment newInstance(IPiece piece) {
+        return new PieceFragment(piece);
     }
 
     @Override
@@ -44,7 +45,16 @@ public class PieceFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(PieceViewModel.class);
-        // TODO: Use the ViewModel
+
+        ImageView hexagonImage = getView().findViewById(R.id.hexagonImage);
+        ImageView insectImage = getView().findViewById(R.id.insectImage);
+
+        if(piece.getColour().equals(Colour.WHITE)){
+            hexagonImage.setImageResource(R.drawable.white_hexagon);
+        } else{
+            hexagonImage.setImageResource(R.drawable.black_hexagon);
+        }
+        insectImage.setImageResource(piece.getImageResource());
     }
 
 }

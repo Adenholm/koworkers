@@ -33,7 +33,9 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     }
 
 
-    HashMap<Piece, Point> viewCoordinates = new HashMap<>();
+    public HashMap<Piece, Point> viewCoordinates = new HashMap<>();
+
+
 
     private  final int r=15; //från hexagonens mitt till hörn
 

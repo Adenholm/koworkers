@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,13 +14,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.koworkers.R;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.pieces.Piece;
-import com.example.koworkers.ui.piece.PieceFragment;
+
 
 import java.util.ArrayList;
 import com.example.koworkers.viewmodel.BoardViewModel;
 
 public class BoardFragment extends Fragment implements Isubscriber {
-    //notifieras av BVM
+
+    private FrameLayout boardFrame;
+
     @Override
     public void update() {
         populate();
@@ -28,9 +31,8 @@ public class BoardFragment extends Fragment implements Isubscriber {
     ArrayList <PieceFragment> pieceFragments =new ArrayList<>();
     private void populate(){
             for (Piece key: mViewModel.viewCoordinates.keySet()){//Gör om hashmapen av pieces å points till en arrayList av Piecefragments
-                PieceFragment pf = new PieceFragment();
-                pf.setPiece(key);
-                pf.setPoint(mViewModel.viewCoordinates.get(key)); //inte så OOP, mst förbättras
+                PieceFragment pf = PieceFragment.newInstance(key);
+                //pf.setPoint(mViewModel.viewCoordinates.get(key)); //inte så OOP, mst förbättras
         }
     }
 
@@ -50,7 +52,14 @@ public class BoardFragment extends Fragment implements Isubscriber {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
-        // TODO: Use the ViewModel
+
+        boardFrame = getView().findViewById(R.id.boardFrame);
+
+
+    }
+
+    private void init(){
+        //PieceFragment pieceFragment = PieceFragment.newInstance()
     }
 
 }

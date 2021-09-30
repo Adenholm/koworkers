@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.pieces.IPiece;
@@ -47,6 +48,24 @@ public class PlayerhandFragment extends Fragment {
 
         handLinearLayout = getView().findViewById(R.id.handLinearLayout);
 
+//        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+//        PieceStackFragment pieceFragment = PieceStackFragment.newInstance(mViewModel.getPieces().get(0));
+//        ft.add(R.id.handLinearLayout, pieceFragment);
+//        ft.commit();
+
+//        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+//        PieceFragment pieceFragment = PieceFragment.newInstance(mViewModel.getPieces().get(0));
+//        ft.add(R.id.handLinearLayout, pieceFragment);
+//        ft.commit();
+
+        TextView textView1 = new TextView(getContext());
+        textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        textView1.setText("TextView");
+        textView1.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
+        textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
+        handLinearLayout.addView(textView1);
+
         populateHand();
     }
 
@@ -73,6 +92,7 @@ public class PlayerhandFragment extends Fragment {
             }
             stackAlreadyExists = false;
         }
+
         addToLinearLayout(pieceStacks);
     }
 
@@ -86,8 +106,10 @@ public class PlayerhandFragment extends Fragment {
         for (PieceStackFragment pieceStack : pieceStacksInHand) {
             ft.remove(pieceStack);
         }
+        int i=0;
         for (PieceStackFragment pieceStack : pieceStacks) {
-            ft.add(R.id.handLinearLayout, pieceStack);
+            ft.add(R.id.handLinearLayout, pieceStack, ""+ i);
+            i++;
         }
         ft.commit();
 
