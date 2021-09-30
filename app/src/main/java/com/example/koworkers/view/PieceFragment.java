@@ -1,30 +1,28 @@
 package com.example.koworkers.view;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.koworkers.R;
-import com.example.koworkers.viewmodel.PieceViewModel;
-import com.example.koworkers.model.pieces.Piece;
 import com.example.koworkers.model.Point;
+import com.example.koworkers.model.pieces.IPiece;
+import com.example.koworkers.viewmodel.PieceViewModel;
 
 public class PieceFragment extends Fragment {
     private Point point;
-    private Piece piece;
+    private IPiece piece;
 
     public void setPoint(Point point){
         this.point=point;
     }
-    public void setPiece(Piece piece){
+    public void setPiece(IPiece piece){
         this.piece=piece;
     }
 

@@ -12,11 +12,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.Isubscriber;
+import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.model.pieces.Piece;
-import com.example.koworkers.ui.piece.PieceFragment;
+import com.example.koworkers.viewmodel.BoardViewModel;
 
 import java.util.ArrayList;
-import com.example.koworkers.viewmodel.BoardViewModel;
 
 public class BoardFragment extends Fragment implements Isubscriber {
     //notifieras av BVM
@@ -27,7 +27,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     ArrayList <PieceFragment> pieceFragments =new ArrayList<>();
     private void populate(){
-            for (Piece key: mViewModel.viewCoordinates.keySet()){//Gör om hashmapen av pieces å points till en arrayList av Piecefragments
+            for (IPiece key: mViewModel.viewCoordinates.keySet()){//Gör om hashmapen av pieces å points till en arrayList av Piecefragments
                 PieceFragment pf = new PieceFragment();
                 pf.setPiece(key);
                 pf.setPoint(mViewModel.viewCoordinates.get(key)); //inte så OOP, mst förbättras

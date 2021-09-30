@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Board implements IPublisher{
+    public IPiece newPiece;
+    public Point newPoint;
     HashMap<IPiece,Point> hive= new HashMap(); //Hashmap med piece som key
+
     public void movePiece(IPiece piece, Point point){
         hive.put(piece, point); //Tar en ny position och kopplar till piece å ändrar på så sätt piece-position.
         //kalla på boardViewModel.placement för att lägga till piecen i viewCoordinates

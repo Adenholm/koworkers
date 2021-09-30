@@ -4,16 +4,17 @@ import static java.lang.Math.sqrt;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.koworkers.model.Board;
 import com.example.koworkers.model.IPublisher;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.Point;
-import com.example.koworkers.model.pieces.Piece;
+import com.example.koworkers.model.pieces.IPiece;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher {
-    // TODO: Implement the ViewModel
+    private Board mBoard;
     ArrayList<Isubscriber> subscribers=new ArrayList<>();
     //BVM notifierar boardfragment
     @Override
@@ -29,16 +30,16 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     //BVM notifieras av board
     @Override
     public void update() {
-        //placement();
+        placement(mBoard.newPiece, mBoard.newPoint); //Tar Piecen och pointen från board
     }
 
 
-    HashMap<Piece, Point> viewCoordinates = new HashMap<>();
+    public HashMap<IPiece, Point> viewCoordinates = new HashMap<>();
 
     private  final int r=15; //från hexagonens mitt till hörn
 
     /*Metod som tar koordinat från hexagon-griden och placerar ut på skärmen. Punkten som tas fram är mitten av hexagonen och läggs sedan till i viewCoordinates*/
-    public void placement(Piece piece, Point point){
+    public void placement(IPiece piece, Point point){
         Point viewCoordinate=new Point(0,0);
         double side=(2*r)/sqrt(3); // hexagonens sida, samband med r
         viewCoordinate.setX(point.getX()*r); //När x ökar flyttar viewcoordinate r i x-led...
