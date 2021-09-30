@@ -18,8 +18,8 @@ public abstract class Piece implements IPiece{
 
     @Override
     public abstract ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions);
-
-    protected ArrayList<Point> getSurroundingCoordinates(Point personalPosition, Point otherPosition){
+    @Override
+    public ArrayList<Point> getSurroundingCoordinates(Point personalPosition, Point otherPosition){
         ArrayList<Point> currentMoves = new ArrayList<>();
         for(int i=-1;i<=1;i++) {
             for (int j = -1; j <= 1; j++) {
