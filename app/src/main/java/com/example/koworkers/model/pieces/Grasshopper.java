@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Grasshopper extends Piece {
 
     public Grasshopper(Colour colour){
-        super(colour, R.drawable.white_hexagon); //TODO change picture
+        super(colour, R.drawable.grasshopper);
     }
 
     @Override

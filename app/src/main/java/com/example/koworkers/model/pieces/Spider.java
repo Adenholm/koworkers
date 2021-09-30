@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Spider extends Piece {
     public Spider(Colour colour){
-        super(colour, R.drawable.white_hexagon); //TODO change picture
+        super(colour, R.drawable.spider);
     }
 
     @Override

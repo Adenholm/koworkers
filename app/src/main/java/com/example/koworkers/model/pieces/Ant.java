@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Ant extends Piece {
 
     public Ant(Colour colour){
-        super(colour, R.drawable.white_hexagon); //TODO change picture
+        super(colour, R.drawable.ant);
     }
 
     @Override
