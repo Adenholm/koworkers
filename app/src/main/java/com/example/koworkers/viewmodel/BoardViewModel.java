@@ -4,16 +4,20 @@ import static java.lang.Math.sqrt;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.koworkers.model.Hive;
 import com.example.koworkers.model.IPublisher;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.Point;
+import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.model.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher {
-    // TODO: Implement the ViewModel
+
+    private final Hive hive = Hive.getInstance();
+
     ArrayList<Isubscriber> subscribers=new ArrayList<>();
     //BVM notifierar boardfragment
     @Override
@@ -29,7 +33,7 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     //BVM notifieras av board
     @Override
     public void update() {
-        //placement();
+        notifySubscribers();
     }
 
 
@@ -66,6 +70,22 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
         viewCoordinates.put(piece, viewCoordinate);
         notifySubscribers();
 
+    }
+
+
+    public Point getCoordinates(IPiece piece){
+        Point coordinate = new Point();
+        Point point = hive.getPoint(piece);
+
+        coordinate.setX(point.getX()*r); //När x ökar flyttar viewcoordinate r i x-led...
+        coordinate.setY(point.getX()*2*r);//...och 2r i y-led
+        coordinate.setY(coordinate.getY()+point.getY()*2*r); //När y ändras flyttas viewcoordinate enbart i y-led
+
+        return coordinate;
+    }
+
+    public ArrayList<IPiece> getPiecesOnBoard(){
+        return hive.getPiecesOnBoard();
     }
 
 }

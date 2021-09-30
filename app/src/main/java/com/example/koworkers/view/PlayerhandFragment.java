@@ -58,13 +58,13 @@ public class PlayerhandFragment extends Fragment {
 //        ft.add(R.id.handLinearLayout, pieceFragment);
 //        ft.commit();
 
-        TextView textView1 = new TextView(getContext());
-        textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        textView1.setText("TextView");
-        textView1.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
-        textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
-        handLinearLayout.addView(textView1);
+//        TextView textView1 = new TextView(getContext());
+//        textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT));
+//        textView1.setText("TextView");
+//        textView1.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
+//        textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
+//        handLinearLayout.addView(textView1);
 
         populateHand();
     }

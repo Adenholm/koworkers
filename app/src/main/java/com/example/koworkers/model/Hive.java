@@ -23,6 +23,7 @@ public class Hive implements IPublisher{
      */
     protected Hive(){
         currentPlayer = whiteHand;
+        test();
     }
 
     /**
@@ -43,7 +44,7 @@ public class Hive implements IPublisher{
     public void movePiece(Point point){
         if(selectedPiece!= null && getCurrentPlayerHandPieces().contains(selectedPiece)){
             currentPlayer.removePiece(selectedPiece);
-            //board.placePiece(selectedPiece, point);
+            board.placePiece(selectedPiece, point);
         }else if(selectedPiece!= null){
             board.movePiece(selectedPiece, point);
         }
@@ -105,6 +106,13 @@ public class Hive implements IPublisher{
         return currentPlayer.getColour();
     }
 
+    public Point getPoint(IPiece piece){
+        return board.getPoint(piece);
+    }
+
+    public ArrayList<IPiece> getPiecesOnBoard(){
+        return board.getPiecesOnBoard();
+    }
 
     @Override
     public void subscribe(Isubscriber subscriber){
@@ -129,5 +137,14 @@ public class Hive implements IPublisher{
         }else{
             currentPlayer = whiteHand;
         }
+    }
+
+
+
+    private void test(){
+        selectPiece(getCurrentPlayerHandPieces().get(0));
+        movePiece(new Point(0,0));
+        selectPiece(getCurrentPlayerHandPieces().get(0));
+        movePiece(new Point(1,1));
     }
 }

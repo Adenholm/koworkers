@@ -57,4 +57,7 @@ public class PieceFragment extends Fragment {
         insectImage.setImageResource(piece.getImageResource());
     }
 
+    public IPiece getPiece() {
+        return piece;
+    }
 }
