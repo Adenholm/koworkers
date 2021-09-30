@@ -3,7 +3,6 @@ package com.example.koworkers.model;
 
 
 import com.example.koworkers.model.pieces.IPiece;
-import com.example.koworkers.model.pieces.Piece;
 
 
 import java.util.ArrayList;
