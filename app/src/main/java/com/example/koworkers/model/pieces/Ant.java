@@ -13,10 +13,10 @@ public class Ant extends Piece {
     public Ant(Colour colour){
         super(colour);
         if(colour == Colour.BLACK){
-            this.setImageResource(R.drawable.bAntPiece);
+            this.setImageResource(R.drawable.black_ant_piece);
         }
         else{
-            this.setImageResource(R.drawable.antPiece);
+            this.setImageResource(R.drawable.ant_piece);
         }
     }
 

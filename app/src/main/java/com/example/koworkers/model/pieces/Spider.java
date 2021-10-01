@@ -11,10 +11,10 @@ public class Spider extends Piece {
     public Spider(Colour colour){
         super(colour);
         if(colour == Colour.BLACK){
-            this.setImageResource(R.drawable.bSpiderPiece);
+            this.setImageResource(R.drawable.black_spider_piece);
         }
         else{
-            this.setImageResource(R.drawable.spiderPiece);
+            this.setImageResource(R.drawable.spider_piece);
         }
     }
 

@@ -12,10 +12,10 @@ public class Grasshopper extends Piece {
     public Grasshopper(Colour colour){
         super(colour);
         if(colour == Colour.BLACK){
-            this.setImageResource(R.drawable.bGrassPiece);
+            this.setImageResource(R.drawable.black_grass_piece);
         }
         else{
-            this.setImageResource(R.drawable.grassPiece);
+            this.setImageResource(R.drawable.grass_piece);
         }
     }
 

@@ -12,10 +12,10 @@ public class Beetle extends Piece {
     public Beetle(Colour colour){
         super(colour);
         if(colour == Colour.BLACK){
-            this.setImageResource(R.drawable.bBeetlePiece);
+            this.setImageResource(R.drawable.black_beetle_piece);
         }
         else{
-            this.setImageResource(R.drawable.beetlePiece);
+            this.setImageResource(R.drawable.beetle_piece);
         }
     }
 
