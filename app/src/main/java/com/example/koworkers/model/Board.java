@@ -26,15 +26,16 @@ public class Board implements IPublisher {
 
             for (IPiece pie : playedPieces.keySet()) { //går igenom alla utlagda pieces
                 for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie), playedPieces.get(pie)))//Går igenom pies surrounding coordinates
-
-                    if (pie.getColour() == Hive.getInstance().getCurrentPlayersColour()) {//kollar om pie är spelarens färg
-                        if (!possiblePlacements.contains(surroundingPoint)) { //Om punkten inte finns läggs den till
-                            possiblePlacements.add(surroundingPoint);
-                        } else {
-                            if (possiblePlacements.contains(surroundingPoint))
-                                //Om piecen är av ,otståndarens färg och pointenfinns med tas den bort
-                            possiblePlacements.remove(surroundingPoint);
-                        }//det här går att skriva snyggare, värt att kolla på senare!
+                    if (playedPieces.size() != 1) { //Om det ligger mer än 2 pieces ute får inte nästa piece läggas ut bredvid en av motståndarens pieces
+                        if (pie.getColour() == Hive.getInstance().getCurrentPlayersColour()) {//kollar om pie är spelarens färg
+                            if (!possiblePlacements.contains(surroundingPoint)) { //Om punkten inte finns läggs den till
+                                possiblePlacements.add(surroundingPoint);
+                            } else {
+                                if (possiblePlacements.contains(surroundingPoint))
+                                    //Om piecen är av ,otståndarens färg och pointenfinns med tas den bort
+                                    possiblePlacements.remove(surroundingPoint);
+                            }//det här går att skriva snyggare, värt att kolla på senare!
+                        }
                     }
             }
         }
