@@ -29,7 +29,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     private FrameLayout boardFrame;
 
-    private final Map<IPiece, ImageView> pieceStackMap = new HashMap<>();
+    private final Map<IPiece, ImageView> pieceMap = new HashMap<>();
 
     @Override
     public void update() {
@@ -68,9 +68,10 @@ public class BoardFragment extends Fragment implements Isubscriber {
         for(IPiece piece: mViewModel.getPiecesOnBoard()){
             ImageView image = new ImageView(getContext());
             image.setImageResource(piece.getImageResource());
-            setLayout(image, mViewModel.getCoordinates(piece).getX() + offset, mViewModel.getCoordinates(piece).getY() + offset, 0, 0, 70, 2 );
-            pieceStackMap.put(piece,image);
+            setLayout(image, mViewModel.getCoordinates(piece).getX() + offset, mViewModel.getCoordinates(piece).getY() + offset, offset, offset, 70, 2 );
+            pieceMap.put(piece,image);
             boardFrame.addView(image);
+
         }
 
     }
