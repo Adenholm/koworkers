@@ -9,9 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +24,8 @@ import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerhandFragment extends Fragment implements Isubscriber {
 
@@ -54,13 +59,67 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
 //        textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
 //        handLinearLayout.addView(textView1);
 
-        //populateHand();
+        populate();
     }
 
     @Override
     public void update() {
         //populateHand();
     }
+
+    private Map<ImageView, Integer> numberImageMap = new HashMap<>();
+    private final Map<ImageView, IPiece> pieceImageMap = new HashMap<>();
+
+    /**
+     * creates stacks of pieces and adds to the linear layout
+     */
+    private void populate(){
+        ArrayList<ImageView> images = new ArrayList<>();
+        boolean stackAlreadyExist = false;
+        for (IPiece piece: mViewModel.getPieces()){
+            for(ImageView image: images){
+                if (pieceImageMap.get(image).getImageResource() == piece.getImageResource()) {
+                   numberImageMap.put(image, numberImageMap.get(image) + 1);
+                   stackAlreadyExist = true;
+                   if(!images.contains(image)){
+                       images.add(image);
+                   }
+                   break;
+                }
+            }
+            if(!stackAlreadyExist){
+                ImageView newImage = new ImageView(getContext());
+                newImage.setImageResource(piece.getImageResource());
+                pieceImageMap.put(newImage, piece);
+                numberImageMap.put(newImage, 1);
+                images.add(newImage);
+            }
+            stackAlreadyExist = false;
+        }
+        addToLinearLayout(images);
+    }
+
+    private void addToLinearLayout(ArrayList<ImageView> images){
+        for(ImageView image: images){
+            setLayout(image, 20,0,  0,0,  80, 2);
+            handLinearLayout.addView(image);
+
+            TextView textView1 = new TextView(getContext());
+            textView1.setText(numberImageMap.get(image) + "");
+            textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+            textView1.setPadding(20, 80, 20, 20);// in pixels (left, top, right, bottom)
+            handLinearLayout.addView(textView1);
+        }
+    }
+
+    public void setLayout(View view, int left, int top, int right, int bottom, int size, int dpiRatio){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size * dpiRatio, size * dpiRatio);
+        params.setMargins(left*dpiRatio, top*dpiRatio, right*dpiRatio, bottom*dpiRatio);
+        view.setLayoutParams(params);
+    }
+
+
 
 //    /**
 //     * creates stacks of pieces and adds to the linear layout

@@ -9,16 +9,20 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="horizontal|vertical"
-        tools:ignore="SpeakableTextPresentCheck">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/boardFrame"
-            android:layout_width="1000dp"
-            android:layout_height="1000dp"
-            android:layout_gravity="center" />
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal|vertical"
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <FrameLayout
+                android:id="@+id/boardFrame"
+                android:layout_width="1000dp"
+                android:layout_height="1000dp"
+                android:layout_gravity="center" />
+        </HorizontalScrollView>
     </ScrollView>
 
 </FrameLayout>
