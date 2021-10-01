@@ -25,6 +25,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         populate();
     }
 
+
     ArrayList <PieceFragment> pieceFragments =new ArrayList<>();
     private void populate(){
             for (IPiece key: mViewModel.viewCoordinates.keySet()){//Gör om hashmapen av pieces å points till en arrayList av Piecefragments

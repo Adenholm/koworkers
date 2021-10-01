@@ -21,6 +21,7 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     public void subscribe(Isubscriber isubscriber) {
         subscribers.add(isubscriber);
     }
+
     @Override
     public void notifySubscribers() {
         for (Isubscriber subscriber:subscribers) {
@@ -30,16 +31,21 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     //BVM notifieras av board
     @Override
     public void update() {
-        placement(mBoard.newPiece, mBoard.newPoint); //Tar Piecen och pointen från board
+        //placement(mBoard.newPiece, mBoard.newPoint); //Tar Piecen och pointen från board
+
+        viewCoordinates.put(mBoard.newPiece, placement(mBoard.newPoint));
+        notifySubscribers();
+
     }
+
 
 
     public HashMap<IPiece, Point> viewCoordinates = new HashMap<>();
 
     private  final int r=15; //från hexagonens mitt till hörn
 
-    /*Metod som tar koordinat från hexagon-griden och placerar ut på skärmen. Punkten som tas fram är mitten av hexagonen och läggs sedan till i viewCoordinates*/
-    public void placement(IPiece piece, Point point){
+    /*Metod som tar koordinat från hexagon-griden och returnerar en motsvarande koordinat på skärmen. Punkten som tas fram är mitten av hexagonen och läggs sedan till i viewCoordinates*/
+    public Point placement(Point point){
         Point viewCoordinate=new Point(0,0);
         double side=(2*r)/sqrt(3); // hexagonens sida, samband med r
         viewCoordinate.setX(point.getX()*r); //När x ökar flyttar viewcoordinate r i x-led...
@@ -60,11 +66,45 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
             viewCoordinate.setX(point.getX()*(int)x_offset);
         }
          */
+        return viewCoordinate;
 
+    }
 
+    //OLD METHOD!
+    /*Metod som tar koordinat från hexagon-griden och placerar ut på skärmen. Punkten som tas fram är mitten av hexagonen och läggs sedan till i viewCoordinates*/
+    /*
+    public void oldPlacement(IPiece piece, Point point){
+        Point viewCoordinate=new Point(0,0);
+        double side=(2*r)/sqrt(3); // hexagonens sida, samband med r
+        viewCoordinate.setX(point.getX()*r); //När x ökar flyttar viewcoordinate r i x-led...
+        viewCoordinate.setY(point.getX()*2*r);//...och 2r i y-led
+        viewCoordinate.setY(viewCoordinate.getY()+point.getY()*2*r); //När y ändras flyytas viewcoordinate enbart i y-led
+
+     */
+
+        /* GAMMALT HEXAGONSYSTEM, kvar ifall att
+        int y_offset=2*r;
+        double x_offset=r+side;
+        double xy_offset=r+(side/2); //offset i x-led vid ojämnt i hives y-led
+        double yx_offset=r; //offset i y-led vid ojämnt i hives x-led
+        viewCoordinate.setY(y_offset*point.getY());
+        if (point.getX()%2==1){
+            viewCoordinate.setX((point.getX()-1)*(int)x_offset+(int)xy_offset);
+            viewCoordinate.setY(viewCoordinate.getY()+r);
+        }
+        else {
+            viewCoordinate.setX(point.getX()*(int)x_offset);
+        }
+         */
+
+    /*
         viewCoordinates.put(piece, viewCoordinate);
         notifySubscribers();
 
     }
+    */
+
+
+
 
 }
