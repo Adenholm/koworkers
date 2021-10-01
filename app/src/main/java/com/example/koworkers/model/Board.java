@@ -14,15 +14,15 @@ public class Board implements IPublisher {
 
     /**
      * Kollar var man kan placera ut en ny piece, om inga anna pieces är utplacerade kan man endast placera ut på 0,0, origo
+     *
      * @return en lista med möjliga platser att placera ut en ny piece på
      */
     public ArrayList<Point> getPossibleplacements() {
         ArrayList<Point> possiblePlacements = new ArrayList<Point>();
 
         if (playedPieces.size() == 0) {//Om det inte ligger några pieces ute hamnar första piecen som läggs ut på 0,0, origo
-            possiblePlacements.add(new Point(0,0));
-        }
-        else {
+            possiblePlacements.add(new Point(0, 0));
+        } else {
 
             for (IPiece pie : playedPieces.keySet()) { //går igenom alla utlagda pieces
                 for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie), playedPieces.get(pie)))//Går igenom pies surrounding coordinates
@@ -32,14 +32,15 @@ public class Board implements IPublisher {
                             possiblePlacements.add(surroundingPoint);
                         } else {
                             if (possiblePlacements.contains(surroundingPoint))
-                                ;//Om piecen är av ,otståndarens färg och pointenfinns med tas den bort
+                                //Om piecen är av ,otståndarens färg och pointenfinns med tas den bort
                             possiblePlacements.remove(surroundingPoint);
                         }//det här går att skriva snyggare, värt att kolla på senare!
                     }
             }
         }
-    return possiblePlacements;
+        return possiblePlacements;
     }
+
 
     public void movePiece(IPiece piece, Point point) {
         playedPieces.put(piece, point); //Tar en ny position och kopplar till piece å ändrar på så sätt piece-position.
