@@ -9,7 +9,13 @@ import java.util.ArrayList;
 
 public class Spider extends Piece {
     public Spider(Colour colour){
-        super(colour, R.drawable.spider);
+        super(colour);
+        if(colour == Colour.BLACK){
+            this.setImageResource(R.drawable.bSpiderPiece);
+        }
+        else{
+            this.setImageResource(R.drawable.spiderPiece);
+        }
     }
 
     @Override
