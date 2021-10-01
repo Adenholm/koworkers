@@ -10,7 +10,13 @@ import java.util.ArrayList;
 public class Queen extends Piece {
 
     public Queen(Colour colour){
-        super(colour, R.drawable.queen);
+        super(colour);
+        if(colour == Colour.BLACK){
+            this.setImageResource(R.drawable.bQueenPiece);
+        }
+        else{
+            this.setImageResource(R.drawable.bee3Piece);
+        }
     }
 
     @Override

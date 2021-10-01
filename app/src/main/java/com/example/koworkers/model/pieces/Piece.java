@@ -8,11 +8,13 @@ import java.util.ArrayList;
 
 abstract class Piece implements IPiece{
     private final Colour colour;
-    private final int imageResource;
+    private int imageResource;
 
-    protected Piece(Colour colour, int imageResource) {
+    protected Piece(Colour colour) {
         this.colour = colour;
-        this.imageResource = imageResource;
+    }
+    protected void setImageResource(int img){
+        imageResource = img;
     }
 
 

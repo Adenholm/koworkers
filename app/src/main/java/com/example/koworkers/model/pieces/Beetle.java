@@ -10,7 +10,13 @@ import java.util.ArrayList;
 public class Beetle extends Piece {
 
     public Beetle(Colour colour){
-        super(colour, R.drawable.beetle);
+        super(colour);
+        if(colour == Colour.BLACK){
+            this.setImageResource(R.drawable.bBeetlePiece);
+        }
+        else{
+            this.setImageResource(R.drawable.beetlePiece);
+        }
     }
 
     @Override
