@@ -31,17 +31,15 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     private final Map<IPiece, ImageView> pieceMap = new HashMap<>();
 
+
     @Override
     public void update() {
         populate();
     }
 
-    ArrayList <PieceFragment> pieceFragments =new ArrayList<>();
+
     private void populate(){
-            for (IPiece key: mViewModel.viewCoordinates.keySet()){//Gör om hashmapen av pieces å points till en arrayList av Piecefragments
-                PieceFragment pf = PieceFragment.newInstance(key);
-                //pf.setPoint(mViewModel.viewCoordinates.get(key)); //inte så OOP, mst förbättras
-        }
+
     }
 
     private BoardViewModel mViewModel;
@@ -71,7 +69,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
             setLayout(image, mViewModel.getCoordinates(piece).getX() + offset, mViewModel.getCoordinates(piece).getY() + offset, offset, offset, 70, 2 );
             pieceMap.put(piece,image);
             boardFrame.addView(image);
-
         }
 
     }
