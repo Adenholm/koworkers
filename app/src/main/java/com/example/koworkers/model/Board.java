@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Board implements IPublisher {
-    public IPiece newPiece;
-    public Point newPoint;
+    private IPiece newPiece;
+    private Point newPoint;
     HashMap<IPiece, Point> playedPieces = new HashMap(); //Hashmap med piece som key
 
     /**
@@ -67,18 +67,16 @@ public class Board implements IPublisher {
     }
 
     public void placePiece(IPiece piece, Point point){
-        hive.put(piece, point);
+        playedPieces.put(piece, point);
     }
 
     public Point getPoint(IPiece piece){
-        return hive.get(piece);
+        return playedPieces.get(piece);
     }
 
     public ArrayList<IPiece> getPiecesOnBoard(){
         ArrayList<IPiece> pieces = new ArrayList<>();
-         for(IPiece piece: hive.keySet()){
-             pieces.add(piece);
-         }
+        pieces.addAll(playedPieces.keySet());
          return pieces;
     }
 
