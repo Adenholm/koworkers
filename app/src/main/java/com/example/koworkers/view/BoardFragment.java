@@ -30,6 +30,11 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private FrameLayout boardFrame;
 
     private final Map<IPiece, ImageView> pieceMap = new HashMap<>();
+    private final Map<ImageView, IPiece> imageMap = new HashMap<>();
+
+
+
+    private final int offset = 500;
 
 
     @Override
@@ -39,8 +44,22 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
 
     private void populate(){
-
+        ImageView image;
+        for(IPiece piece: mViewModel.getPiecesOnBoard()){
+            if(pieceMap.containsKey(piece)){
+                image = pieceMap.get(piece);
+            }else{
+                image = new ImageView(getContext());
+                image.setImageResource(piece.getImageResource());
+                pieceMap.put(piece,image);
+                imageMap.put(image, piece);
+            }
+            setLayout(image, mViewModel.getCoordinates(piece).getX() + offset, mViewModel.getCoordinates(piece).getY() + offset, offset, offset, 70, 2 );
+            boardFrame.addView(image);
+        }
     }
+
+
 
     private BoardViewModel mViewModel;
 
@@ -60,8 +79,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
         mViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
 
         boardFrame = getView().findViewById(R.id.boardFrame);
-
-        int offset = 500;
 
         for(IPiece piece: mViewModel.getPiecesOnBoard()){
             ImageView image = new ImageView(getContext());
