@@ -114,6 +114,10 @@ public class Hive implements IPublisher{
         return board.getPiecesOnBoard();
     }
 
+    public ArrayList<Point> getPossibleMoves(){
+        return board.getPossibleMoves(selectedPiece);
+    }
+
     @Override
     public void subscribe(Isubscriber subscriber){
         subscribers.add(subscriber);
