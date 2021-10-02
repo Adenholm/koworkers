@@ -54,6 +54,10 @@ public class Hive implements IPublisher{
         }
     }
 
+    /**
+     * checks if provided piece is of same color as currentPlayer, if so then select the provided piece
+     * @param piece to be selected
+     */
     public void selectPiece(IPiece piece){
         if(piece.getColour().equals(currentPlayer.getColour())){
             selectedPiece = piece;
@@ -61,6 +65,10 @@ public class Hive implements IPublisher{
         }
     }
 
+    /**
+     * returns true if a piece is selected
+     * @return true if a piece is selected
+     */
     public boolean aPieceIsSelected(){
         return selectedPiece != null;
     }
@@ -77,37 +85,42 @@ public class Hive implements IPublisher{
 
 
     /**
-     * returns a list with the current players pieces
+     * returns a list with the current players pieces with the queen first in the list if it hasn't already been played
      * @return current players pieces
      */
     public ArrayList<IPiece> getCurrentPlayerHandPieces(){
         return currentPlayer.getPieces();
     }
 
-
     /**
-     * returns current Players Colour
-     * @return current Players colour
+     * returns the position the provided piece has on the bord
+     * @param piece piece you want position of
+     * @return position of provided piece
      */
-    public Colour getCurrentPlayersColour(){
-        return currentPlayer.getColour();
-    }
-
     public Point getPoint(IPiece piece){
         return board.getPoint(piece);
     }
 
+    /**
+     * returns a list with the pieces that are currently on the board
+     * @return pieces that are currently on the board
+     */
     public ArrayList<IPiece> getPiecesOnBoard(){
         return board.getPiecesOnBoard();
     }
 
+    /**
+     * returns a list of possible positions the selected piece are able to move to
+     * @return list of possible positions
+     */
     public ArrayList<Point> getPossibleMoves(){
         if(getCurrentPlayerHandPieces().contains(selectedPiece)){
-            return board.getPossibleplacements();
+            return board.getPossibleplacements(currentPlayer.getColour());
         } else {
             return board.getPossibleMoves(selectedPiece);
         }
     }
+
 
     @Override
     public void subscribe(Isubscriber subscriber){
@@ -133,7 +146,6 @@ public class Hive implements IPublisher{
             currentPlayer = whiteHand;
         }
     }
-
 
 
     private void test(){
