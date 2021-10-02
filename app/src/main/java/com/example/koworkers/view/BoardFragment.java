@@ -35,6 +35,30 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private final int OFFSET = 500;
     private final int dpiRatio = 2;
 
+    private BoardViewModel mViewModel;
+
+    public static BoardFragment newInstance() {
+        return new BoardFragment();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.board_fragment, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
+
+        boardFrame = getView().findViewById(R.id.boardFrame);
+
+        //dpiRatio = (int) getContext().getResources().getDisplayMetrics().density;
+
+        populate();
+
+    }
 
     @Override
     public void update() {
@@ -72,30 +96,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
         }
     }
 
-    private BoardViewModel mViewModel;
-
-    public static BoardFragment newInstance() {
-        return new BoardFragment();
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.board_fragment, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
-
-        boardFrame = getView().findViewById(R.id.boardFrame);
-
-        //dpiRatio = (int) getContext().getResources().getDisplayMetrics().density;
-
-        populate();
-
-    }
 
     public void setLayout(View view, int left, int top, int right, int bottom, int size){
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size * dpiRatio, size * dpiRatio);
