@@ -91,6 +91,14 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
         return coordinate;
     }
 
+    public ArrayList<Point> getPossibleMoves(){
+        return hive.getPossibleMoves();
+    }
+
+    public boolean aPieceIsSelected(){
+        return hive.aPieceIsSelected();
+    }
+
 
     public ArrayList<IPiece> getPiecesOnBoard(){
         return hive.getPiecesOnBoard();
