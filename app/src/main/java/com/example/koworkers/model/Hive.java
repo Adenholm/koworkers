@@ -150,5 +150,6 @@ public class Hive implements IPublisher{
         movePiece(new Point(0,0));
         selectPiece(getCurrentPlayerHandPieces().get(1));
         movePiece(new Point(1,1));
+        selectPiece(getCurrentPlayerHandPieces().get(1));
     }
 }

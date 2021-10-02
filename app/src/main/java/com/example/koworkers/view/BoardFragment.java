@@ -25,6 +25,8 @@ import com.example.koworkers.viewmodel.BoardViewModel;
 
 public class BoardFragment extends Fragment implements Isubscriber {
 
+    private BoardViewModel mViewModel;
+
     private FrameLayout boardFrame;
 
     private final Map<IPiece, ImageView> pieceMap = new HashMap<>();
@@ -34,8 +36,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     private final int OFFSET = 500;
     private final int dpiRatio = 2;
-
-    private BoardViewModel mViewModel;
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -56,20 +56,19 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
         //dpiRatio = (int) getContext().getResources().getDisplayMetrics().density;
 
-        populate();
-
+        update();
     }
 
     @Override
     public void update() {
         boardFrame.removeAllViews();
+        displayBoardPieces();
         if(mViewModel.aPieceIsSelected()){
             displayPossibleMoves();
         }
-        populate();
     }
 
-    private void populate(){
+    private void displayBoardPieces(){
         ImageView image;
         for(IPiece piece: mViewModel.getPiecesOnBoard()){
             if(pieceMap.containsKey(piece)){
@@ -89,7 +88,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         possibleMovesMap.clear();
         for(Point point: mViewModel.getPossibleMoves()){
             ImageView image = new ImageView(getContext());
-            image.setImageResource(R.drawable.white_hexagon);
+            image.setImageResource(R.drawable.white_hexagon); //TODO change picture
             setLayout(image, mViewModel.getCoordinates(point).getX() + OFFSET, mViewModel.getCoordinates(point).getY() + OFFSET, OFFSET, OFFSET, mViewModel.getPieceSize());
             possibleMovesMap.put(image, point);
             boardFrame.addView(image);
