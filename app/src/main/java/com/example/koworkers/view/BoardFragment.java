@@ -103,7 +103,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         possibleMovesMap.clear();
         for(Point point: mViewModel.getPossibleMoves()){
             ImageView image = new ImageView(getContext());
-            image.setImageResource(R.drawable.white_hexagon); //TODO change picture
+            image.setImageResource(R.drawable.possible_move_hexagon);
             image.setOnClickListener(possibleMovesListener);
             setLayout(image, mViewModel.getCoordinates(point).getX() + OFFSET, mViewModel.getCoordinates(point).getY() + OFFSET, OFFSET, OFFSET, mViewModel.getPieceSize());
             possibleMovesMap.put(image, point);
