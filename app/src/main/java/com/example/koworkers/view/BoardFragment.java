@@ -39,6 +39,9 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     @Override
     public void update() {
+        if(mViewModel.aPieceIsSelected()){
+            mViewModel.getPossibleMoves();
+        }
         populate();
     }
 
