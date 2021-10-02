@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+        android:id="@+id/boardFragmentContainerView"
         android:name="com.example.koworkers.view.BoardFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -18,13 +18,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView2"
+        android:id="@+id/playerHandFragmentContainerView"
         android:name="com.example.koworkers.view.PlayerhandFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView" />
+        app:layout_constraintTop_toBottomOf="@+id/boardFragmentContainerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
