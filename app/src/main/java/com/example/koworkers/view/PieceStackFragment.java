@@ -49,26 +49,26 @@ public class PieceStackFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(PieceStackViewModel.class);
 
-        numberText = getView().findViewById(R.id.numberText);
+        //numberText = getView().findViewById(R.id.numberText);
 
         //adds the pieceFragment
         FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-        pieceFragment = new PieceFragment();
+        pieceFragment = PieceFragment.newInstance(piece);
         ft.add(R.id.pieceFrame, pieceFragment);
         ft.commit();
 
-        numberText.setText(numberOfPieces);
+        //numberText.setText(numberOfPieces);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        pieceFragment.onDestroy();
+        //pieceFragment.onDestroy();
     }
 
     public void incNumberOfPieces(){
         numberOfPieces++;
-        numberText.setText(numberOfPieces);
+        //numberText.setText(numberOfPieces);
     }
 
     public IPiece getPiece() {

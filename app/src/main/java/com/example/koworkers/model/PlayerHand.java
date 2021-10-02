@@ -50,7 +50,7 @@ public class PlayerHand {
     }
 
     /**
-     * checks wether the queen has ben played or not
+     * checks wether the queen has been played or not
      * @return true if queen has been played
      */
     public boolean queenHasBeenPlayed(){

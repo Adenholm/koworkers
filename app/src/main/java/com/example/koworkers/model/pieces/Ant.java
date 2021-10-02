@@ -11,8 +11,15 @@ import java.util.ArrayList;
 public class Ant extends Piece {
 
     public Ant(Colour colour){
-        super(colour, R.drawable.white_hexagon); //TODO change picture
+        super(colour);
+        if(colour == Colour.BLACK){
+            this.setImageResource(R.drawable.black_ant_piece);
+        }
+        else{
+            this.setImageResource(R.drawable.ant_piece);
+        }
     }
+
 
     @Override
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {

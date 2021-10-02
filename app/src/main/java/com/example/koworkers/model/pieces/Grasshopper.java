@@ -10,7 +10,13 @@ import java.util.ArrayList;
 public class Grasshopper extends Piece {
 
     public Grasshopper(Colour colour){
-        super(colour, R.drawable.white_hexagon); //TODO change picture
+        super(colour);
+        if(colour == Colour.BLACK){
+            this.setImageResource(R.drawable.black_grass_piece);
+        }
+        else{
+            this.setImageResource(R.drawable.grass_piece);
+        }
     }
 
     @Override

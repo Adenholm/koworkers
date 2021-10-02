@@ -4,7 +4,7 @@ import static java.lang.Math.sqrt;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.koworkers.model.Board;
+import com.example.koworkers.model.Hive;
 import com.example.koworkers.model.IPublisher;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.Point;
@@ -14,8 +14,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher {
-    private Board mBoard;
+
+    private final Hive hive = Hive.getInstance();
+
     ArrayList<Isubscriber> subscribers=new ArrayList<>();
+
+    private final int PIECE_SIZE = 90;
+    private final int RADIE = PIECE_SIZE/2;
+
+
     //BVM notifierar boardfragment
     @Override
     public void subscribe(Isubscriber isubscriber) {
@@ -30,13 +37,11 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     //BVM notifieras av board
     @Override
     public void update() {
-        placement(mBoard.newPiece, mBoard.newPoint); //Tar Piecen och pointen från board
+        notifySubscribers();
     }
 
 
-    public HashMap<IPiece, Point> viewCoordinates = new HashMap<>();
-
-    private  final int r=15; //från hexagonens mitt till hörn
+    private  final int r=60; //från hexagonens mitt till hörn
 
     /*Metod som tar koordinat från hexagon-griden och placerar ut på skärmen. Punkten som tas fram är mitten av hexagonen och läggs sedan till i viewCoordinates*/
     public void placement(IPiece piece, Point point){
@@ -59,12 +64,39 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
         else {
             viewCoordinate.setX(point.getX()*(int)x_offset);
         }
-         */
+
 
 
         viewCoordinates.put(piece, viewCoordinate);
         notifySubscribers();
-
+        */
     }
 
+    /**
+     * returns the calculated coordinates for placement on a view based on the hexagonsystems
+     * @param piece
+     * @return
+     */
+    public Point getCoordinates(IPiece piece){
+        return getCoordinates(hive.getPoint(piece));
+    }
+
+    public Point getCoordinates(Point point){
+        Point coordinate = new Point();
+
+        coordinate.setX(point.getX()*RADIE); //När x ökar flyttar viewcoordinate r i x-led...
+        coordinate.setY(point.getX()*2*RADIE);//...och 2r i y-led
+        coordinate.setY(coordinate.getY()+point.getY()*2*RADIE); //När y ändras flyttas viewcoordinate enbart i y-led
+
+        return coordinate;
+    }
+
+
+    public ArrayList<IPiece> getPiecesOnBoard(){
+        return hive.getPiecesOnBoard();
+    }
+
+    public int getPieceSize() {
+        return PIECE_SIZE;
+    }
 }

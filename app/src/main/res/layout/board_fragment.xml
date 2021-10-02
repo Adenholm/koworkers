@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_yellow"
     tools:context=".view.BoardFragment">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="match_parent">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal|vertical"
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <FrameLayout
+                android:id="@+id/boardFrame"
+                android:layout_width="1000dp"
+                android:layout_height="1000dp"
+                android:layout_gravity="center" />
+        </HorizontalScrollView>
+    </ScrollView>
 
 </FrameLayout>

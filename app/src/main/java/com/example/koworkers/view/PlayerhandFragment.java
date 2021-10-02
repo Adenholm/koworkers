@@ -9,23 +9,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.koworkers.R;
+import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class PlayerhandFragment extends Fragment {
+public class PlayerhandFragment extends Fragment implements Isubscriber {
 
-    //private final Map<String, PieceStackFragment> pieceStackMap = new HashMap<>(); //TODO
+    private Map<ImageView, Integer> numberImageMap = new HashMap<>();
+    private final Map<ImageView, IPiece> pieceImageMap = new HashMap<>();
+
     private LinearLayout handLinearLayout;
-
-    private final ArrayList<PieceStackFragment> pieceStacksInHand = new ArrayList<>();
 
     private PlayerhandViewModel mViewModel;
 
@@ -47,52 +54,61 @@ public class PlayerhandFragment extends Fragment {
 
         handLinearLayout = getView().findViewById(R.id.handLinearLayout);
 
-        populateHand();
+        populate();
     }
 
+    @Override
     public void update() {
-        populateHand();
+        populate();
     }
 
     /**
      * creates stacks of pieces and adds to the linear layout
      */
-    private void populateHand() {
-        ArrayList<PieceStackFragment> pieceStacks = new ArrayList<>();
-        boolean stackAlreadyExists = false;
-        for (IPiece piece : mViewModel.getPieces()) {
-            for (PieceStackFragment pieceStack : pieceStacks) {
-                if (pieceStack.getPiece().getImageResource() == piece.getImageResource()) {
-                    pieceStack.incNumberOfPieces();
-                    stackAlreadyExists = true;
-                    break;
+    private void populate(){
+        ArrayList<ImageView> images = new ArrayList<>();
+        boolean stackAlreadyExist = false;
+        for (IPiece piece: mViewModel.getPieces()){
+            for(ImageView image: images){
+                if (pieceImageMap.get(image).getImageResource() == piece.getImageResource()) {
+                   numberImageMap.put(image, numberImageMap.get(image) + 1);
+                   stackAlreadyExist = true;
+                   if(!images.contains(image)){
+                       images.add(image);
+                   }
+                   break;
                 }
             }
-            if (!stackAlreadyExists) {
-                pieceStacks.add(PieceStackFragment.newInstance(piece));
+            if(!stackAlreadyExist){
+                ImageView newImage = new ImageView(getContext());
+                newImage.setImageResource(piece.getImageResource());
+                pieceImageMap.put(newImage, piece);
+                numberImageMap.put(newImage, 1);
+                images.add(newImage);
             }
-            stackAlreadyExists = false;
+            stackAlreadyExist = false;
         }
-        addToLinearLayout(pieceStacks);
+        addToLinearLayout(images);
     }
 
-    /**
-     * adds the provided list of PieceStackFragments to the Linear Layout and removes the prevoius list
-     *
-     * @param pieceStacks to be added to Linear Layout
-     */
-    private void addToLinearLayout(ArrayList<PieceStackFragment> pieceStacks) {
-        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-        for (PieceStackFragment pieceStack : pieceStacksInHand) {
-            ft.remove(pieceStack);
-        }
-        for (PieceStackFragment pieceStack : pieceStacks) {
-            ft.add(R.id.handLinearLayout, pieceStack);
-        }
-        ft.commit();
+    private void addToLinearLayout(ArrayList<ImageView> images){
+        for(ImageView image: images){
+            setLayout(image, 20,0,  0,0,  80, 2);
+            handLinearLayout.addView(image);
 
-        pieceStacksInHand.clear();
-        pieceStacksInHand.addAll(pieceStacks);
+            TextView textView1 = new TextView(getContext());
+            textView1.setText(numberImageMap.get(image) + "");
+            textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+            textView1.setPadding(20, 80, 20, 20);// in pixels (left, top, right, bottom)
+            handLinearLayout.addView(textView1);
+        }
+    }
+
+    public void setLayout(View view, int left, int top, int right, int bottom, int size, int dpiRatio){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size * dpiRatio, size * dpiRatio);
+        params.setMargins(left*dpiRatio, top*dpiRatio, right*dpiRatio, bottom*dpiRatio);
+        view.setLayoutParams(params);
     }
 
 }

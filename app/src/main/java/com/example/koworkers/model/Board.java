@@ -1,6 +1,7 @@
 package com.example.koworkers.model;
 
 
+
 import com.example.koworkers.model.pieces.IPiece;
 
 
@@ -8,8 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Board implements IPublisher {
-    public IPiece newPiece;
-    public Point newPoint;
+    private IPiece newPiece;
+    private Point newPoint;
     HashMap<IPiece, Point> playedPieces = new HashMap(); //Hashmap med piece som key
 
     /**
@@ -50,8 +51,7 @@ public class Board implements IPublisher {
 
     }
 
-    ArrayList<Isubscriber> subscribers = new ArrayList<>();
-
+    private final ArrayList<Isubscriber> subscribers=new ArrayList<>();
     //Board notifierar BVM
     @Override
     public void subscribe(Isubscriber isubscriber) {
@@ -66,5 +66,18 @@ public class Board implements IPublisher {
         }
     }
 
+    public void placePiece(IPiece piece, Point point){
+        playedPieces.put(piece, point);
+    }
+
+    public Point getPoint(IPiece piece){
+        return playedPieces.get(piece);
+    }
+
+    public ArrayList<IPiece> getPiecesOnBoard(){
+        ArrayList<IPiece> pieces = new ArrayList<>();
+        pieces.addAll(playedPieces.keySet());
+         return pieces;
+    }
 
 }

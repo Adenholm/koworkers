@@ -10,7 +10,13 @@ import java.util.ArrayList;
 public class Queen extends Piece {
 
     public Queen(Colour colour){
-        super(colour, R.drawable.white_hexagon); //TODO change picture
+        super(colour);
+        if(colour == Colour.BLACK){
+            this.setImageResource(R.drawable.black_queen_piece);
+        }
+        else{
+            this.setImageResource(R.drawable.queen_piece);
+        }
     }
 
     @Override
