@@ -30,12 +30,18 @@ import java.util.Map;
 public class PlayerhandFragment extends Fragment implements Isubscriber {
 
     private Map<ImageView, Integer> numberImageMap = new HashMap<>();
-    private final Map<ImageView, IPiece> pieceImageMap = new HashMap<>();
+    private final Map<View, IPiece> pieceImageMap = new HashMap<>();
 
     private LinearLayout handLinearLayout;
 
     private PlayerhandViewModel mViewModel;
 
+    private final View.OnClickListener stackListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mViewModel.selectPiece(pieceImageMap.get(v));
+        }
+    };
 
     public static PlayerhandFragment newInstance() {
         return new PlayerhandFragment();
@@ -70,10 +76,11 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         boolean stackAlreadyExist = false;
         for (IPiece piece: mViewModel.getPieces()){
             for(ImageView image: images){
-                if (pieceImageMap.get(image).getImageResource() == piece.getImageResource()) {
+                if (pieceImageMap.get(image).getImageResource() == piece.getImageResource()) { //checks if stack already exists
                    numberImageMap.put(image, numberImageMap.get(image) + 1);
+                   pieceImageMap.put(image, piece);
                    stackAlreadyExist = true;
-                   if(!images.contains(image)){
+                   if(!images.contains(image)){ //om stacken inte redan finns i imageslistan, lägg till den
                        images.add(image);
                    }
                    break;
@@ -82,6 +89,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
             if(!stackAlreadyExist){
                 ImageView newImage = new ImageView(getContext());
                 newImage.setImageResource(piece.getImageResource());
+                newImage.setOnClickListener(stackListener);
                 setLayout(newImage, 20,0,  0,0,  90, 2);
                 pieceImageMap.put(newImage, piece);
                 numberImageMap.put(newImage, 1);
