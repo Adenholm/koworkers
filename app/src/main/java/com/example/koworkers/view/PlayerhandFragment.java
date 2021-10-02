@@ -82,25 +82,26 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
             if(!stackAlreadyExist){
                 ImageView newImage = new ImageView(getContext());
                 newImage.setImageResource(piece.getImageResource());
+                setLayout(newImage, 20,0,  0,0,  90, 2);
                 pieceImageMap.put(newImage, piece);
                 numberImageMap.put(newImage, 1);
                 images.add(newImage);
             }
             stackAlreadyExist = false;
         }
+        handLinearLayout.removeAllViews();
         addToLinearLayout(images);
     }
 
     private void addToLinearLayout(ArrayList<ImageView> images){
         for(ImageView image: images){
-            setLayout(image, 20,0,  0,0,  80, 2);
             handLinearLayout.addView(image);
 
             TextView textView1 = new TextView(getContext());
             textView1.setText(numberImageMap.get(image) + "");
             textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
-            textView1.setPadding(20, 80, 20, 20);// in pixels (left, top, right, bottom)
+            textView1.setPadding(20, 110, 20, 20);// in pixels (left, top, right, bottom)
             handLinearLayout.addView(textView1);
         }
     }
