@@ -30,12 +30,26 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private FrameLayout boardFrame;
 
     private final Map<IPiece, ImageView> pieceMap = new HashMap<>();
-    private final Map<ImageView, IPiece> imageMap = new HashMap<>();
+    private final Map<View, IPiece> imageMap = new HashMap<>();
 
-    private final Map<ImageView, Point> possibleMovesMap = new HashMap<>();
+    private final Map<View, Point> possibleMovesMap = new HashMap<>();
 
     private final int OFFSET = 500;
     private final int dpiRatio = 2;
+
+    private final View.OnClickListener possibleMovesListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mViewModel.movePiece(possibleMovesMap.get(v));
+        }
+    };
+
+    private final View.OnClickListener pieceListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mViewModel.selectPiece(imageMap.get(v));
+        }
+    };
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -76,6 +90,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
             }else{
                 image = new ImageView(getContext());
                 image.setImageResource(piece.getImageResource());
+                image.setOnClickListener(pieceListener);
                 pieceMap.put(piece,image);
                 imageMap.put(image, piece);
             }
@@ -89,6 +104,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         for(Point point: mViewModel.getPossibleMoves()){
             ImageView image = new ImageView(getContext());
             image.setImageResource(R.drawable.white_hexagon); //TODO change picture
+            image.setOnClickListener(possibleMovesListener);
             setLayout(image, mViewModel.getCoordinates(point).getX() + OFFSET, mViewModel.getCoordinates(point).getY() + OFFSET, OFFSET, OFFSET, mViewModel.getPieceSize());
             possibleMovesMap.put(image, point);
             boardFrame.addView(image);

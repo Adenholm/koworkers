@@ -115,7 +115,11 @@ public class Hive implements IPublisher{
     }
 
     public ArrayList<Point> getPossibleMoves(){
-        return board.getPossibleMoves(selectedPiece);
+        if(getCurrentPlayerHandPieces().contains(selectedPiece)){
+            return board.getPossibleplacements();
+        } else {
+            return board.getPossibleMoves(selectedPiece);
+        }
     }
 
     @Override
