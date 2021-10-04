@@ -66,6 +66,14 @@ public class Hive implements IPublisher{
     }
 
     /**
+     * deselects the currently selected piece
+     */
+    public void deSelectPiece(){
+        selectedPiece = null;
+        notifySubscribers();
+    }
+
+    /**
      * returns true if a piece is selected
      * @return true if a piece is selected
      */

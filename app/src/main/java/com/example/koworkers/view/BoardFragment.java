@@ -1,5 +1,6 @@
 package com.example.koworkers.view;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private final Map<View, Point> possibleMovesMap = new HashMap<>();
 
     private final int OFFSET = 500;
-    private final int dpiRatio = 2;
+    private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;;
 
     private final View.OnClickListener possibleMovesListener = new View.OnClickListener() {
         @Override
@@ -48,6 +49,13 @@ public class BoardFragment extends Fragment implements Isubscriber {
         @Override
         public void onClick(View v) {
             mViewModel.selectPiece(imageMap.get(v));
+        }
+    };
+
+    private final View.OnClickListener boardClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mViewModel.deSelectPiece();
         }
     };
 
@@ -67,6 +75,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         mViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
 
         boardFrame = getView().findViewById(R.id.boardFrame);
+        boardFrame.setOnClickListener(boardClick);
 
         //dpiRatio = (int) getContext().getResources().getDisplayMetrics().density;
 

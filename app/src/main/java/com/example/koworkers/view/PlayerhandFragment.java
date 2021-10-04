@@ -3,6 +3,7 @@ package com.example.koworkers.view;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,8 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     private LinearLayout handLinearLayout;
 
     private PlayerhandViewModel mViewModel;
+
+    private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;
 
     private final View.OnClickListener stackListener = new View.OnClickListener() {
         @Override
@@ -90,7 +93,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
                 ImageView newImage = new ImageView(getContext());
                 newImage.setImageResource(piece.getImageResource());
                 newImage.setOnClickListener(stackListener);
-                setLayout(newImage, 20,0,  0,0,  90, 2);
+                setLayout(newImage, 20,0,  0,0,  90);
                 pieceImageMap.put(newImage, piece);
                 numberImageMap.put(newImage, 1);
                 images.add(newImage);
@@ -114,10 +117,11 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         }
     }
 
-    public void setLayout(View view, int left, int top, int right, int bottom, int size, int dpiRatio){
+    public void setLayout(View view, int left, int top, int right, int bottom, int size){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size * dpiRatio, size * dpiRatio);
         params.setMargins(left*dpiRatio, top*dpiRatio, right*dpiRatio, bottom*dpiRatio);
         view.setLayoutParams(params);
     }
+
 
 }

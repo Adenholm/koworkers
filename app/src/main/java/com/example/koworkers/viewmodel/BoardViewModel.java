@@ -115,4 +115,8 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     public void selectPiece(IPiece piece){
         hive.selectPiece(piece);
     }
+
+    public void deSelectPiece(){
+        hive.deSelectPiece();
+    }
 }
