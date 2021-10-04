@@ -106,4 +106,12 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     public int getPieceSize() {
         return PIECE_SIZE;
     }
+
+    public void movePiece(Point point){
+        hive.movePiece(point);
+    }
+
+    public void selectPiece(IPiece piece){
+        hive.selectPiece(piece);
+    }
 }
