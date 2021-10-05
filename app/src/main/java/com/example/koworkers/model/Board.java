@@ -51,7 +51,6 @@ public class Board implements IPublisher {
 
     }
 
-
     public ArrayList<Point> getPossibleMoves(IPiece piece){
         return piece.getPossibleMoves(new ArrayList<>(playedPieces.values()));
     }
