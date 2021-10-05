@@ -19,16 +19,19 @@ public class Grasshopper extends Piece {
         }
     }
 
+    //inte kunna hoppa över hål
+    //om det finns ett kort avstånd hittat, kan inte hoppa längre då
     @Override
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         Point startPosition = boardPositions.get(0);
         ArrayList<Point> possibleMoves = new ArrayList<>();
         for(int i= 0;i<boardPositions.size();i++){
             Point currentPoint = boardPositions.get(i);
+            //checks if the currentpoint is on a straight line (diagonal or vertical) from the startposition
             if(startPosition.getX() == currentPoint.getX() && !boardPositions.contains(currentPoint)){
                 possibleMoves.add(currentPoint);
             }
-            else if(currentPoint.getX()/currentPoint.getY() == -1 && !boardPositions.contains(currentPoint)){
+            else if(currentPoint.getX()+currentPoint.getY() == boardPositions.get(0).getX()+boardPositions.get(0).getY() && !boardPositions.contains(currentPoint)){
                 possibleMoves.add(currentPoint);
             }
             else if(startPosition.getY() == currentPoint.getY() && !boardPositions.contains(currentPoint)){
