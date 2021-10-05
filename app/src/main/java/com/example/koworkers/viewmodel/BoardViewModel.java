@@ -11,7 +11,6 @@ import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher {
 
@@ -19,7 +18,7 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
 
     ArrayList<Isubscriber> subscribers=new ArrayList<>();
 
-    private final int PIECE_SIZE = 90;
+    private final int PIECE_SIZE = 65;
     private final int RADIE = PIECE_SIZE/2;
 
 
@@ -84,8 +83,8 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
     public Point getCoordinates(Point point){
         Point coordinate = new Point();
 
-        coordinate.setX(point.getX()*RADIE); //När x ökar flyttar viewcoordinate r i x-led...
-        coordinate.setY(point.getX()*2*RADIE);//...och 2r i y-led
+        coordinate.setX(point.getX()*2*RADIE); //När x ökar flyttar viewcoordinate r i x-led...
+        coordinate.setY(point.getX()*RADIE);//...och 2r i y-led
         coordinate.setY(coordinate.getY()+point.getY()*2*RADIE); //När y ändras flyttas viewcoordinate enbart i y-led
 
         return coordinate;
@@ -106,5 +105,13 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
 
     public int getPieceSize() {
         return PIECE_SIZE;
+    }
+
+    public void movePiece(Point point){
+        hive.movePiece(point);
+    }
+
+    public void selectPiece(IPiece piece){
+        hive.selectPiece(piece);
     }
 }

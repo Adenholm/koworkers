@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.R;
@@ -19,7 +18,6 @@ import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,25 +25,31 @@ import com.example.koworkers.viewmodel.BoardViewModel;
 
 public class BoardFragment extends Fragment implements Isubscriber {
 
+    private BoardViewModel mViewModel;
+
     private FrameLayout boardFrame;
 
     private final Map<IPiece, ImageView> pieceMap = new HashMap<>();
+    private final Map<View, IPiece> imageMap = new HashMap<>();
 
+    private final Map<View, Point> possibleMovesMap = new HashMap<>();
 
-    @Override
-    public void update() {
-        if(mViewModel.aPieceIsSelected()){
-            mViewModel.getPossibleMoves();
+    private final int OFFSET = 500;
+    private final int dpiRatio = 2;
+
+    private final View.OnClickListener possibleMovesListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mViewModel.movePiece(possibleMovesMap.get(v));
         }
-        populate();
-    }
+    };
 
-
-    private void populate(){
-
-    }
-
-    private BoardViewModel mViewModel;
+    private final View.OnClickListener pieceListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mViewModel.selectPiece(imageMap.get(v));
+        }
+    };
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -64,52 +68,54 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
         boardFrame = getView().findViewById(R.id.boardFrame);
 
-        int offset = 500;
+        //dpiRatio = (int) getContext().getResources().getDisplayMetrics().density;
 
-        for(IPiece piece: mViewModel.getPiecesOnBoard()){
-            ImageView image = new ImageView(getContext());
-            image.setImageResource(piece.getImageResource());
-            setLayout(image, mViewModel.getCoordinates(piece).getX() + offset, mViewModel.getCoordinates(piece).getY() + offset, offset, offset, 70, 2 );
-            pieceMap.put(piece,image);
-            boardFrame.addView(image);
-        }
-
+        update();
     }
 
-    public void setLayout(View view, int left, int top, int right, int bottom, int size, int dpiRatio){
+    @Override
+    public void update() {
+        boardFrame.removeAllViews();
+        displayBoardPieces();
+        if(mViewModel.aPieceIsSelected()){
+            displayPossibleMoves();
+        }
+    }
+
+    private void displayBoardPieces(){
+        ImageView image;
+        for(IPiece piece: mViewModel.getPiecesOnBoard()){
+            if(pieceMap.containsKey(piece)){
+                image = pieceMap.get(piece);
+            }else{
+                image = new ImageView(getContext());
+                image.setImageResource(piece.getImageResource());
+                image.setOnClickListener(pieceListener);
+                pieceMap.put(piece,image);
+                imageMap.put(image, piece);
+            }
+            setLayout(image, mViewModel.getCoordinates(piece).getX() + OFFSET, mViewModel.getCoordinates(piece).getY() + OFFSET, OFFSET, OFFSET, mViewModel.getPieceSize());
+            boardFrame.addView(image);
+        }
+    }
+
+    private void displayPossibleMoves(){
+        possibleMovesMap.clear();
+        for(Point point: mViewModel.getPossibleMoves()){
+            ImageView image = new ImageView(getContext());
+            image.setImageResource(R.drawable.possible_move_hexagon);
+            image.setOnClickListener(possibleMovesListener);
+            setLayout(image, mViewModel.getCoordinates(point).getX() + OFFSET, mViewModel.getCoordinates(point).getY() + OFFSET, OFFSET, OFFSET, mViewModel.getPieceSize());
+            possibleMovesMap.put(image, point);
+            boardFrame.addView(image);
+        }
+    }
+
+
+    public void setLayout(View view, int left, int top, int right, int bottom, int size){
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size * dpiRatio, size * dpiRatio);
         params.setMargins(left*dpiRatio, top*dpiRatio, right*dpiRatio, bottom*dpiRatio);
         view.setLayoutParams(params);
     }
-
-//    private void initialize(){
-//        int offset = 500 * (int) getContext().getResources().getDisplayMetrics().density;
-//
-//        for(IPiece piece: mViewModel.getPiecesOnBoard()){
-//            pieceImages.add(new PieceImage(piece, getContext(), mViewModel.getCoordinates(piece), offset, 60, 2));
-//        }
-//
-//        for(PieceImage pieceImage: pieceImages){
-//            boardFrame.addView(pieceImage.getImage());
-//        }
-//    }
-
-//    private void init(){
-//        for(IPiece piece: mViewModel.getPiecesOnBoard()){
-//            pieceFragments.add(PieceFragment.newInstance(piece));
-//        }
-//
-//        int offset = 500 * (int) getContext().getResources().getDisplayMetrics().density;
-//
-//        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-//
-//        for(PieceFragment pieceFragment: pieceFragments){
-//            Point coordinates = mViewModel.getCoordinates(pieceFragment.getPiece());
-//            //setMargins(pieceFragment.getView(), coordinates.getX() + offset, coordinates.getY() + offset, 0,0);
-//            ft.add(boardFrame.getId(), pieceFragment);
-//        }
-//        ft.commit();
-//    }
-//
 
 }

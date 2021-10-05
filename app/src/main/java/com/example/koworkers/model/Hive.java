@@ -42,42 +42,37 @@ public class Hive implements IPublisher{
      * @param point point where piece should be moved
      */
     public void movePiece(Point point){
-        if(selectedPiece!= null && getCurrentPlayerHandPieces().contains(selectedPiece)){
-            currentPlayer.removePiece(selectedPiece);
-            board.placePiece(selectedPiece, point);
-        }else if(selectedPiece!= null){
+        if (aPieceIsSelected()){
+            if(getCurrentPlayerHandPieces().contains(selectedPiece)){
+                currentPlayer.removePiece(selectedPiece);
+            }
             board.movePiece(selectedPiece, point);
+            currentPlayer.incNumberOfTurns();
+            switchPlayer();
+            selectedPiece = null;
+            notifySubscribers();
         }
-        currentPlayer.incNumberOfTurns();
-        switchPlayer();
-        notifySubscribers();
-        selectedPiece = null;
     }
 
+    /**
+     * checks if provided piece is of same color as currentPlayer, if so then select the provided piece
+     * @param piece to be selected
+     */
     public void selectPiece(IPiece piece){
-        selectedPiece = piece;
+        if(piece.getColour().equals(currentPlayer.getColour())){
+            selectedPiece = piece;
+            notifySubscribers();
+        }
     }
 
+    /**
+     * returns true if a piece is selected
+     * @return true if a piece is selected
+     */
     public boolean aPieceIsSelected(){
         return selectedPiece != null;
     }
 
-
-    /*
-     * Places the provided piece on the board at the provided point and removes it from the players hand.
-     * also changes the currentplayer
-     * @param piece the piece to be placed
-     * @param point point where piece should be placed
-     */
-    /*
-    public void placePiece(IPiece piece, Point point){
-        currentPlayer.removePiece(piece);
-        board.placePiece(piece, point);
-        currentPlayer.incNumberOfTurns();
-        switchPlayer();
-        notifySubscribers();
-    }
-    */
 
 
     /**
@@ -90,33 +85,42 @@ public class Hive implements IPublisher{
 
 
     /**
-     * returns a list with the current players pieces
+     * returns a list with the current players pieces with the queen first in the list if it hasn't already been played
      * @return current players pieces
      */
     public ArrayList<IPiece> getCurrentPlayerHandPieces(){
         return currentPlayer.getPieces();
     }
 
-
     /**
-     * returns current Players Colour
-     * @return current Players colour
+     * returns the position the provided piece has on the bord
+     * @param piece piece you want position of
+     * @return position of provided piece
      */
-    public Colour getCurrentPlayersColour(){
-        return currentPlayer.getColour();
-    }
-
     public Point getPoint(IPiece piece){
         return board.getPoint(piece);
     }
 
+    /**
+     * returns a list with the pieces that are currently on the board
+     * @return pieces that are currently on the board
+     */
     public ArrayList<IPiece> getPiecesOnBoard(){
         return board.getPiecesOnBoard();
     }
 
+    /**
+     * returns a list of possible positions the selected piece are able to move to
+     * @return list of possible positions
+     */
     public ArrayList<Point> getPossibleMoves(){
-        return board.getPossibleMoves(selectedPiece);
+        if(getCurrentPlayerHandPieces().contains(selectedPiece)){
+            return board.getPossibleplacements(currentPlayer.getColour());
+        } else {
+            return board.getPossibleMoves(selectedPiece);
+        }
     }
+
 
     @Override
     public void subscribe(Isubscriber subscriber){
@@ -144,11 +148,11 @@ public class Hive implements IPublisher{
     }
 
 
-
     private void test(){
         selectPiece(getCurrentPlayerHandPieces().get(1));
         movePiece(new Point(0,0));
         selectPiece(getCurrentPlayerHandPieces().get(1));
         movePiece(new Point(1,1));
+        selectPiece(getCurrentPlayerHandPieces().get(1));
     }
 }
