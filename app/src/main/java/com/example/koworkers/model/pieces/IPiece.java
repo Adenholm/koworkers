@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface IPiece {
 
     ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions);
-    ArrayList<Point> getSurroundingCoordinates(Point personalPosition, Point otherPosition);
+    ArrayList<Point> getSurroundingCoordinates(Point position);
     Colour getColour();
     int getImageResource();
 }

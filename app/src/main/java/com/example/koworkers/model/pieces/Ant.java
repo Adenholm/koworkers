@@ -25,9 +25,9 @@ public class Ant extends Piece {
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         ArrayList<Point> possibleMoves = new ArrayList<>();
         for(int i=1;i<boardPositions.size();i++){
-            ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(0),boardPositions.get(i));
+            ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(i));
             for(int j=0;j<currentList.size();j++){
-                if(!possibleMoves.contains(currentList.get(j)) && !boardPositions.contains(currentList.get(j))){
+                if(!possibleMoves.contains(currentList.get(j)) && !boardPositions.contains(currentList.get(j)) && !currentList.get(j).equals(boardPositions.get(0))){
                     possibleMoves.add(currentList.get(j));
                 }
             }
