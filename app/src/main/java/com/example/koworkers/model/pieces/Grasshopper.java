@@ -27,6 +27,7 @@ public class Grasshopper extends Piece {
         ArrayList<Point> possibleMoves = new ArrayList<>();
         for(int i= 0;i<boardPositions.size();i++){
             Point currentPoint = boardPositions.get(i);
+            //checks if the currentpoint is on a straight line (diagonal or vertical) from the startposition
             if(startPosition.getX() == currentPoint.getX() && !boardPositions.contains(currentPoint)){
                 possibleMoves.add(currentPoint);
             }
