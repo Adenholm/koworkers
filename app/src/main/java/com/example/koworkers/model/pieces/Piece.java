@@ -5,6 +5,7 @@ import com.example.koworkers.model.Point;
 import com.example.koworkers.model.Colour;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 abstract class Piece implements IPiece{
     private final Colour colour;
@@ -21,21 +22,11 @@ abstract class Piece implements IPiece{
     @Override
     public abstract ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions);
     @Override
-    public ArrayList<Point> getSurroundingCoordinates(Point personalPosition, Point otherPosition){
+    public ArrayList<Point> getSurroundingCoordinates(Point position){
         ArrayList<Point> currentMoves = new ArrayList<>();
-        for(int i=-1;i<=1;i++) {
-            for (int j = -1; j <= 1; j++) {
-                if ((i == -1 && j == -1) || (i==1 && j==1)) {
-                    break;
-                }
-
-                Point currentPoint = new Point(otherPosition.getX() + i, otherPosition.getY() + j);
-                if (personalPosition == currentPoint) {
-                    break;
-                }
-                currentMoves.add(currentPoint);
-
-            }
+        ArrayList<Point> surroundingCoordinates = new ArrayList<>(Arrays.asList(new Point[]{new Point(-1,1),new Point(-1,0),new Point(0,1),new Point(0,-1),new Point(1,0),new Point(1,-1)}));
+        for(int i= 0;i<surroundingCoordinates.size();i++){
+            currentMoves.add(new Point(position.getX()+surroundingCoordinates.get(i).getX(),position.getY()+surroundingCoordinates.get(i).getY()));
         }
         return currentMoves;
 
@@ -50,4 +41,5 @@ abstract class Piece implements IPiece{
     public int getImageResource() {
         return imageResource;
     }
+
 }

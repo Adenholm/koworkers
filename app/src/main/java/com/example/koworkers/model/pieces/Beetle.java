@@ -19,20 +19,28 @@ public class Beetle extends Piece {
         }
     }
 
+
+
     @Override
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         ArrayList<Point> possibleMoves = new ArrayList<>();
+        Point beetlePoint = boardPositions.get(0);
         //Beetle can move 1 step, the surrounding pieces of the beetle is the moves it can take
-        ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(0),boardPositions.get(0));
-        for(int i=0;i<currentList.size();i++){
-            //checks if the piece is still connected to the hive if it moves to the place
-            for(int j=0;j<getSurroundingCoordinates(currentList.get(i),boardPositions.get(0)).size();j++){
-                if(boardPositions.contains(getSurroundingCoordinates(currentList.get(i),boardPositions.get(0)).get(j))){
-                    possibleMoves.add(currentList.get(i));
+        ArrayList<Point> currentList = getSurroundingCoordinates(beetlePoint);
+        for(Point point: currentList){
+            for(Point surroundpoint: getSurroundingCoordinates(point)) {
+                //checks if the piece is still connected to the hive if it moves to the place
+                if (!surroundpoint.equals(beetlePoint) && boardPositions.contains(surroundpoint) && !possibleMoves.contains(point)) {
+                    possibleMoves.add(point);
                 }
+                else if(boardPositions.contains(point) && !possibleMoves.contains(point)){
+                    possibleMoves.add(point);
+                }
+
             }
         }
         return possibleMoves;
+
     }
 
 }
