@@ -18,4 +18,8 @@ public class PlayerhandViewModel extends ViewModel {
     public void selectPiece(IPiece piece){
         hive.selectPiece(piece);
     }
+
+    public boolean queenShouldBePlaced(){
+        return hive.playersQueenShouldBePlaced();
+    }
 }

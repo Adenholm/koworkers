@@ -18,7 +18,7 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
 
     ArrayList<Isubscriber> subscribers=new ArrayList<>();
 
-    private final int PIECE_SIZE = 65;
+    private final int PIECE_SIZE = 90;
     private final int RADIE = PIECE_SIZE/2;
 
 
