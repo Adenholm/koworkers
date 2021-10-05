@@ -23,12 +23,14 @@ public class Board implements IPublisher {
 
         if (playedPieces.size() == 0) {//Om det inte ligger några pieces ute hamnar första piecen som läggs ut på 0,0, origo
             possiblePlacements.add(new Point(0, 0));
-        } else {
+        }
+
+        else {
 
             for (IPiece pie : playedPieces.keySet()) { //går igenom alla utlagda pieces
                 for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie), playedPieces.get(pie)))//Går igenom pies surrounding coordinates
                     if (playedPieces.size() != 1) { //Om det ligger mer än 2 pieces ute får inte nästa piece läggas ut bredvid en av motståndarens pieces
-                        if (pie.getColour() == currentPlayersColour) {//kollar om pie är spelarens färg
+                        if (pie.getColour() == currentPlayersColour) {//kollar om pie är spelarens färg, pie är en piece i playedPieces
                             if (!possiblePlacements.contains(surroundingPoint)) { //Om punkten inte finns läggs den till
                                 possiblePlacements.add(surroundingPoint);
                             } else {
@@ -43,14 +45,26 @@ public class Board implements IPublisher {
         return possiblePlacements;
     }
 
-
+    /**
+     * Kopplar en piece till en point i playedPieces som representerar de utlagda pieces
+     * @param piece piece som läggs ut
+     * @param point point som den läggs på
+     */
     public void movePiece(IPiece piece, Point point) {
         playedPieces.put(piece, point); //Tar en ny position och kopplar till piece å ändrar på så sätt piece-position.
         //kalla på boardViewModel.placement för att lägga till piecen i viewCoordinates
         notifySubscribers(); //notifierar BVM
+        if(isWinner()){
+
+        }
 
     }
 
+    /**
+     * Kallar på piece getPossibleMoves för att kolla var en piece kan flyttas
+     * @param piece piece som ska flyttas på
+     * @return en arrayList av möjliga points att flytta till
+     */
     public ArrayList<Point> getPossibleMoves(IPiece piece){
         return piece.getPossibleMoves(new ArrayList<>(playedPieces.values()));
     }
@@ -70,9 +84,6 @@ public class Board implements IPublisher {
         }
     }
 
-    public void placePiece(IPiece piece, Point point){
-        playedPieces.put(piece, point);
-    }
 
     public Point getPoint(IPiece piece){
         return playedPieces.get(piece);
@@ -80,6 +91,21 @@ public class Board implements IPublisher {
 
     public ArrayList<IPiece> getPiecesOnBoard(){
          return new ArrayList<>(playedPieces.keySet());
+    }
+    public IPiece blackQueen;
+    public IPiece whiteQueen;
+    public String winner;
+    boolean isWinner (){
+
+        if (blackQueen.getSurroundingCoordinates(playedPieces.get(blackQueen),playedPieces.get(blackQueen)).size()==8){
+            winner="Winner: Black";
+            return true;
+        }
+        if (whiteQueen.getSurroundingCoordinates(playedPieces.get(whiteQueen),playedPieces.get(whiteQueen)).size()==8){
+            winner="Winner: White";
+            return true;
+        }
+       else return false;
     }
 
 }

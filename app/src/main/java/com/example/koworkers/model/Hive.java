@@ -23,7 +23,7 @@ public class Hive implements IPublisher{
      */
     protected Hive(){
         currentPlayer = whiteHand;
-        test();
+
     }
 
     /**
