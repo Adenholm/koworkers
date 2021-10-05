@@ -28,7 +28,7 @@ public class Board implements IPublisher {
         else {
 
             for (IPiece pie : playedPieces.keySet()) { //går igenom alla utlagda pieces
-                for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie), playedPieces.get(pie)))//Går igenom pies surrounding coordinates
+                for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie)))//Går igenom pies surrounding coordinates
                     if (playedPieces.size() != 1) { //Om det ligger mer än 2 pieces ute får inte nästa piece läggas ut bredvid en av motståndarens pieces
                         if (pie.getColour() == currentPlayersColour) {//kollar om pie är spelarens färg, pie är en piece i playedPieces
                             if (!possiblePlacements.contains(surroundingPoint)) { //Om punkten inte finns läggs den till
