@@ -96,7 +96,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
     }
 
     @Override
-    public void deselectPiece(IPiece piece) {
+    public void deselectPiece() {
         removePossibleMoves();
         selectImage.setVisibility(View.GONE);
    }
@@ -158,7 +158,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         }
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mViewModel.getPieceSize() * dpiRatio, mViewModel.getPieceSize() * dpiRatio);
-        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 0, 0);
+        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 100, 200);
         view.setLayoutParams(params);
     }
 

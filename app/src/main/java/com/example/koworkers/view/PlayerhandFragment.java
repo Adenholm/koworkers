@@ -85,7 +85,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     }
 
     @Override
-    public void deselectPiece(IPiece piece) {
+    public void deselectPiece() {
 
     }
 

@@ -62,6 +62,9 @@ public class Hive implements IPublisher{
      * @param piece to be selected
      */
     public void selectPiece(IPiece piece){
+        for(Isubscriber subscriber: subscribers){
+            subscriber.deselectPiece();
+        }
         if(piece.getColour().equals(currentPlayer.getColour())){
             selectedPiece = piece;
             for(Isubscriber subscriber: subscribers){
@@ -74,10 +77,8 @@ public class Hive implements IPublisher{
      * deselects the currently selected piece
      */
     public void deSelectPiece(){
-        if(aPieceIsSelected()){
-            for(Isubscriber subscriber: subscribers){
-                subscriber.deselectPiece(selectedPiece);
-            }
+        for(Isubscriber subscriber: subscribers) {
+            subscriber.deselectPiece();
         }
         selectedPiece = null;
     }
