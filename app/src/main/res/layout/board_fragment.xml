@@ -15,12 +15,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="horizontal|vertical"
+            android:scrollbars="horizontal"
+            android:layout_gravity="center"
             tools:ignore="SpeakableTextPresentCheck">
 
             <FrameLayout

@@ -78,7 +78,7 @@ public class Hive implements IPublisher{
         for(Isubscriber subscriber: subscribers){
             subscriber.deselectPiece();
         }
-        if(piece.getColour().equals(currentPlayer.getColour())){
+        if(piece.getColour().equals(currentPlayer.getColour()) && (!playersQueenShouldBePlaced() || currentPlayer.thisIsMyQueen(piece))){
             selectedPiece = piece;
             for(Isubscriber subscriber: subscribers){
                 subscriber.selectPiece(selectedPiece);
