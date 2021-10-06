@@ -1,18 +1,19 @@
 package com.example.koworkers;
 
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
-
+import com.example.koworkers.model.Board;
+import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.Ant;
 import com.example.koworkers.model.pieces.Beetle;
 import com.example.koworkers.model.pieces.Grasshopper;
 import com.example.koworkers.model.pieces.IPiece;
-import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.pieces.Queen;
 import com.example.koworkers.model.pieces.Spider;
 
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,7 +121,18 @@ public class ExampleUnitTest {
             assertFalse(false);
         }
     }
-
+    @Test
+    public void checkRemove_isCorrect(){
+        ArrayList <Point> whiteSP = new ArrayList<>(Arrays.asList(new Point(1, 0),new Point(1, -1),new Point(-1, 1),new Point(-1, 0),new Point(0, 1),new Point(0, -1)));
+        ArrayList <Point> blackSP = new ArrayList<>(Arrays.asList(new Point(1, 0),new Point(1, -1)));
+        ArrayList <Point> predicted = new ArrayList<>(Arrays.asList(new Point(-1, 1),new Point(-1, 0),new Point(0, 1),new Point(0, -1)));
+        ArrayList <Point>  actual = Board.checkRemove(whiteSP,blackSP);
+        if (actual.containsAll(predicted) && predicted.containsAll(actual) && (actual.size() == predicted.size())) {
+            assertTrue(true);
+        } else {
+            assertFalse(false);
+        }
+    }
 
 
 

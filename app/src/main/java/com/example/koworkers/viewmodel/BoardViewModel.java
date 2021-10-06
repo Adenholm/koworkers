@@ -65,8 +65,8 @@ public class BoardViewModel extends ViewModel{
     public Point getCoordinates(Point point){
         Point coordinate = new Point();
 
-        coordinate.setX(point.getX()*2*RADIE); //När x ökar flyttar viewcoordinate r i x-led...
-        coordinate.setY(point.getX()*RADIE);//...och 2r i y-led
+        coordinate.setX(point.getX()*2*RADIE); //När x ökar flyttar viewcoordinate 2r i x-led...
+        coordinate.setY(point.getX()*RADIE);//...och r i y-led
         coordinate.setY(coordinate.getY()+point.getY()*2*RADIE); //När y ändras flyttas viewcoordinate enbart i y-led
 
         return coordinate;
