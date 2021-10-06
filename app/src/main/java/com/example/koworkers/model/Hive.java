@@ -14,6 +14,8 @@ public class Hive implements IPublisher{
 
     private PlayerHand currentPlayer;
 
+    private int round = 1;
+
     private IPiece selectedPiece;
 
     private final ArrayList<Isubscriber> subscribers = new ArrayList<>();
@@ -47,7 +49,6 @@ public class Hive implements IPublisher{
                 currentPlayer.removePiece(selectedPiece);
             }
             board.movePiece(selectedPiece, point);
-            currentPlayer.incNumberOfTurns();
             switchPlayer();
             selectedPiece = null;
             notifySubscribers();
@@ -88,7 +89,7 @@ public class Hive implements IPublisher{
      * @return true if the player has played 3 turns and still haven't placed their queen
      */
     public boolean playersQueenShouldBePlaced(){
-        return !currentPlayer.queenHasBeenPlayed() && currentPlayer.getNumberOfTurns() == 3;
+        return !currentPlayer.queenHasBeenPlayed() && round == 3;
     }
 
 
@@ -152,6 +153,7 @@ public class Hive implements IPublisher{
             currentPlayer = blackHand;
         }else{
             currentPlayer = whiteHand;
+            round++;
         }
     }
 

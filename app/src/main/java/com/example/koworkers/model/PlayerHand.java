@@ -9,11 +9,9 @@ public class PlayerHand {
     private final ArrayList<IPiece> pieces = new ArrayList<>();
     private IPiece queen;
     private final Colour colour;
-    private int numberOfTurns;
 
     public PlayerHand(Colour colour){
         this.colour = colour;
-        numberOfTurns = 0;
         PieceFactory pieceFactory = new PieceFactory();
         queen = pieceFactory.createNewQueen(colour);
 
@@ -68,17 +66,6 @@ public class PlayerHand {
         }
         newPieceList.addAll(pieces);
         return newPieceList;
-    }
-
-    /**
-     * increases number of turns with one
-     */
-    public void incNumberOfTurns(){
-        numberOfTurns++;
-    }
-
-    public int getNumberOfTurns() {
-        return numberOfTurns;
     }
 
     public Colour getColour() {
