@@ -25,7 +25,7 @@ public class Hive implements IPublisher{
      */
     protected Hive(){
         currentPlayer = whiteHand;
-        test();
+        //test();
     }
 
     /**
@@ -50,8 +50,10 @@ public class Hive implements IPublisher{
             }
             board.movePiece(selectedPiece, point);
             switchPlayer();
-            selectedPiece = null;
-            notifySubscribers();
+            for(Isubscriber subscriber: subscribers){
+                subscriber.movePiece(selectedPiece, point);
+            }
+            deSelectPiece();
         }
     }
 
@@ -62,7 +64,9 @@ public class Hive implements IPublisher{
     public void selectPiece(IPiece piece){
         if(piece.getColour().equals(currentPlayer.getColour())){
             selectedPiece = piece;
-            notifySubscribers();
+            for(Isubscriber subscriber: subscribers){
+                subscriber.selectPiece(selectedPiece);
+            }
         }
     }
 
@@ -70,8 +74,12 @@ public class Hive implements IPublisher{
      * deselects the currently selected piece
      */
     public void deSelectPiece(){
+        if(aPieceIsSelected()){
+            for(Isubscriber subscriber: subscribers){
+                subscriber.deselectPiece(selectedPiece);
+            }
+        }
         selectedPiece = null;
-        notifySubscribers();
     }
 
     /**
@@ -155,6 +163,9 @@ public class Hive implements IPublisher{
             currentPlayer = whiteHand;
             round++;
         }
+        for(Isubscriber subscriber: subscribers){
+            subscriber.switchPlayer(currentPlayer.getColour());
+        }
     }
 
 
@@ -162,7 +173,7 @@ public class Hive implements IPublisher{
         selectPiece(getCurrentPlayerHandPieces().get(1));
         movePiece(new Point(0,0));
         selectPiece(getCurrentPlayerHandPieces().get(1));
-        movePiece(new Point(1,1));
+        movePiece(new Point(1,-1));
         selectPiece(getCurrentPlayerHandPieces().get(1));
     }
 }

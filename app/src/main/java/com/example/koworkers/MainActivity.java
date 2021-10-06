@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
+
         FragmentContainerView boardFragmentContainerView = findViewById(R.id.boardFragmentContainerView);
         Isubscriber boardFragment = boardFragmentContainerView.getFragment();
         Hive.getInstance().subscribe(boardFragment);

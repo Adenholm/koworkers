@@ -12,7 +12,7 @@ import com.example.koworkers.model.pieces.IPiece;
 
 import java.util.ArrayList;
 
-public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher {
+public class BoardViewModel extends ViewModel{
 
     private final Hive hive = Hive.getInstance();
 
@@ -20,24 +20,6 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
 
     private final int PIECE_SIZE = 90;
     private final int RADIE = PIECE_SIZE/2;
-
-
-    //BVM notifierar boardfragment
-    @Override
-    public void subscribe(Isubscriber isubscriber) {
-        subscribers.add(isubscriber);
-    }
-    @Override
-    public void notifySubscribers() {
-        for (Isubscriber subscriber:subscribers) {
-            subscriber.update();
-        }
-    }
-    //BVM notifieras av board
-    @Override
-    public void update() {
-        notifySubscribers();
-    }
 
 
     private  final int r=60; //från hexagonens mitt till hörn

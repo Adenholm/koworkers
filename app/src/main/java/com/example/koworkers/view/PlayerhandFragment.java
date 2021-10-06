@@ -23,7 +23,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.koworkers.R;
+import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Isubscriber;
+import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
@@ -79,6 +81,26 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
 
     @Override
     public void update() {
+        populate();
+    }
+
+    @Override
+    public void selectPiece(IPiece piece) {
+
+    }
+
+    @Override
+    public void deselectPiece(IPiece piece) {
+
+    }
+
+    @Override
+    public void movePiece(IPiece piece, Point point) {
+        populate();
+    }
+
+    @Override
+    public void switchPlayer(Colour colour) {
         populate();
     }
 
