@@ -9,8 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class Board implements IPublisher {
-    private IPiece newPiece;
-    private Point newPoint;
+
     private final HashMap<IPiece, Point> playedPieces = new HashMap<>(); //Hashmap med piece som key
 
     /**
@@ -121,19 +120,16 @@ public class Board implements IPublisher {
         return playedPieces.get(piece);
     }
 
-    public ArrayList<IPiece> getPiecesOnBoard() {
-        return new ArrayList<>(playedPieces.keySet());
-    }
 
-    public IPiece blackQueen;
-    public IPiece whiteQueen;
-    public String winner;
+    private IPiece blackQueen;
+    private IPiece whiteQueen;
+    private String winner;
 
     /**
      * Checks if the queens surrounding coordinates exist in playedPieces
      * @return true if one of the queens been surrounding
      */
-   /* boolean isWinner (){
+    boolean aQueenIsSurrounded (){
         for (Point point:blackQueen.getSurroundingCoordinates(playedPieces.get(blackQueen))){
             if (!playedPieces.containsValue(point)) break;
             winner="Winner: Black";
@@ -146,6 +142,17 @@ public class Board implements IPublisher {
         }
 
        return false;
-    }*/
+    }
 
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setBlackQueen(IPiece blackQueen) {
+        this.blackQueen = blackQueen;
+    }
+
+    public void setWhiteQueen(IPiece whiteQueen) {
+        this.whiteQueen = whiteQueen;
+    }
 }
