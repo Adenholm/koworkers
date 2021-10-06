@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private BoardViewModel mViewModel;
 
     private FrameLayout boardFrame;
+    private TextView playerTextView;
 
     private final Map<IPiece, ImageView> pieceMap = new HashMap<>();
     private final Map<View, IPiece> imageMap = new HashMap<>();
@@ -84,6 +86,9 @@ public class BoardFragment extends Fragment implements Isubscriber {
         boardFrame = getView().findViewById(R.id.boardFrame);
         boardFrame.setOnClickListener(boardClick);
 
+        playerTextView = getView().findViewById(R.id.playerTextView);
+        playerTextView.setText(Colour.WHITE.toString());
+
         selectImage = new ImageView(getContext());
         selectImage.setImageResource(R.drawable.select_hexagon);
     }
@@ -107,7 +112,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     @Override
     public void switchPlayer(Colour colour) {
-
+        playerTextView.setText(colour.toString());
     }
 
     private void displayBoardPiece(IPiece piece, Point point){
@@ -115,7 +120,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
         if(pieceMap.containsKey(piece)){
             image = pieceMap.get(piece);
             setLayout(image, point);
-            image.bringToFront();
         }else{
             image = new ImageView(getContext());
             image.setImageResource(piece.getImageResource());
@@ -124,8 +128,8 @@ public class BoardFragment extends Fragment implements Isubscriber {
             imageMap.put(image, piece);
             setLayout(image, point);
             boardFrame.addView(image);
-            image.bringToFront();
         }
+        image.bringToFront();
     }
 
     private void displayPossibleMoves(){
@@ -149,7 +153,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private void setLayout(View view, Point point){
         Point coordinate = mViewModel.getCoordinates(point);
 
-        if(coordinate.getX() + leftOffset - 100 < 0 ){
+        if(coordinate.getX() + leftOffset - 200 < 0 ){
             leftOffset += 200;
             updateView();
         }
