@@ -52,8 +52,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private final View.OnClickListener pieceListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mViewModel.selectPiece(imageMap.get(v));
-            if(mViewModel.aPieceIsSelected()){
+            if(mViewModel.selectPiece(imageMap.get(v))){
                 setLayout(selectImage, mViewModel.getPoint(imageMap.get(v)));
                 boardFrame.addView(selectImage);
             }
@@ -116,6 +115,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         if(pieceMap.containsKey(piece)){
             image = pieceMap.get(piece);
             setLayout(image, point);
+            image.bringToFront();
         }else{
             image = new ImageView(getContext());
             image.setImageResource(piece.getImageResource());
@@ -124,6 +124,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
             imageMap.put(image, piece);
             setLayout(image, point);
             boardFrame.addView(image);
+            image.bringToFront();
         }
     }
 
@@ -158,7 +159,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         }
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mViewModel.getPieceSize() * dpiRatio, mViewModel.getPieceSize() * dpiRatio);
-        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 100, 300);
+        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 100, 400);
         view.setLayoutParams(params);
     }
 
