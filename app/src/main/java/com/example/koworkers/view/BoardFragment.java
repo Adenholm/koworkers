@@ -38,7 +38,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     private ImageView selectImage;
 
-    private int topOffset = 200;
+    private int topOffset = 400;
     private int leftOffset = 150;
     private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;
 
@@ -54,8 +54,8 @@ public class BoardFragment extends Fragment implements Isubscriber {
         public void onClick(View v) {
             mViewModel.selectPiece(imageMap.get(v));
             if(mViewModel.aPieceIsSelected()){
-                selectImage.setVisibility(View.VISIBLE);
-                selectImage.setLayoutParams(v.getLayoutParams());
+                setLayout(selectImage, mViewModel.getPoint(imageMap.get(v)));
+                boardFrame.addView(selectImage);
             }
         }
     };
@@ -86,7 +86,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         boardFrame.setOnClickListener(boardClick);
 
         selectImage = new ImageView(getContext());
-        selectImage.setImageResource(R.drawable.possible_move_hexagon); //TODO change picture
+        selectImage.setImageResource(R.drawable.select_hexagon);
     }
 
 
@@ -98,7 +98,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
     @Override
     public void deselectPiece() {
         removePossibleMoves();
-        selectImage.setVisibility(View.GONE);
+        boardFrame.removeView(selectImage);
    }
 
     @Override
@@ -158,7 +158,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
         }
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mViewModel.getPieceSize() * dpiRatio, mViewModel.getPieceSize() * dpiRatio);
-        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 100, 200);
+        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 100, 300);
         view.setLayoutParams(params);
     }
 
