@@ -14,6 +14,8 @@ public class Hive implements IPublisher{
 
     private PlayerHand currentPlayer;
 
+    private int round = 1;
+
     private IPiece selectedPiece;
 
     private final ArrayList<Isubscriber> subscribers = new ArrayList<>();
@@ -23,7 +25,7 @@ public class Hive implements IPublisher{
      */
     protected Hive(){
         currentPlayer = whiteHand;
-
+        //test();
     }
 
     /**
@@ -47,10 +49,11 @@ public class Hive implements IPublisher{
                 currentPlayer.removePiece(selectedPiece);
             }
             board.movePiece(selectedPiece, point);
-            currentPlayer.incNumberOfTurns();
             switchPlayer();
-            selectedPiece = null;
-            notifySubscribers();
+            for(Isubscriber subscriber: subscribers){
+                subscriber.movePiece(selectedPiece, point);
+            }
+            deSelectPiece();
         }
     }
 
@@ -59,10 +62,25 @@ public class Hive implements IPublisher{
      * @param piece to be selected
      */
     public void selectPiece(IPiece piece){
+        for(Isubscriber subscriber: subscribers){
+            subscriber.deselectPiece();
+        }
         if(piece.getColour().equals(currentPlayer.getColour())){
             selectedPiece = piece;
-            notifySubscribers();
+            for(Isubscriber subscriber: subscribers){
+                subscriber.selectPiece(selectedPiece);
+            }
         }
+    }
+
+    /**
+     * deselects the currently selected piece
+     */
+    public void deSelectPiece(){
+        for(Isubscriber subscriber: subscribers) {
+            subscriber.deselectPiece();
+        }
+        selectedPiece = null;
     }
 
     /**
@@ -80,7 +98,7 @@ public class Hive implements IPublisher{
      * @return true if the player has played 3 turns and still haven't placed their queen
      */
     public boolean playersQueenShouldBePlaced(){
-        return !currentPlayer.queenHasBeenPlayed() && currentPlayer.getNumberOfTurns() == 3;
+        return !currentPlayer.queenHasBeenPlayed() && round == 3;
     }
 
 
@@ -131,7 +149,7 @@ public class Hive implements IPublisher{
     @Override
     public void notifySubscribers(){
         for(Isubscriber subscriber: subscribers){
-            subscriber.update();
+            //subscriber.update();
         }
     }
 
@@ -144,6 +162,10 @@ public class Hive implements IPublisher{
             currentPlayer = blackHand;
         }else{
             currentPlayer = whiteHand;
+            round++;
+        }
+        for(Isubscriber subscriber: subscribers){
+            subscriber.switchPlayer(currentPlayer.getColour());
         }
     }
 
@@ -152,7 +174,7 @@ public class Hive implements IPublisher{
         selectPiece(getCurrentPlayerHandPieces().get(1));
         movePiece(new Point(0,0));
         selectPiece(getCurrentPlayerHandPieces().get(1));
-        movePiece(new Point(1,1));
+        movePiece(new Point(1,-1));
         selectPiece(getCurrentPlayerHandPieces().get(1));
     }
 }

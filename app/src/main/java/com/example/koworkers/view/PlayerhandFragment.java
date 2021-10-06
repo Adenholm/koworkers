@@ -3,6 +3,10 @@ package com.example.koworkers.view;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,10 +23,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.koworkers.R;
+import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Isubscriber;
+import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +43,16 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
 
     private PlayerhandViewModel mViewModel;
 
+    private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;
+
     private final View.OnClickListener stackListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mViewModel.selectPiece(pieceImageMap.get(v));
+        }
+    };
+
+    private final View.OnClickListener queenListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             mViewModel.selectPiece(pieceImageMap.get(v));
@@ -64,7 +80,22 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     }
 
     @Override
-    public void update() {
+    public void selectPiece(IPiece piece) {
+
+    }
+
+    @Override
+    public void deselectPiece() {
+
+    }
+
+    @Override
+    public void movePiece(IPiece piece, Point point) {
+        populate();
+    }
+
+    @Override
+    public void switchPlayer(Colour colour) {
         populate();
     }
 
@@ -72,6 +103,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
      * creates stacks of pieces and adds to the linear layout
      */
     private void populate(){
+
         ArrayList<ImageView> images = new ArrayList<>();
         boolean stackAlreadyExist = false;
         for (IPiece piece: mViewModel.getPieces()){
@@ -90,16 +122,30 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
                 ImageView newImage = new ImageView(getContext());
                 newImage.setImageResource(piece.getImageResource());
                 newImage.setOnClickListener(stackListener);
-                setLayout(newImage, 20,0,  0,0,  90, 2);
+                setLayout(newImage, 20,0,  0,0,  90);
                 pieceImageMap.put(newImage, piece);
                 numberImageMap.put(newImage, 1);
                 images.add(newImage);
             }
             stackAlreadyExist = false;
         }
+
+        if(mViewModel.queenShouldBePlaced()){
+            for (int i = 1; i < images.size(); i++) {
+                images.get(i).setClickable(false);
+                images.get(i).setAlpha(0.5f);
+            }
+        }else{
+            for (ImageView image : images) {
+                image.setClickable(true);
+                image.setAlpha(1f);
+            }
+        }
+
         handLinearLayout.removeAllViews();
         addToLinearLayout(images);
     }
+
 
     private void addToLinearLayout(ArrayList<ImageView> images){
         for(ImageView image: images){
@@ -114,10 +160,15 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         }
     }
 
-    public void setLayout(View view, int left, int top, int right, int bottom, int size, int dpiRatio){
+    public void setLayout(View view, int left, int top, int right, int bottom, int size){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size * dpiRatio, size * dpiRatio);
         params.setMargins(left*dpiRatio, top*dpiRatio, right*dpiRatio, bottom*dpiRatio);
         view.setLayoutParams(params);
     }
+
+    public void setImage(ImageView image, String pieceName){
+            image.setImageURI(Uri.parse(("android.resource://"+R.class.getPackage().getName()+"/" + "ant_piece.png").toString()));
+    }
+
 
 }

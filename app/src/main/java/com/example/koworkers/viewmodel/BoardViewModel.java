@@ -12,32 +12,14 @@ import com.example.koworkers.model.pieces.IPiece;
 
 import java.util.ArrayList;
 
-public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher {
+public class BoardViewModel extends ViewModel{
 
     private final Hive hive = Hive.getInstance();
 
     ArrayList<Isubscriber> subscribers=new ArrayList<>();
 
-    private final int PIECE_SIZE = 65;
+    private final int PIECE_SIZE = 90;
     private final int RADIE = PIECE_SIZE/2;
-
-
-    //BVM notifierar boardfragment
-    @Override
-    public void subscribe(Isubscriber isubscriber) {
-        subscribers.add(isubscriber);
-    }
-    @Override
-    public void notifySubscribers() {
-        for (Isubscriber subscriber:subscribers) {
-            subscriber.update();
-        }
-    }
-    //BVM notifieras av board
-    @Override
-    public void update() {
-        notifySubscribers();
-    }
 
 
     private  final int r=60; //från hexagonens mitt till hörn
@@ -73,13 +55,9 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
 
     /**
      * returns the calculated coordinates for placement on a view based on the hexagonsystems
-     * @param piece
-     * @return
+     * @param point the point to be converted into a position on the view
+     * @return the calculated coordinate of the position on the view
      */
-    public Point getCoordinates(IPiece piece){
-        return getCoordinates(hive.getPoint(piece));
-    }
-
     public Point getCoordinates(Point point){
         Point coordinate = new Point();
 
@@ -90,17 +68,14 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
         return coordinate;
     }
 
+    public Point getPoint(IPiece piece){ return hive.getPoint(piece);}
+
     public ArrayList<Point> getPossibleMoves(){
         return hive.getPossibleMoves();
     }
 
     public boolean aPieceIsSelected(){
         return hive.aPieceIsSelected();
-    }
-
-
-    public ArrayList<IPiece> getPiecesOnBoard(){
-        return hive.getPiecesOnBoard();
     }
 
     public int getPieceSize() {
@@ -113,5 +88,9 @@ public class BoardViewModel extends ViewModel implements Isubscriber, IPublisher
 
     public void selectPiece(IPiece piece){
         hive.selectPiece(piece);
+    }
+
+    public void deSelectPiece(){
+        hive.deSelectPiece();
     }
 }
