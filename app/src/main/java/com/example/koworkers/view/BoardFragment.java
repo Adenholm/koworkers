@@ -38,7 +38,8 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     private ImageView selectImage;
 
-    private final int OFFSET = 500;
+    private int topOffset = 200;
+    private int leftOffset = 200;
     private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;;
 
     private final View.OnClickListener possibleMovesListener = new View.OnClickListener() {
@@ -88,14 +89,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
         selectImage.setImageResource(R.drawable.possible_move_hexagon); //TODO change picture
     }
 
-    @Override
-    public void update() {
-        boardFrame.removeAllViews();
-        displayBoardPieces();
-        if(mViewModel.aPieceIsSelected()){
-            displayPossibleMoves();
-        }
-    }
 
     @Override
     public void selectPiece(IPiece piece) {
@@ -118,24 +111,18 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
     }
 
-    private void displayBoardPieces(){
-        for(IPiece piece: mViewModel.getPiecesOnBoard()){
-
-        }
-    }
-
     private void displayBoardPiece(IPiece piece, Point point){
         ImageView image;
         if(pieceMap.containsKey(piece)){
             image = pieceMap.get(piece);
-            setLayout(image, mViewModel.getCoordinates(point).getX() + OFFSET, mViewModel.getCoordinates(point).getY() + OFFSET, OFFSET, OFFSET, mViewModel.getPieceSize());
+            setLayout(image, point);
         }else{
             image = new ImageView(getContext());
             image.setImageResource(piece.getImageResource());
             image.setOnClickListener(pieceListener);
             pieceMap.put(piece,image);
             imageMap.put(image, piece);
-            setLayout(image, mViewModel.getCoordinates(point).getX() + OFFSET, mViewModel.getCoordinates(point).getY() + OFFSET, OFFSET, OFFSET, mViewModel.getPieceSize());
+            setLayout(image, point);
             boardFrame.addView(image);
         }
     }
@@ -146,7 +133,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
             ImageView image = new ImageView(getContext());
             image.setImageResource(R.drawable.possible_move_hexagon);
             image.setOnClickListener(possibleMovesListener);
-            setLayout(image, mViewModel.getCoordinates(point).getX() + OFFSET, mViewModel.getCoordinates(point).getY() + OFFSET, OFFSET, OFFSET, mViewModel.getPieceSize());
+            setLayout(image, point);
             possibleMovesMap.put(image, point);
             boardFrame.addView(image);
         }
@@ -158,9 +145,18 @@ public class BoardFragment extends Fragment implements Isubscriber {
         }
     }
 
-    private void setLayout(View view, int left, int top, int right, int bottom, int size){
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size * dpiRatio, size * dpiRatio);
-        params.setMargins(left*dpiRatio, top*dpiRatio, right*dpiRatio, bottom*dpiRatio);
+    private void setLayout(View view, Point point){
+        Point coordinate = mViewModel.getCoordinates(point);
+
+        if(coordinate.getX() + leftOffset < 0 ){
+            leftOffset += 100;
+        }
+        if(coordinate.getY() + topOffset < 0 ){
+            topOffset += 100;
+        }
+
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mViewModel.getPieceSize() * dpiRatio, mViewModel.getPieceSize() * dpiRatio);
+        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 0, 0);
         view.setLayoutParams(params);
     }
 

@@ -112,7 +112,7 @@ public class Board implements IPublisher {
     @Override
     public void notifySubscribers() {
         for (Isubscriber subscriber : subscribers) {
-            subscriber.update();
+            //subscriber.update();
         }
     }
 

@@ -80,11 +80,6 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     }
 
     @Override
-    public void update() {
-        populate();
-    }
-
-    @Override
     public void selectPiece(IPiece piece) {
 
     }

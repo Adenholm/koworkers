@@ -55,13 +55,9 @@ public class BoardViewModel extends ViewModel{
 
     /**
      * returns the calculated coordinates for placement on a view based on the hexagonsystems
-     * @param piece
+     * @param point the point to be converted into a position on the view
      * @return
      */
-    public Point getCoordinates(IPiece piece){
-        return getCoordinates(hive.getPoint(piece));
-    }
-
     public Point getCoordinates(Point point){
         Point coordinate = new Point();
 
@@ -78,11 +74,6 @@ public class BoardViewModel extends ViewModel{
 
     public boolean aPieceIsSelected(){
         return hive.aPieceIsSelected();
-    }
-
-
-    public ArrayList<IPiece> getPiecesOnBoard(){
-        return hive.getPiecesOnBoard();
     }
 
     public int getPieceSize() {
