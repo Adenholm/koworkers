@@ -39,8 +39,8 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private ImageView selectImage;
 
     private int topOffset = 200;
-    private int leftOffset = 200;
-    private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;;
+    private int leftOffset = 150;
+    private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;
 
     private final View.OnClickListener possibleMovesListener = new View.OnClickListener() {
         @Override
@@ -148,16 +148,27 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private void setLayout(View view, Point point){
         Point coordinate = mViewModel.getCoordinates(point);
 
-        if(coordinate.getX() + leftOffset < 0 ){
-            leftOffset += 100;
+        if(coordinate.getX() + leftOffset - 100 < 0 ){
+            leftOffset += 200;
+            updateView();
         }
-        if(coordinate.getY() + topOffset < 0 ){
+        if(coordinate.getY() + topOffset - 100 < 0 ){
             topOffset += 100;
+            updateView();
         }
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mViewModel.getPieceSize() * dpiRatio, mViewModel.getPieceSize() * dpiRatio);
         params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 0, 0);
         view.setLayoutParams(params);
+    }
+
+    private void updateView(){
+        for(View image: imageMap.keySet()){
+            setLayout(image, mViewModel.getPoint(imageMap.get(image)));
+        }
+        for(View image: possibleMovesMap.keySet()){
+            setLayout(image, possibleMovesMap.get(image));
+        }
     }
 
 }

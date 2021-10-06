@@ -56,7 +56,7 @@ public class BoardViewModel extends ViewModel{
     /**
      * returns the calculated coordinates for placement on a view based on the hexagonsystems
      * @param point the point to be converted into a position on the view
-     * @return
+     * @return the calculated coordinate of the position on the view
      */
     public Point getCoordinates(Point point){
         Point coordinate = new Point();
@@ -67,6 +67,8 @@ public class BoardViewModel extends ViewModel{
 
         return coordinate;
     }
+
+    public Point getPoint(IPiece piece){ return hive.getPoint(piece);}
 
     public ArrayList<Point> getPossibleMoves(){
         return hive.getPossibleMoves();
