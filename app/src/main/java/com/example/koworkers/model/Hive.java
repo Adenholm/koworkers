@@ -45,10 +45,23 @@ public class Hive implements IPublisher{
      */
     public void movePiece(Point point){
         if (aPieceIsSelected()){
-            if(getCurrentPlayerHandPieces().contains(selectedPiece)){
+            if(getCurrentPlayerHandPieces().contains(selectedPiece)){ // checks if the selected piece is in the player hand, if so remove it from there
+                if(currentPlayer.thisIsMyQueen(selectedPiece)){     //checks if the selected piece is a queen
+                    if(currentPlayer.getColour() == Colour.BLACK)
+                        board.setBlackQueen(selectedPiece);
+                    else{
+                        board.setWhiteQueen(selectedPiece);
+                    }
+                }
                 currentPlayer.removePiece(selectedPiece);
             }
             board.movePiece(selectedPiece, point);
+
+            if(round > 3 && board.aQueenIsSurrounded()){
+
+            }
+
+
             switchPlayer();
             for(Isubscriber subscriber: subscribers){
                 subscriber.movePiece(selectedPiece, point);
@@ -61,7 +74,7 @@ public class Hive implements IPublisher{
      * checks if provided piece is of same color as currentPlayer, if so then select the provided piece
      * @param piece to be selected
      */
-    public void selectPiece(IPiece piece){
+    public boolean selectPiece(IPiece piece){
         for(Isubscriber subscriber: subscribers){
             subscriber.deselectPiece();
         }
@@ -70,7 +83,9 @@ public class Hive implements IPublisher{
             for(Isubscriber subscriber: subscribers){
                 subscriber.selectPiece(selectedPiece);
             }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -119,13 +134,6 @@ public class Hive implements IPublisher{
         return board.getPoint(piece);
     }
 
-    /**
-     * returns a list with the pieces that are currently on the board
-     * @return pieces that are currently on the board
-     */
-    public ArrayList<IPiece> getPiecesOnBoard(){
-        return board.getPiecesOnBoard();
-    }
 
     /**
      * returns a list of possible positions the selected piece are able to move to

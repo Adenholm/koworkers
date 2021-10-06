@@ -71,4 +71,8 @@ public class PlayerHand {
     public Colour getColour() {
         return colour;
     }
+
+    public boolean thisIsMyQueen(IPiece piece){
+        return piece.equals(queen);
+    }
 }

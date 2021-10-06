@@ -86,8 +86,8 @@ public class BoardViewModel extends ViewModel{
         hive.movePiece(point);
     }
 
-    public void selectPiece(IPiece piece){
-        hive.selectPiece(piece);
+    public boolean selectPiece(IPiece piece){
+        return hive.selectPiece(piece);
     }
 
     public void deSelectPiece(){
