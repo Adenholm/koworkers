@@ -31,7 +31,7 @@ public class Board implements IPublisher {
             if (currentPlayersColour == Colour.WHITE) {
                nemesisColour = Colour.BLACK;
             }
-            possiblePlacements.addAll(getSurroundPlayedPieces(currentPlayersColour));
+            possiblePlacements=checkAdd(possiblePlacements, getSurroundPlayedPieces(currentPlayersColour));
             possiblePlacements = checkRemove(possiblePlacements, getSurroundPlayedPieces(nemesisColour));
             if (playedPieces.size() == 1) { //Om det ligger mer än 2 pieces ute får inte nästa piece läggas ut bredvid en av motståndarens pieces
                 possiblePlacements.addAll(getSurroundPlayedPieces(nemesisColour));
@@ -55,6 +55,19 @@ public class Board implements IPublisher {
             }
         }
         return keep;
+    }
+    public static ArrayList<Point> checkAdd(ArrayList<Point> addTo, ArrayList<Point> addFrom) {
+
+        for (Point point : addFrom) {
+            Point addPoint=point;
+            for (int i=0; i< addTo.size(); i++) {
+                if (addTo.get(i).equals(point)) {
+                    addTo.remove(addTo.get(i));
+                }
+            }
+            addTo.add(addPoint);
+        }
+        return addTo;
     }
 
     private ArrayList<Point> getSurroundPlayedPieces(Colour playerColour) {
