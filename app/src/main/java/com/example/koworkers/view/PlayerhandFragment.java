@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class PlayerhandFragment extends Fragment implements Isubscriber {
 
-    private Map<ImageView, Integer> numberImageMap = new HashMap<>();
+    private final Map<ImageView, Integer> numberImageMap = new HashMap<>();
     private final Map<View, IPiece> imagePieceMap = new HashMap<>();
 
     private ImageView selectImage;

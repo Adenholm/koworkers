@@ -88,6 +88,10 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
         playerTextView = getView().findViewById(R.id.playerTextView);
         playerTextView.setText(Colour.WHITE.toString());
+        playerTextView.setTextColor(getResources().getColor(R.color.white));
+        playerTextView.setTextSize(20);
+        playerTextView.setBackgroundColor(getResources().getColor(R.color.orangeBrown));
+        playerTextView.setBackgroundResource(R.drawable.rounded_corners);
 
         selectImage = new ImageView(getContext());
         selectImage.setImageResource(R.drawable.select_hexagon);
