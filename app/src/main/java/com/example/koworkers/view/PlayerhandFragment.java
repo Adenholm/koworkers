@@ -1,11 +1,8 @@
 package com.example.koworkers.view;
 
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,11 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,15 +24,18 @@ import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerhandFragment extends Fragment implements Isubscriber {
 
-    private Map<ImageView, Integer> numberImageMap = new HashMap<>();
-    private final Map<View, IPiece> pieceImageMap = new HashMap<>();
+    private final Map<ImageView, Integer> numberImageMap = new HashMap<>();
+    private final Map<View, IPiece> imagePieceMap = new HashMap<>();
+
+    private ImageView selectImage;
+
+    private IPiece selectedPiece;
 
     private LinearLayout handLinearLayout;
 
@@ -48,14 +46,14 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     private final View.OnClickListener stackListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mViewModel.selectPiece(pieceImageMap.get(v));
+            mViewModel.selectPiece(imagePieceMap.get(v));
         }
     };
 
     private final View.OnClickListener queenListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mViewModel.selectPiece(pieceImageMap.get(v));
+            mViewModel.selectPiece(imagePieceMap.get(v));
         }
     };
 
@@ -76,17 +74,23 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
 
         handLinearLayout = getView().findViewById(R.id.handLinearLayout);
 
+        selectImage = new ImageView(getContext());
+        selectImage.setImageResource(R.drawable.select_hexagon);
+        setLayout(selectImage, -90, 0,0,0,90);
+
         populate();
     }
 
     @Override
     public void selectPiece(IPiece piece) {
-
+        selectedPiece = piece;
+        populate();
     }
 
     @Override
     public void deselectPiece() {
-
+        selectedPiece = null;
+        populate();
     }
 
     @Override
@@ -108,9 +112,9 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         boolean stackAlreadyExist = false;
         for (IPiece piece: mViewModel.getPieces()){
             for(ImageView image: images){
-                if (pieceImageMap.get(image).getImageResource() == piece.getImageResource()) { //checks if stack already exists
+                if (imagePieceMap.get(image).getImageResource() == piece.getImageResource()) { //checks if stack already exists
                    numberImageMap.put(image, numberImageMap.get(image) + 1);
-                   pieceImageMap.put(image, piece);
+                   imagePieceMap.put(image, piece);
                    stackAlreadyExist = true;
                    if(!images.contains(image)){ //om stacken inte redan finns i imageslistan, lägg till den
                        images.add(image);
@@ -123,7 +127,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
                 newImage.setImageResource(piece.getImageResource());
                 newImage.setOnClickListener(stackListener);
                 setLayout(newImage, 20,0,  0,0,  90);
-                pieceImageMap.put(newImage, piece);
+                imagePieceMap.put(newImage, piece);
                 numberImageMap.put(newImage, 1);
                 images.add(newImage);
             }
@@ -150,7 +154,9 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     private void addToLinearLayout(ArrayList<ImageView> images){
         for(ImageView image: images){
             handLinearLayout.addView(image);
-
+            if(imagePieceMap.get(image) == selectedPiece){
+                handLinearLayout.addView(selectImage);
+            }
             TextView textView1 = new TextView(getContext());
             textView1.setText(numberImageMap.get(image) + "");
             textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -160,15 +166,14 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         }
     }
 
-    public void setLayout(View view, int left, int top, int right, int bottom, int size){
+    private void setLayout(View view, int left, int top, int right, int bottom, int size){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size * dpiRatio, size * dpiRatio);
         params.setMargins(left*dpiRatio, top*dpiRatio, right*dpiRatio, bottom*dpiRatio);
         view.setLayoutParams(params);
     }
 
-    public void setImage(ImageView image, String pieceName){
-            image.setImageURI(Uri.parse(("android.resource://"+R.class.getPackage().getName()+"/" + "ant_piece.png").toString()));
+    private void setImage(ImageView image, String pieceName){
+            image.setImageURI(Uri.parse(("android.resource://"+R.class.getPackage().getName()+"/" + "ant_piece.png")));
     }
-
 
 }

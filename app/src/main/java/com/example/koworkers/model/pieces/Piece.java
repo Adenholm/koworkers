@@ -59,4 +59,13 @@ abstract class Piece implements IPiece{
         return imageResource;
     }
 
+    protected boolean isInList(Point point, ArrayList<Point> points){
+        for(Point listPoint: points){
+            if(point.equals(listPoint)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

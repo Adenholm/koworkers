@@ -30,17 +30,15 @@ public class Beetle extends Piece {
         for(Point point: currentList){
             for(Point surroundpoint: getSurroundingCoordinates(point)) {
                 //checks if the piece is still connected to the hive if it moves to the place
-                if (!surroundpoint.equals(beetlePoint) && boardPositions.contains(surroundpoint) && !possibleMoves.contains(point)) {
+                if (!surroundpoint.equals(beetlePoint) && isInList(surroundpoint, boardPositions) && !isInList(point, possibleMoves)) {
                     possibleMoves.add(point);
                 }
-                else if(boardPositions.contains(point) && !possibleMoves.contains(point)){
-                    possibleMoves.add(point);
-                }
-
+            }
+            if(isInList(point, boardPositions) && !isInList(point, possibleMoves)){
+                possibleMoves.add(point);
             }
         }
         return possibleMoves;
 
     }
-
 }
