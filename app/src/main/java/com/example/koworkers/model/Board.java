@@ -96,7 +96,10 @@ public class Board implements IPublisher {
      * @return en arrayList av möjliga points att flytta till
      */
     public ArrayList<Point> getPossibleMoves(IPiece piece) {
-        return piece.getPossibleMoves(new ArrayList<>(playedPieces.values()));
+        ArrayList<Point> boardPoints = new ArrayList<>(playedPieces.values());
+        boardPoints.remove(playedPieces.get(piece));
+        boardPoints.add(0, playedPieces.get(piece));
+        return piece.getPossibleMoves(boardPoints);
     }
 
     private final ArrayList<Isubscriber> subscribers = new ArrayList<>();
