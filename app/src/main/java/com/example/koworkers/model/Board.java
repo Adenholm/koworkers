@@ -8,14 +8,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+/**
+ * A class representing the board of the game. Holds the pieces and their position. Moves and places pieces on the board.
+ * @Author Qwinth, Adenholm, Hansson
+ */
 public class Board implements IPublisher {
 
     private final HashMap<IPiece, Point> playedPieces = new HashMap<>(); //Hashmap med piece som key
 
     /**
-     * Kollar var man kan placera ut en ny piece, om inga anna pieces är utplacerade kan man endast placera ut på 0,0, origo
+     * Checks where it possible to place a new piece. The first piece is only able to be placed in origo
      *
-     * @return en lista med möjliga platser att placera ut en ny piece på
+     * @return a list with possible placements
      */
     public ArrayList<Point> getPossibleplacements(Colour currentPlayersColour) {
         Collection<Point> colPlayedPoint = playedPieces.values();
@@ -23,17 +27,17 @@ public class Board implements IPublisher {
 
         ArrayList<Point> possiblePlacements = new ArrayList<>();
 
-        if (playedPieces.size() == 0) {//Om det inte ligger några pieces ute hamnar första piecen som läggs ut på 0,0, origo
+        if (playedPieces.size() == 0) {
             possiblePlacements.add(new Point(0, 0));
         } else {
             Colour nemesisColour=Colour.WHITE;
             if (currentPlayersColour == Colour.WHITE) {
                nemesisColour = Colour.BLACK;
             }
-            possiblePlacements=checkAdd(possiblePlacements, getSurroundPlayedPieces(currentPlayersColour));
-            possiblePlacements = checkRemove(possiblePlacements, getSurroundPlayedPieces(nemesisColour));
-            if (playedPieces.size() == 1) { //Om det ligger mer än 2 pieces ute får inte nästa piece läggas ut bredvid en av motståndarens pieces
-                possiblePlacements.addAll(getSurroundPlayedPieces(nemesisColour));
+            possiblePlacements=checkAdd(possiblePlacements, getSurroundOnePlayerPieces(currentPlayersColour));
+            possiblePlacements = checkRemove(possiblePlacements, getSurroundOnePlayerPieces(nemesisColour));
+            if (playedPieces.size() == 1) { //If there is less than three played pieces, you can place a piece beside your nemesis's piece.
+                possiblePlacements.addAll(getSurroundOnePlayerPieces(nemesisColour));
             }
             possiblePlacements = checkRemove(possiblePlacements, playedPoints);
 
@@ -43,10 +47,16 @@ public class Board implements IPublisher {
         return possiblePlacements;
     }
 
-    public static ArrayList<Point> checkRemove(ArrayList<Point> keep, ArrayList<Point> remove) {
+    /**
+     * Checks if the elements of a list has the equal element as another list and in that case removes them
+     * @param keep a list of the elements which will be removed from
+     * @param remove a list of element which will be removed from keep
+     * @return keep but without the elements in remove
+     */
+    private ArrayList<Point> checkRemove(ArrayList<Point> keep, ArrayList<Point> remove) {
 
         for (Point point : remove) {
-            for (int i=0; i< keep.size(); i++) {
+            for (int i=0; i< keep.size(); i++) { //Shouldn't be replaced with an enhanced for-loop! :)
                Point keepPoint= keep.get(i);
                 if (keepPoint.equals(point)) {
                     keep.remove(keepPoint);
@@ -55,29 +65,40 @@ public class Board implements IPublisher {
         }
         return keep;
     }
-    public static ArrayList<Point> checkAdd(ArrayList<Point> addTo, ArrayList<Point> addFrom) {
+
+    /**
+     * A method which adds elements from one list to another if they doesn't exist in that list
+     * @param addTo the list which will be added to
+     * @param addFrom the list which will be added from
+     * @return addTo with the elements from addFrom
+     */
+    private ArrayList<Point> checkAdd(ArrayList<Point> addTo, ArrayList<Point> addFrom) {
 
         for (Point point : addFrom) {
-            Point addPoint=point;
-            for (int i=0; i< addTo.size(); i++) {
+            for (int i=0; i< addTo.size(); i++) { //Shouldn't be replaced with an enhanced for-loop.
                 if (addTo.get(i).equals(point)) {
                     addTo.remove(addTo.get(i));
                 }
             }
-            addTo.add(addPoint);
+            addTo.add(point);
         }
         return addTo;
     }
 
-    private ArrayList<Point> getSurroundPlayedPieces(Colour playerColour) {
+    /**
+     * A method which gives the surrounding points for played pieces of one colour.
+     * @param playerColour the colour of the pieces which SurroundingPlayedPieces will surround
+     * @return a list of the surrounding points for one players played pieces.
+     */
+    private ArrayList<Point> getSurroundOnePlayerPieces(Colour playerColour) {
         ArrayList<Point> surroundingPlayedPieces = new ArrayList<>();
 
-        for (IPiece pie : playedPieces.keySet()) { //går igenom alla utlagda pieces
-            if (pie.getColour() == playerColour) {//kollar om pie är spelarens färg, pie är en piece i playedPieces
+        for (IPiece pie : playedPieces.keySet()) {
+            if (pie.getColour() == playerColour) {
 
-                for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie)))//Går igenom pies surrounding coordinates
+                for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie)))//Goes through the surrounding coordinates for every piece on the board
 
-                    if (!surroundingPlayedPieces.contains(surroundingPoint)) { //Om punkten inte finns läggs den till
+                    if (!surroundingPlayedPieces.contains(surroundingPoint)) {
                         surroundingPlayedPieces.add(surroundingPoint);
                     }
                 }
@@ -88,18 +109,14 @@ public class Board implements IPublisher {
 
 
     /**
-     * Kopplar en piece till en point i playedPieces som representerar de utlagda pieces
+     * Adds a piece as a key and a point as it's value in PlayedPieces
      *
-     * @param piece piece som läggs ut
-     * @param point point som den läggs på
+     * @param piece the added piece
+     * @param point the added point
      */
     public void movePiece(IPiece piece, Point point) {
-        playedPieces.put(piece, point); //Tar en ny position och kopplar till piece å ändrar på så sätt piece-position.
-        //kalla på boardViewModel.placement för att lägga till piecen i viewCoordinates
-        notifySubscribers(); //notifierar BVM
-      /*  if(isWinner()){
-        }*/
-
+        playedPieces.put(piece, point);
+        notifySubscribers();
     }
 
     /**
@@ -117,7 +134,7 @@ public class Board implements IPublisher {
 
     private final ArrayList<Isubscriber> subscribers = new ArrayList<>();
 
-    //Board notifierar BVM
+    //Board notifies BMV
     @Override
     public void subscribe(Isubscriber isubscriber) {
 
@@ -143,7 +160,7 @@ public class Board implements IPublisher {
 
     /**
      * Checks if the queens surrounding coordinates exist in playedPieces
-     * @return true if one of the queens been surrounding
+     * @return true if one of the queens been surrounded
      */
     boolean aQueenIsSurrounded (){
         for (Point point:blackQueen.getSurroundingCoordinates(playedPieces.get(blackQueen))){

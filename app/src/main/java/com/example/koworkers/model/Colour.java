@@ -1,5 +1,8 @@
 package com.example.koworkers.model;
 
+/**
+ * The colour of the players and pieces
+ */
 public enum Colour {
     WHITE{
         @Override

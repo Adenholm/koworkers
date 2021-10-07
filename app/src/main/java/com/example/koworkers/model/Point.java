@@ -1,5 +1,9 @@
 package com.example.koworkers.model;
 
+/**
+ * A point. has a x-coordinate and a y-coordinate.
+ * @Author Qwinth
+ */
 public class Point {
     private int x;
     private int y;
