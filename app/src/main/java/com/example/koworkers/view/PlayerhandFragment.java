@@ -28,10 +28,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The view that represents the PlayerHand
+ *
+ * @author Hanna Adenholm
+ */
 public class PlayerhandFragment extends Fragment implements Isubscriber {
 
-    private final Map<ImageView, Integer> numberImageMap = new HashMap<>();
-    private final Map<View, IPiece> imagePieceMap = new HashMap<>();
+    private final Map<ImageView, Integer> numberImageMap = new HashMap<>(); // HashMap with the number of pieces there are in each stack
+    private final Map<View, IPiece> imagePieceMap = new HashMap<>();        // HashMap of images with the piece that are "on top" of the stack
 
     private ImageView selectImage;
 
@@ -44,13 +49,6 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;
 
     private final View.OnClickListener stackListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mViewModel.selectPiece(imagePieceMap.get(v));
-        }
-    };
-
-    private final View.OnClickListener queenListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             mViewModel.selectPiece(imagePieceMap.get(v));
@@ -82,29 +80,29 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     }
 
     @Override
-    public void selectPiece(IPiece piece) {
+    public void pieceWasSelected(IPiece piece) {
         selectedPiece = piece;
         populate();
     }
 
     @Override
-    public void deselectPiece() {
+    public void pieceWasDeselected() {
         selectedPiece = null;
         populate();
     }
 
     @Override
-    public void movePiece(IPiece piece, Point point) {
+    public void pieceWasMoved(IPiece piece, Point point) {
         populate();
     }
 
     @Override
-    public void switchPlayer(Colour colour) {
+    public void playerWasChanged(Colour colour) {
         populate();
     }
 
     /**
-     * creates stacks of pieces and adds to the linear layout
+     * Creates stacks of pieces and adds to the linear layout.
      */
     private void populate(){
 
@@ -172,7 +170,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         view.setLayoutParams(params);
     }
 
-    private void setImage(ImageView image, String pieceName){
+    private void setImage(ImageView image, String pieceName){ //TODO fix so that we can remove models dependency on view
             image.setImageURI(Uri.parse(("android.resource://"+R.class.getPackage().getName()+"/" + "ant_piece.png")));
     }
 

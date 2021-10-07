@@ -16,6 +16,10 @@ public class Board implements IPublisher {
 
     private final HashMap<IPiece, Point> playedPieces = new HashMap<>(); //Hashmap med piece som key
 
+    private IPiece blackQueen;
+    private IPiece whiteQueen;
+    private String winner;
+
     /**
      * Checks where it possible to place a new piece. The first piece is only able to be placed in origo
      *
@@ -120,10 +124,10 @@ public class Board implements IPublisher {
     }
 
     /**
-     * Kallar på piece getPossibleMoves för att kolla var en piece kan flyttas
+     * Returns a list of Possible moves for the specified Piece.
      *
-     * @param piece piece som ska flyttas på
-     * @return en arrayList av möjliga points att flytta till
+     * @param piece Piece to be moved.
+     * @return A list of possible positions to move to,
      */
     public ArrayList<Point> getPossibleMoves(IPiece piece) {
         ArrayList<Point> boardPoints = new ArrayList<>(playedPieces.values());
@@ -154,23 +158,21 @@ public class Board implements IPublisher {
         }
     }
 
+
     /**
-     * Gives the point in which a piece is placed
-     * @param piece the piece which position is given
-     * @return the point in which the piece is placed in
+     * Returns the point where the provided piece is placed.
+     *
+     * @param piece Piece you want to know position of
+     * @return The point where the provided piece is placed.
      */
     public Point getPoint(IPiece piece) {
         return playedPieces.get(piece);
     }
 
 
-    private IPiece blackQueen;
-    private IPiece whiteQueen;
-    private String winner;
-
     /**
-     * Checks if the queens surrounding coordinates exist in playedPieces
-     * @return true if one of the queens been surrounded
+     * Checks if the queens surrounding coordinates exist in playedPieces.
+     * @return true if one of the queens been surrounding.
      */
     boolean aQueenIsSurrounded (){
         for (Point point:blackQueen.getSurroundingCoordinates(playedPieces.get(blackQueen))){
@@ -188,24 +190,24 @@ public class Board implements IPublisher {
     }
 
     /**
-     * get who is the winner
-     * @return a string with the winner written in it
+     * Returns a string with the winner.
+     * @return String with the winner.
      */
     public String getWinner() {
         return winner;
     }
 
     /**
-     * Sets a piece in the blackQueen-variable (preferably the black Queen)
-     * @param blackQueen the piece set to blackQueen
+     * Sets the black queen.
+     * @param blackQueen the piece to be set as the black queen
      */
     public void setBlackQueen(IPiece blackQueen) {
         this.blackQueen = blackQueen;
     }
 
     /**
-     * Sets a piece in the whiteQueen-variable (preferably the white Queen)
-     * @param whiteQueen the piece set to whiteQueen
+     * Sets the white queen.
+     * @param whiteQueen the piece to be set as the white queen
      */
     public void setWhiteQueen(IPiece whiteQueen) {
         this.whiteQueen = whiteQueen;
