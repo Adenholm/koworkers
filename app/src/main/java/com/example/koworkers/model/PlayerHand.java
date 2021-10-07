@@ -5,11 +5,20 @@ import com.example.koworkers.model.pieces.PieceFactory;
 
 import java.util.ArrayList;
 
+/**
+ * Represents the players hand of pieces that they are able to place
+ * @author Hanna Adenholm
+ */
 public class PlayerHand {
     private final ArrayList<IPiece> pieces = new ArrayList<>();
     private IPiece queen;
     private final Colour colour;
 
+    /**
+     * Constructor for playerhand that adds the standard beginning set of pieces and sets the players colour.
+     *
+     * @param colour The players colour.
+     */
     public PlayerHand(Colour colour){
         this.colour = colour;
         PieceFactory pieceFactory = new PieceFactory();
@@ -35,9 +44,10 @@ public class PlayerHand {
     }
 
     /**
-     * removes the provided piece from the playerhand, returns true if succes, false if fail
-     * @param piece the piece to be removed
-     * @return boolean
+     * Removes the provided piece from the playerhand, returns true if succes, false if fail.
+     *
+     * @param piece The piece to be removed
+     * @return boolean Return true if success
      */
     public boolean removePiece(IPiece piece){
         if(piece.equals(queen)){
@@ -48,7 +58,8 @@ public class PlayerHand {
     }
 
     /**
-     * checks wether the queen has been played or not
+     * Checks whether the queen has been played or not.
+     *
      * @return true if queen has been played
      */
     public boolean queenHasBeenPlayed(){
@@ -56,7 +67,8 @@ public class PlayerHand {
     }
 
     /**
-     * returns a copy of the Piece list with the queen first in the list if it hasn't already been played
+     * Returns a copy of the Piece list with the queen first in the list if it hasn't already been played.
+     *
      * @return copy of pieceList in playerhand
      */
     public ArrayList<IPiece> getPieces(){
@@ -68,10 +80,21 @@ public class PlayerHand {
         return newPieceList;
     }
 
+    /**
+     * Returns the players colour
+     *
+     * @return The players colour
+     */
     public Colour getColour() {
         return colour;
     }
 
+    /**
+     * Returns true if the provided piece is the players queen
+     *
+     * @param piece The piece to be checked
+     * @return True if piece is the players queen
+     */
     public boolean thisIsMyQueen(IPiece piece){
         return piece.equals(queen);
     }

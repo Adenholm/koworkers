@@ -26,6 +26,11 @@ import java.util.Map;
 
 import com.example.koworkers.viewmodel.BoardViewModel;
 
+/**
+ * The view that represents the board.
+ *
+ * @author Hanna Adenholm
+ */
 public class BoardFragment extends Fragment implements Isubscriber {
 
     private BoardViewModel mViewModel;
@@ -33,16 +38,16 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private FrameLayout boardFrame;
     private TextView playerTextView;
 
-    private final Map<IPiece, ImageView> pieceMap = new HashMap<>();
-    private final Map<View, IPiece> imageMap = new HashMap<>();
+    private final Map<IPiece, ImageView> pieceMap = new HashMap<>();    //map of pieces and images
+    private final Map<View, IPiece> imageMap = new HashMap<>();         //inverse pieceMap instead of a biMap
 
-    private final Map<View, Point> possibleMovesMap = new HashMap<>();
+    private final Map<View, Point> possibleMovesMap = new HashMap<>();  //a Map for the possible moves images
 
-    private ImageView selectImage;
+    private ImageView selectImage;                                      // the image that shows which piece is selected
 
-    private int topOffset = 400;
-    private int leftOffset = 150;
-    private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;
+    private int topOffset = 400;                                        //the offset that the pieces have from the top of the board
+    private int leftOffset = 150;                                       // the offset that the pieces have from the left of the board
+    private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density; //the ratio to convert from pixels to dpi for the program to be portable to other devices
 
     private final View.OnClickListener possibleMovesListener = new View.OnClickListener() {
         @Override
@@ -68,9 +73,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
         }
     };
 
-    public static BoardFragment newInstance() {
-        return new BoardFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -97,26 +99,45 @@ public class BoardFragment extends Fragment implements Isubscriber {
         selectImage.setImageResource(R.drawable.select_hexagon);
     }
 
-
+    /**
+     * Displays the possible moves for the selected piece.
+     *
+     * @param piece The selected piece
+     */
     @Override
-    public void selectPiece(IPiece piece) {
+    public void pieceWasSelected(IPiece piece) {
         displayPossibleMoves();
     }
 
+    /**
+     * Removes the possible moves and removes the selection.
+     */
     @Override
-    public void deselectPiece() {
+    public void pieceWasDeselected() {
         removePossibleMoves();
         boardFrame.removeView(selectImage);
    }
 
+    /**
+     * Moves the provided piece on the board to the provided point.
+     *
+     * @param piece The piece to be moved.
+     * @param point The point where the piece should be moved.
+     */
     @Override
-    public void movePiece(IPiece piece, Point point){
+    public void pieceWasMoved(IPiece piece, Point point){
         displayBoardPiece(piece, point);
     }
 
+    /**
+     * Changes the playerTextView to show which players turn it is.
+     *
+     * @param colour The colour of the current player.
+     */
     @Override
-    public void switchPlayer(Colour colour) {
+    public void playerWasChanged(Colour colour) {
         playerTextView.setText(colour.toString());
+
     }
 
     private void displayBoardPiece(IPiece piece, Point point){
@@ -161,7 +182,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
             leftOffset += 200;
             updateView();
         }
-        if(coordinate.getY() + topOffset - 100 < 0 ){
+        if(coordinate.getY() + topOffset - 200 < 0 ){
             topOffset += 100;
             updateView();
         }
