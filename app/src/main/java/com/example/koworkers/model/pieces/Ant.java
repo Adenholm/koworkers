@@ -8,8 +8,16 @@ import com.example.koworkers.model.Colour;
 
 import java.util.ArrayList;
 
+/** The ant piece
+ * The ant have an unlimited amount of steps, and can move around the hive in any direction
+ * @author Stina Hansson
+ */
 public class Ant extends Piece {
 
+    /**
+     * Creates an ant
+     * @param colour The player's colour
+     */
     public Ant(Colour colour){
         super(colour);
         if(colour == Colour.BLACK){

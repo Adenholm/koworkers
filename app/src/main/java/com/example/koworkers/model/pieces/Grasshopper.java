@@ -7,8 +7,17 @@ import com.example.koworkers.model.Colour;
 
 import java.util.ArrayList;
 
+/** The grasshopper piece
+ * The grasshopper can jump over the hive on a straight line, diagonal or vertical
+ * @author Stina Hansson
+ * @author Hanna Adenholm
+ */
 public class Grasshopper extends Piece {
 
+    /**
+     * Creates a grasshopper
+     * @param colour The player's colour
+     */
     public Grasshopper(Colour colour){
         super(colour);
         if(colour == Colour.BLACK){

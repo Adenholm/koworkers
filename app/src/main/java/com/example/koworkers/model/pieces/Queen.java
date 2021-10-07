@@ -7,13 +7,17 @@ import com.example.koworkers.model.Colour;
 
 import java.util.ArrayList;
 
-/** The Queen piece
+/** The queen piece
  * The queen must be one of the three first to be placed
- *
+ * The queen can only move one step at a time
  * @author Stina Hansson
  */
 public class Queen extends Piece {
 
+    /**
+     * Creates a queen
+     * @param colour The player's colour
+     */
     public Queen(Colour colour){
         super(colour);
         if(colour == Colour.BLACK){
