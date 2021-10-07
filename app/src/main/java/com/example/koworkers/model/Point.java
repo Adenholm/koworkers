@@ -26,7 +26,7 @@ public class Point {
     }
 
     /**
-     * to get x
+     * return the x-coordinate
      * @return the x-coordinate
      */
     public int getX() {
@@ -34,7 +34,7 @@ public class Point {
     }
 
     /**
-     * to get y
+     * return the y-coordinate
      * @return the y-coordinate
      */
     public int getY() {
