@@ -5,6 +5,10 @@ package com.example.koworkers.model;
  * @Author Qwinth
  */
 public interface IPublisher {
+    /**
+     * add a subscriber to the subsriberlist
+     * @param isubscriber the subscriber to be added
+     */
     void subscribe(Isubscriber isubscriber);
 
     void notifySubscribers();

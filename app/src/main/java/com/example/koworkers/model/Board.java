@@ -134,13 +134,19 @@ public class Board implements IPublisher {
 
     private final ArrayList<Isubscriber> subscribers = new ArrayList<>();
 
-    //Board notifies BMV
+    /**
+     * adds a subscriber subscribers
+     * @param isubscriber the subscriber to be added
+     */
     @Override
     public void subscribe(Isubscriber isubscriber) {
 
         subscribers.add(isubscriber);
     }
 
+    /**
+     * Notifyes the subscribers in subscribers
+     */
     @Override
     public void notifySubscribers() {
         for (Isubscriber subscriber : subscribers) {
@@ -148,7 +154,11 @@ public class Board implements IPublisher {
         }
     }
 
-
+    /**
+     * Gives the point in which a piece is placed
+     * @param piece the piece which position is given
+     * @return the point in which the piece is placed in
+     */
     public Point getPoint(IPiece piece) {
         return playedPieces.get(piece);
     }
@@ -177,14 +187,26 @@ public class Board implements IPublisher {
        return false;
     }
 
+    /**
+     * get who is the winner
+     * @return a string with the winner written in it
+     */
     public String getWinner() {
         return winner;
     }
 
+    /**
+     * Sets a piece in the blackQueen-variable (preferably the black Queen)
+     * @param blackQueen the piece set to blackQueen
+     */
     public void setBlackQueen(IPiece blackQueen) {
         this.blackQueen = blackQueen;
     }
 
+    /**
+     * Sets a piece in the whiteQueen-variable (preferably the white Queen)
+     * @param whiteQueen the piece set to whiteQueen
+     */
     public void setWhiteQueen(IPiece whiteQueen) {
         this.whiteQueen = whiteQueen;
     }
