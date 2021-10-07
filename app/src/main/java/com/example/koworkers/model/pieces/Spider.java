@@ -34,15 +34,14 @@ public class Spider extends Piece {
 
 
     private ArrayList<Point> calculateMoves(ArrayList<Point> boardPositions, Point startPosition){
+        Point spiderPosition = boardPositions.get(0);
         ArrayList<Point> possibleMoves = new ArrayList<>();
         ArrayList<Point> currentList = getSurroundingCoordinates(startPosition);
-        for(int i=0;i<currentList.size();i++){
-            //checks if the piece is still connected to the hive if it moves to the place, and makes sure the place isn't already occupied
-            //kollar också så att den inte tror att spindelns originalposition fortfarande är en del av hive, alltså att den tror att den är connected till hive fast den inte är det
-            for(int j=0;j<getSurroundingCoordinates(currentList.get(i)).size();j++){
-                Point currentSurroundingCoordinate = getSurroundingCoordinates(currentList.get(i)).get(j);
-                if(boardPositions.contains(currentSurroundingCoordinate) && !currentSurroundingCoordinate.equals(boardPositions.get(0)) && !boardPositions.contains(currentList.get(i))){
-                    possibleMoves.add(currentList.get(i));
+        //checks if the piece is still connected to the hive if it moves to the place, and makes sure the place isn't already occupied
+        for(Point point:currentList){
+            for(Point surroundPoint:getSurroundingCoordinates(point)){
+                if(isInList(surroundPoint,boardPositions) && !surroundPoint.equals(spiderPosition) && !isInList(point,boardPositions)){
+                    possibleMoves.add(point);
                 }
             }
         }

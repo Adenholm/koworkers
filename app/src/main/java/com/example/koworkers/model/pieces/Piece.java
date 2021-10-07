@@ -7,13 +7,26 @@ import com.example.koworkers.model.Colour;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/** The superclass to all different pieces
+ * @author Stina Hansson
+ * @author Hanna Adenholm
+ */
 abstract class Piece implements IPiece{
     private final Colour colour;
     private int imageResource;
 
+    /**
+     *Constructor that sets the colour for the piece
+     * @param colour The colour
+     */
     protected Piece(Colour colour) {
         this.colour = colour;
     }
+
+    /**
+     * Sets the image for a piece
+     * @param img The image
+     */
     protected void setImageResource(int img){
         imageResource = img;
     }
@@ -41,6 +54,11 @@ abstract class Piece implements IPiece{
         return currentMoves;
     }
 
+    //TODO add method that checks if a piece is stuck, and therefore can't move
+
+    //TODO add method that makes sure that a piece can't move if moving the piece means that the hive is not cohesive
+
+
     /**
      * Returns the colour of the piece
      * @return A colour
@@ -59,6 +77,12 @@ abstract class Piece implements IPiece{
         return imageResource;
     }
 
+    /**
+     * Checks if a certain position is in a list
+     * @param point The point that is searched for
+     * @param points The list that is searched within
+     * @return
+     */
     protected boolean isInList(Point point, ArrayList<Point> points){
         for(Point listPoint: points){
             if(point.equals(listPoint)){
