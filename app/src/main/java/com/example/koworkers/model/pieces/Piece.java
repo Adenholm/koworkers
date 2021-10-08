@@ -81,7 +81,7 @@ abstract class Piece implements IPiece{
      * Checks if a certain position is in a list
      * @param point The point that is searched for
      * @param points The list that is searched within
-     * @return
+     * @return True if the point is in the list, and false otherwise
      */
     protected boolean isInList(Point point, ArrayList<Point> points){
         for(Point listPoint: points){
