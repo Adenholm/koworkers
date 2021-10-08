@@ -35,16 +35,19 @@ public class Grasshopper extends Piece {
         ArrayList<Point> possibleMoves = new ArrayList<>();
         for(int i= 1;i<boardPositions.size();i++){
             Point currentPoint = boardPositions.get(i);
-            //checks if the current point is on a straight line (diagonal or vertical) from the start position
-            if(grassPosition.getX() == currentPoint.getX() && !boardPositions.contains(currentPoint)){
-                possibleMoves.add(currentPoint);
+            for(Point surroundPoint:getSurroundingCoordinates(currentPoint)){
+                //checks if the current point is on a straight line (diagonal or vertical) from the start position
+                if(grassPosition.getX() == surroundPoint.getX() && !isInList(surroundPoint,boardPositions)){
+                    possibleMoves.add(surroundPoint);
+                }
+                else if(surroundPoint.getX()+surroundPoint.getY() == boardPositions.get(0).getX()+boardPositions.get(0).getY() && !isInList(surroundPoint,boardPositions)){
+                    possibleMoves.add(surroundPoint);
+                }
+                else if(grassPosition.getY() == surroundPoint.getY() && !isInList(surroundPoint,boardPositions)){
+                    possibleMoves.add(surroundPoint);
+                }
             }
-            else if(currentPoint.getX()+currentPoint.getY() == boardPositions.get(0).getX()+boardPositions.get(0).getY() && !boardPositions.contains(currentPoint)){
-                possibleMoves.add(currentPoint);
-            }
-            else if(grassPosition.getY() == currentPoint.getY() && !boardPositions.contains(currentPoint)){
-                possibleMoves.add(currentPoint);
-            }
+
         }
         return possibleMoves;
     }
