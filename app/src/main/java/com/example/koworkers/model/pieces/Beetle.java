@@ -6,8 +6,17 @@ import com.example.koworkers.model.Colour;
 
 import java.util.ArrayList;
 
+/** The beetle piece
+ * The beetle can only move one step at the time, but can also jump oon top of other pieces, which then locks that piec
+ * @author Stina Hansson
+ * @author Hanna Adenholm
+ */
 public class Beetle extends Piece {
 
+    /**
+     * Creates a beetle
+     * @param colour The player's colour
+     */
     public Beetle(Colour colour){
         super(colour);
         setName("beetle");
