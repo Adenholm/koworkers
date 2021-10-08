@@ -21,26 +21,25 @@ public class PlayerHand {
      */
     public PlayerHand(Colour colour){
         this.colour = colour;
-        PieceFactory pieceFactory = new PieceFactory();
-        queen = pieceFactory.createNewQueen(colour);
+        queen = PieceFactory.createNewQueen(colour);
 
         //add 3 ants
         for (int i = 0; i < 3; i++) {
-            pieces.add(pieceFactory.createNewAnt(colour));
+            pieces.add(PieceFactory.createNewAnt(colour));
         }
 
         //add 3 grasshoppers
         for (int i = 0; i < 3; i++) {
-            pieces.add(pieceFactory.createNewGrasshopper(colour));
+            pieces.add(PieceFactory.createNewGrasshopper(colour));
         }
 
         // add 2 spiders
-        pieces.add(pieceFactory.createNewSpider(colour));
-        pieces.add(pieceFactory.createNewSpider(colour));
+        pieces.add(PieceFactory.createNewSpider(colour));
+        pieces.add(PieceFactory.createNewSpider(colour));
 
         // add 2 beetles
-        pieces.add(pieceFactory.createNewBeetle(colour));
-        pieces.add(pieceFactory.createNewBeetle(colour));
+        pieces.add(PieceFactory.createNewBeetle(colour));
+        pieces.add(PieceFactory.createNewBeetle(colour));
     }
 
     /**
