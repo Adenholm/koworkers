@@ -1,6 +1,7 @@
 package com.example.koworkers.view;
 
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -147,7 +148,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
             setLayout(image, point);
         }else{
             image = new ImageView(getContext());
-            image.setImageResource(piece.getImageResource());
+            setPieceImage(image, piece);
             image.setOnClickListener(pieceListener);
             pieceMap.put(piece,image);
             imageMap.put(image, piece);
@@ -199,6 +200,19 @@ public class BoardFragment extends Fragment implements Isubscriber {
         for(View image: possibleMovesMap.keySet()){
             setLayout(image, possibleMovesMap.get(image));
         }
+    }
+
+    private void setPieceImage(ImageView image, IPiece piece){
+
+        String pkgName = getContext().getPackageName();
+        if(piece.getColour() == Colour.WHITE){
+            Uri path = Uri.parse("android.resource://"+pkgName+"/drawable/" + piece.getName() + "_piece");
+            image.setImageURI(path);
+        }else{
+            Uri path = Uri.parse("android.resource://"+pkgName+"/drawable/black_" + piece.getName() + "_piece");
+            image.setImageURI(path);
+        }
+
     }
 
 }
