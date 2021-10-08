@@ -4,9 +4,14 @@ import com.example.koworkers.model.pieces.IPiece;
 
 import java.util.ArrayList;
 
+/**
+ * Represents the game, has a board and two playerhands
+ *
+ * @author Hanna Adenholm
+ */
 public class Hive implements IPublisher{
 
-    private static Hive instance = null;
+    private static Hive instance = null; //TODO remove singleton pattern
 
     private final Board board = new Board();
     private final PlayerHand blackHand = new PlayerHand(Colour.BLACK);
@@ -14,11 +19,11 @@ public class Hive implements IPublisher{
 
     private PlayerHand currentPlayer;
 
-    private int round = 1;
+    private int round = 1; //number of rounds that has been played
 
-    private IPiece selectedPiece;
+    private IPiece selectedPiece; //the currently selected piece
 
-    private final ArrayList<Isubscriber> subscribers = new ArrayList<>();
+    private final ArrayList<Isubscriber> subscribers = new ArrayList<>(); // a list of subscibers
 
     /**
      * Constructor that should never be called, use getInstance() instead.
@@ -40,8 +45,10 @@ public class Hive implements IPublisher{
 
 
     /**
-     * moves the selected Piece to the provided position on the board and changes to the other players turn.
-     * @param point point where piece should be moved
+     * Moves the selected Piece to the provided position on the board and changes to the other players turn.
+     * Also removes the selected piece from the playerhand if the selected piece is in there and checks if a player has won the game.
+     *
+     * @param point Point where piece should be moved.
      */
     public void movePiece(Point point){
         if (aPieceIsSelected()){
@@ -57,31 +64,34 @@ public class Hive implements IPublisher{
             }
             board.movePiece(selectedPiece, point);
 
-            if(round > 3 && board.aQueenIsSurrounded()){
+            if(round > 3 && board.aQueenIsSurrounded()){ //TODO alert subscribers and create win view
 
             }
 
 
             switchPlayer();
             for(Isubscriber subscriber: subscribers){
-                subscriber.movePiece(selectedPiece, point);
+                subscriber.pieceWasMoved(selectedPiece, point);
             }
             deSelectPiece();
         }
     }
 
     /**
-     * checks if provided piece is of same color as currentPlayer, if so then select the provided piece
-     * @param piece to be selected
+     * Checks if provided piece is of same color as currentPlayer, if so then select the provided piece.
+     * Returns true if success
+     *
+     * @param piece To be selected.
+     * @return True if success.
      */
     public boolean selectPiece(IPiece piece){
         for(Isubscriber subscriber: subscribers){
-            subscriber.deselectPiece();
+            subscriber.pieceWasDeselected();
         }
         if(piece.getColour().equals(currentPlayer.getColour()) && (!playersQueenShouldBePlaced() || currentPlayer.thisIsMyQueen(piece))){
             selectedPiece = piece;
             for(Isubscriber subscriber: subscribers){
-                subscriber.selectPiece(selectedPiece);
+                subscriber.pieceWasSelected(selectedPiece);
             }
             return true;
         }
@@ -89,18 +99,19 @@ public class Hive implements IPublisher{
     }
 
     /**
-     * deselects the currently selected piece
+     * Deselects the currently selected piece.
      */
     public void deSelectPiece(){
         for(Isubscriber subscriber: subscribers) {
-            subscriber.deselectPiece();
+            subscriber.pieceWasDeselected();
         }
         selectedPiece = null;
     }
 
     /**
-     * returns true if a piece is selected
-     * @return true if a piece is selected
+     * Returns true if a piece is selected.
+     *
+     * @return True if a piece is selected.
      */
     public boolean aPieceIsSelected(){
         return selectedPiece != null;
@@ -109,8 +120,9 @@ public class Hive implements IPublisher{
 
 
     /**
-     * checks wheter the current Players queen should be placed.
-     * @return true if the player has played 3 turns and still haven't placed their queen
+     * Checks whether the current Players queen should be placed.
+     *
+     * @return True if the player has played 3 turns and still haven't placed their queen.
      */
     public boolean playersQueenShouldBePlaced(){
         return !currentPlayer.queenHasBeenPlayed() && round == 3;
@@ -118,17 +130,19 @@ public class Hive implements IPublisher{
 
 
     /**
-     * returns a list with the current players pieces with the queen first in the list if it hasn't already been played
-     * @return current players pieces
+     * Returns a list with the current players pieces with the queen first in the list if it hasn't already been played.
+     *
+     * @return Current players pieces in hand.
      */
     public ArrayList<IPiece> getCurrentPlayerHandPieces(){
         return currentPlayer.getPieces();
     }
 
     /**
-     * returns the position the provided piece has on the bord
-     * @param piece piece you want position of
-     * @return position of provided piece
+     * Returns the position the provided piece has on the bord.
+     *
+     * @param piece Piece you want position of.
+     * @return Position of provided piece.
      */
     public Point getPoint(IPiece piece){
         return board.getPoint(piece);
@@ -136,8 +150,9 @@ public class Hive implements IPublisher{
 
 
     /**
-     * returns a list of possible positions the selected piece are able to move to
-     * @return list of possible positions
+     * Returns a list of possible positions the selected piece are able to move to.
+     *
+     * @return List of possible positions
      */
     public ArrayList<Point> getPossibleMoves(){
         if(getCurrentPlayerHandPieces().contains(selectedPiece)){
@@ -163,7 +178,7 @@ public class Hive implements IPublisher{
 
 
     /**
-     * Changes currentPlayer to the other colour that's not currently playing
+     * Changes currentPlayer to the other colour that's not currently playing.
      */
     private void switchPlayer(){
         if (currentPlayer == whiteHand){
@@ -173,7 +188,7 @@ public class Hive implements IPublisher{
             round++;
         }
         for(Isubscriber subscriber: subscribers){
-            subscriber.switchPlayer(currentPlayer.getColour());
+            subscriber.playerWasChanged(currentPlayer.getColour());
         }
     }
 

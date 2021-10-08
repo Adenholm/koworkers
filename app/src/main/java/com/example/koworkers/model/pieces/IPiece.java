@@ -14,5 +14,5 @@ public interface IPiece {
     ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions);
     ArrayList<Point> getSurroundingCoordinates(Point position);
     Colour getColour();
-    int getImageResource();
+    String getName();
 }

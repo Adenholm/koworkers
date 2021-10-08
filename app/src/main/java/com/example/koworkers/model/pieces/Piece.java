@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 abstract class Piece implements IPiece{
     private final Colour colour;
-    private int imageResource;
+    private String name;
 
     /**
      *Constructor that sets the colour for the piece
@@ -22,13 +22,8 @@ abstract class Piece implements IPiece{
     protected Piece(Colour colour) {
         this.colour = colour;
     }
-
-    /**
-     * Sets the image for a piece
-     * @param img The image
-     */
-    protected void setImageResource(int img){
-        imageResource = img;
+    protected void setName(String name){
+        this.name = name;
     }
 
     /**
@@ -69,12 +64,12 @@ abstract class Piece implements IPiece{
     }
 
     /**
-     * Returns the image of the piece
-     * @return An image
+     * Returns the name of the piece
+     * @return name of piece
      */
     @Override
-    public int getImageResource() {
-        return imageResource;
+    public String getName() {
+        return name;
     }
 
     /**
