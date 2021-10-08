@@ -22,6 +22,11 @@ abstract class Piece implements IPiece{
     protected Piece(Colour colour) {
         this.colour = colour;
     }
+
+    /**
+     * Sets the name for the piece
+     * @param name The name of the piece
+     */
     protected void setName(String name){
         this.name = name;
     }
