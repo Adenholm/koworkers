@@ -103,6 +103,12 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         populate();
     }
 
+    @Override
+    public void playerWon(Colour winningColour) {
+
+    }
+
+
     /**
      * Creates stacks of pieces and adds to the linear layout.
      */
@@ -112,7 +118,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         boolean stackAlreadyExist = false;
         for (IPiece piece: mViewModel.getPieces()){
             for(ImageView image: images){
-                if (imagePieceMap.get(image).getName() == piece.getName()) { //checks if stack already exists
+                if (imagePieceMap.get(image).getName().equals(piece.getName())) { //checks if stack already exists
                    numberImageMap.put(image, numberImageMap.get(image) + 1);
                    imagePieceMap.put(image, piece);
                    stackAlreadyExist = true;
