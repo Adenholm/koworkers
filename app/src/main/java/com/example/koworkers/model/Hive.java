@@ -61,8 +61,10 @@ public class Hive implements IPublisher{
             }
             board.movePiece(selectedPiece, point);
 
-            if(round > 3 && board.aQueenIsSurrounded()){ //TODO alert subscribers and create win view
-
+            if(round > 3 && board.aQueenIsSurrounded()){
+                for(Isubscriber subscriber: subscribers){
+                    subscriber.playerWon(board.getWinner());
+                }
             }
 
 
