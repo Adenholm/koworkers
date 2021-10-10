@@ -26,15 +26,18 @@ public class Queen extends Piece {
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         ArrayList<Point> possibleMoves = new ArrayList<>();
         Point queenPoint = boardPositions.get(0);
+        if(pieceIsStuck(boardPositions,queenPoint) || !isHiveCohesiveAfterMove(boardPositions)){
+            return possibleMoves;
+        }
         //Queen can move 1 step, the surrounding pieces of the queen is the moves it can take
-        ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(0));
+        ArrayList<Point> currentList = getSurroundingCoordinates(queenPoint);
         for(Point point: currentList){
-            for(Point surroundpoint: getSurroundingCoordinates(point)) {
+            for(Point surroundPoint: getSurroundingCoordinates(point)) {
                 //checks if the piece is still connected to the hive if it moves to the place
-                if(!surroundpoint.equals(boardPositions.get(0))){
+                if(!surroundPoint.equals(queenPoint)){
                     break;
                 }
-                else if(isInList(surroundpoint,boardPositions) && !isInList(point,boardPositions)){
+                else if(isInList(surroundPoint,boardPositions) && !isInList(point,boardPositions)){
                     possibleMoves.add(point);
                 }
             }
