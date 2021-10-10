@@ -34,12 +34,11 @@ public class Queen extends Piece {
         for(Point point: currentList){
             for(Point surroundPoint: getSurroundingCoordinates(point)) {
                 //checks if the piece is still connected to the hive if it moves to the place
-                if(!surroundPoint.equals(queenPoint)){
-                    break;
-                }
-                else if(isInList(surroundPoint,boardPositions) && !isInList(point,boardPositions) && !pieceIsStuck(boardPositions,point)){
+
+                if(!surroundPoint.equals(queenPoint) && isInList(surroundPoint,boardPositions) && !isInList(point,possibleMoves) && !isInList(point,boardPositions) && !pieceIsStuck(boardPositions,point)){
                     possibleMoves.add(point);
                 }
+
             }
 
         }
