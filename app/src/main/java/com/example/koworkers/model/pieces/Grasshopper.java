@@ -27,6 +27,9 @@ public class Grasshopper extends Piece {
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         Point grassPosition = boardPositions.get(0);
         ArrayList<Point> possibleMoves = new ArrayList<>();
+        if(!isHiveCohesiveAfterMove(boardPositions)){
+            return possibleMoves;
+        }
         for(int i= 1;i<boardPositions.size();i++){
             Point currentPoint = boardPositions.get(i);
             for(Point surroundPoint:getSurroundingCoordinates(currentPoint)){

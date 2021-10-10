@@ -31,6 +31,7 @@ public class Spider extends Piece {
         for(int i=0;i<secondPositions.size();i++){
             thirdPositions.addAll(calculateMoves(boardPositions,secondPositions.get(i)));
         }
+
         return thirdPositions;
     }
 
@@ -38,11 +39,14 @@ public class Spider extends Piece {
     private ArrayList<Point> calculateMoves(ArrayList<Point> boardPositions, Point startPosition){
         Point spiderPosition = boardPositions.get(0);
         ArrayList<Point> possibleMoves = new ArrayList<>();
+        if(pieceIsStuck(boardPositions,spiderPosition) || !isHiveCohesiveAfterMove(boardPositions)){
+            return possibleMoves;
+        }
         ArrayList<Point> currentList = getSurroundingCoordinates(startPosition);
         //checks if the piece is still connected to the hive if it moves to the place, and makes sure the place isn't already occupied
         for(Point point:currentList){
             for(Point surroundPoint:getSurroundingCoordinates(point)){
-                if(isInList(surroundPoint,boardPositions) && !surroundPoint.equals(spiderPosition) && !isInList(point,boardPositions)){
+                if(isInList(surroundPoint,boardPositions) && !surroundPoint.equals(spiderPosition) && !isInList(point,boardPositions) && !isInList(point,possibleMoves) && !pieceIsStuck(boardPositions,point)){
                     possibleMoves.add(point);
                 }
             }

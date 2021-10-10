@@ -26,10 +26,13 @@ public class Ant extends Piece {
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         Point antPoint = boardPositions.get(0);
         ArrayList<Point> possibleMoves = new ArrayList<>();
+        if(pieceIsStuck(boardPositions,antPoint) || !isHiveCohesiveAfterMove(boardPositions)){
+            return possibleMoves;
+        }
         for(int i=1;i<boardPositions.size();i++){
             ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(i));
             for(Point surroundPoint : currentList){
-                if(!isInList(surroundPoint,possibleMoves) && !isInList(surroundPoint, boardPositions) && !surroundPoint.equals(antPoint)){
+                if(!isInList(surroundPoint,possibleMoves) && !isInList(surroundPoint, boardPositions) && !surroundPoint.equals(antPoint) && !pieceIsStuck(boardPositions,surroundPoint)){
                     possibleMoves.add(surroundPoint);
                 }
             }

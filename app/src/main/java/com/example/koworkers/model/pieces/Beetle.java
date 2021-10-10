@@ -28,15 +28,19 @@ public class Beetle extends Piece {
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         ArrayList<Point> possibleMoves = new ArrayList<>();
         Point beetlePoint = boardPositions.get(0);
+        if(pieceIsStuck(boardPositions,beetlePoint) || !isHiveCohesiveAfterMove(boardPositions)){
+            return possibleMoves;
+        }
         //Beetle can move 1 step, the surrounding pieces of the beetle is the moves it can take
         ArrayList<Point> currentList = getSurroundingCoordinates(beetlePoint);
         for(Point point: currentList){
             for(Point surroundpoint: getSurroundingCoordinates(point)) {
                 //checks if the piece is still connected to the hive if it moves to the place
-                if (!surroundpoint.equals(beetlePoint) && isInList(surroundpoint, boardPositions) && !isInList(point, possibleMoves)) {
+                if (!surroundpoint.equals(beetlePoint) && isInList(surroundpoint, boardPositions) && !isInList(point, possibleMoves) && !pieceIsStuck(boardPositions,point)) {
                     possibleMoves.add(point);
                 }
             }
+            //beetle can jump on top of other pieces
             if(isInList(point, boardPositions) && !isInList(point, possibleMoves)){
                 possibleMoves.add(point);
             }
