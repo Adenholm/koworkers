@@ -55,12 +55,18 @@ abstract class Piece implements IPiece{
         return currentMoves;
     }
 
-    //TODO add method that checks if a piece is stuck, and therefore can't move
+    /**
+     * Checks if the piece that would be moved is not possible to slide out, and therefore is stuck
+     * @param boardPositions List with coordinates of all the pieces on the board
+     * @param position Coordinates of the piece that would be moved
+     * @return True if the piece is stuck, and false if it isn't
+     */
     protected boolean pieceIsStuck(ArrayList<Point> boardPositions, Point position){
         int occupiedNeighbours = 0;
         Point ownPosition = boardPositions.get(0);
         for(Point p: getSurroundingCoordinates(position)){
-            if(isInList(p,boardPositions)){
+            //checks ig
+            if(isInList(p,boardPositions) && !p.equals(ownPosition)){
                 occupiedNeighbours++;
             }
         }
@@ -69,7 +75,7 @@ abstract class Piece implements IPiece{
             return true;
         }
         else if(occupiedNeighbours == 4){
-            ArrayList<Point> surroundPoints = getSurroundingCoordinates(ownPosition);
+            ArrayList<Point> surroundPoints = getSurroundingCoordinates(position);
             int nextPoint;
             for(int i= 0;i<surroundPoints.size();i++){
                 if(i+1 < surroundPoints.size()){
@@ -89,7 +95,11 @@ abstract class Piece implements IPiece{
         }
     }
 
-    //TODO add method that makes sure that a piece can't move if moving the piece means that the hive is not cohesive
+    /**
+     * Checks if the hive is still cohesive if the piece moved from its current position
+     * @param boardPositions List with coordinates of all the pieces on the board
+     * @return True if the hive still is cohesive, false if it isn't
+     */
     protected boolean isHiveCohesiveAfterMove(ArrayList<Point> boardPositions){
         boolean visited[] = new boolean[boardPositions.size()];
         //doesn't want to include first element of boardpositions, since that is the piece we want to move
@@ -110,7 +120,12 @@ abstract class Piece implements IPiece{
         }
     }
 
-    //going through all of the pieces using depth-first search
+    /**
+     * Goes through all of the pieces using depth-first search
+     * @param point The index of the piece that is currently being searched
+     * @param boardPositions List with coordinates of all the pieces on the board
+     * @param visited A boolean array where an element is true if it has been visited
+     */
     private void DFS(int point, ArrayList<Point> boardPositions, boolean[] visited){
         //mark the current point as visited
         visited[point] = true;
@@ -127,12 +142,18 @@ abstract class Piece implements IPiece{
             else{
                 neighbour = indexOfPoint(boardPositions, currentPoint);
             }
-            if(neighbour != -1 && visited[neighbour] == false){
+            if(visited[neighbour] == false){
                 DFS(neighbour,boardPositions,visited);
             }
         }
     }
 
+    /**
+     * If the point is an element in the list, the index is returned
+     * @param list The list that is searched within
+     * @param point The point that is searched for
+     * @return The index of the point is returned if it's in the list, otherwise -1 is returned
+     */
     private int indexOfPoint(ArrayList<Point> list, Point point){
         for(int i = 0;i<list.size();i++){
             if(list.get(i).equals(point)){

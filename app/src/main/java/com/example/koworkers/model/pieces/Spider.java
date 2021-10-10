@@ -45,7 +45,7 @@ public class Spider extends Piece {
         //checks if the piece is still connected to the hive if it moves to the place, and makes sure the place isn't already occupied
         for(Point point:currentList){
             for(Point surroundPoint:getSurroundingCoordinates(point)){
-                if(isInList(surroundPoint,boardPositions) && !surroundPoint.equals(spiderPosition) && !isInList(point,boardPositions)){
+                if(isInList(surroundPoint,boardPositions) && !surroundPoint.equals(spiderPosition) && !isInList(point,boardPositions) && !pieceIsStuck(boardPositions,point)){
                     possibleMoves.add(point);
                 }
             }

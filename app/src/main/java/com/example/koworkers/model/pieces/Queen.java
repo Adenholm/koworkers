@@ -37,7 +37,7 @@ public class Queen extends Piece {
                 if(!surroundPoint.equals(queenPoint)){
                     break;
                 }
-                else if(isInList(surroundPoint,boardPositions) && !isInList(point,boardPositions)){
+                else if(isInList(surroundPoint,boardPositions) && !isInList(point,boardPositions) && !pieceIsStuck(boardPositions,point)){
                     possibleMoves.add(point);
                 }
             }
