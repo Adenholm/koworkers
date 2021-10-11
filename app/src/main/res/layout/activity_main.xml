@@ -27,6 +27,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boardFragmentContainerView" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/winScreenContainer"
+        android:name="com.example.koworkers.view.WinScreenFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
    <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"

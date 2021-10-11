@@ -31,4 +31,6 @@ public interface Isubscriber {
      * @param colour Colour of new player.
      */
     void playerWasChanged(Colour colour);
+
+    void playerWon(Colour winningColour);
 }

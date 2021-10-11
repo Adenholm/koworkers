@@ -121,21 +121,18 @@ public class ExampleUnitTest {
             assertFalse(false);
         }
     }
-    @Test
-    public void checkRemove_isCorrect(){
-        ArrayList <Point> whiteSP = new ArrayList<>(Arrays.asList(new Point(1, 0),new Point(1, -1),new Point(-1, 1),new Point(-1, 0),new Point(0, 1),new Point(0, -1)));
-        ArrayList <Point> blackSP = new ArrayList<>(Arrays.asList(new Point(1, 0),new Point(1, -1)));
-        ArrayList <Point> predicted = new ArrayList<>(Arrays.asList(new Point(-1, 1),new Point(-1, 0),new Point(0, 1),new Point(0, -1)));
-        ArrayList <Point>  actual = Board.checkRemove(whiteSP,blackSP);
-        if (actual.containsAll(predicted) && predicted.containsAll(actual) && (actual.size() == predicted.size())) {
-            assertTrue(true);
-        } else {
-            assertFalse(false);
-        }
-    }
 
-
-
-
+//    @Test
+//    public void checkRemove_isCorrect(){
+//        ArrayList <Point> whiteSP = new ArrayList<>(Arrays.asList(new Point(1, 0),new Point(1, -1),new Point(-1, 1),new Point(-1, 0),new Point(0, 1),new Point(0, -1)));
+//        ArrayList <Point> blackSP = new ArrayList<>(Arrays.asList(new Point(1, 0),new Point(1, -1)));
+//        ArrayList <Point> predicted = new ArrayList<>(Arrays.asList(new Point(-1, 1),new Point(-1, 0),new Point(0, 1),new Point(0, -1)));
+//        ArrayList <Point>  actual = Board.checkRemove(whiteSP,blackSP);
+//        if (actual.containsAll(predicted) && predicted.containsAll(actual) && (actual.size() == predicted.size())) {
+//            assertTrue(true);
+//        } else {
+//            assertFalse(false);
+//        }
+//    }
 
 }

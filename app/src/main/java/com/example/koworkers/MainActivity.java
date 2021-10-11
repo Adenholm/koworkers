@@ -1,14 +1,18 @@
 package com.example.koworkers;
 
-import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 import com.example.koworkers.model.Hive;
 import com.example.koworkers.model.Isubscriber;
+import com.example.koworkers.view.WinScreenFragment;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +30,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentContainerView playerHandFragmentContainerView = findViewById(R.id.playerHandFragmentContainerView);
         Isubscriber playerHandFragment = playerHandFragmentContainerView.getFragment();
         Hive.getInstance().subscribe(playerHandFragment);
+    }
 
-        FragmentContainerView pausebuttonFragmentContainerView = findViewById(R.);
-        Isubscriber boardFragment = boardFragmentContainerView.getFragment();
+    public void showWinPopup(String winner){
+        FragmentContainerView winScreenContainer = findViewById(R.id.winScreenContainer);
+        winScreenContainer.setVisibility(View.VISIBLE);
+        ((WinScreenFragment)winScreenContainer.getFragment()).setWinnerText(winner);
     }
 }

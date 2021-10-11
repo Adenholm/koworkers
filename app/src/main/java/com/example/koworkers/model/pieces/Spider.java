@@ -2,20 +2,22 @@ package com.example.koworkers.model.pieces;
 
 import com.example.koworkers.model.Point;
 
-import com.example.koworkers.R;
 import com.example.koworkers.model.Colour;
 
 import java.util.ArrayList;
 
+/** The spider piece
+ * The spider can move 3 steps, and can move around the hive in any direction
+ */
 public class Spider extends Piece {
+
+    /**
+     * Creates a spider
+     * @param colour The player's colour
+     */
     public Spider(Colour colour){
         super(colour);
-        if(colour == Colour.BLACK){
-            this.setImageResource(R.drawable.black_spider_piece);
-        }
-        else{
-            this.setImageResource(R.drawable.spider_piece);
-        }
+        setName("spider");
     }
 
     @Override
@@ -29,20 +31,23 @@ public class Spider extends Piece {
         for(int i=0;i<secondPositions.size();i++){
             thirdPositions.addAll(calculateMoves(boardPositions,secondPositions.get(i)));
         }
+
         return thirdPositions;
     }
 
 
     private ArrayList<Point> calculateMoves(ArrayList<Point> boardPositions, Point startPosition){
+        Point spiderPosition = boardPositions.get(0);
         ArrayList<Point> possibleMoves = new ArrayList<>();
+        if(pieceIsStuck(boardPositions,spiderPosition) || !isHiveCohesiveAfterMove(boardPositions)){
+            return possibleMoves;
+        }
         ArrayList<Point> currentList = getSurroundingCoordinates(startPosition);
-        for(int i=0;i<currentList.size();i++){
-            //checks if the piece is still connected to the hive if it moves to the place, and makes sure the place isn't already occupied
-            //kollar också så att den inte tror att spindelns originalposition fortfarande är en del av hive, alltså att den tror att den är connected till hive fast den inte är det
-            for(int j=0;j<getSurroundingCoordinates(currentList.get(i)).size();j++){
-                Point currentSurroundingCoordinate = getSurroundingCoordinates(currentList.get(i)).get(j);
-                if(boardPositions.contains(currentSurroundingCoordinate) && !currentSurroundingCoordinate.equals(boardPositions.get(0)) && !boardPositions.contains(currentList.get(i))){
-                    possibleMoves.add(currentList.get(i));
+        //checks if the piece is still connected to the hive if it moves to the place, and makes sure the place isn't already occupied
+        for(Point point:currentList){
+            for(Point surroundPoint:getSurroundingCoordinates(point)){
+                if(isInList(surroundPoint,boardPositions) && !surroundPoint.equals(spiderPosition) && !isInList(point,boardPositions) && !isInList(point,possibleMoves) && !pieceIsStuck(boardPositions,point)){
+                    possibleMoves.add(point);
                 }
             }
         }

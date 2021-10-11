@@ -3,6 +3,7 @@ package com.example.koworkers.view;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,6 +103,12 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         populate();
     }
 
+    @Override
+    public void playerWon(Colour winningColour) {
+
+    }
+
+
     /**
      * Creates stacks of pieces and adds to the linear layout.
      */
@@ -110,7 +118,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         boolean stackAlreadyExist = false;
         for (IPiece piece: mViewModel.getPieces()){
             for(ImageView image: images){
-                if (imagePieceMap.get(image).getImageResource() == piece.getImageResource()) { //checks if stack already exists
+                if (imagePieceMap.get(image).getName().equals(piece.getName())) { //checks if stack already exists
                    numberImageMap.put(image, numberImageMap.get(image) + 1);
                    imagePieceMap.put(image, piece);
                    stackAlreadyExist = true;
@@ -122,7 +130,10 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
             }
             if(!stackAlreadyExist){
                 ImageView newImage = new ImageView(getContext());
-                newImage.setImageResource(piece.getImageResource());
+                //newImage.setImageResource(piece.getImageResource());
+
+                setPieceImage(newImage, piece);
+
                 newImage.setOnClickListener(stackListener);
                 setLayout(newImage, 20,0,  0,0,  90);
                 imagePieceMap.put(newImage, piece);
@@ -170,8 +181,17 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         view.setLayoutParams(params);
     }
 
-    private void setImage(ImageView image, String pieceName){ //TODO fix so that we can remove models dependency on view
-            image.setImageURI(Uri.parse(("android.resource://"+R.class.getPackage().getName()+"/" + "ant_piece.png")));
+    private void setPieceImage(ImageView image, IPiece piece){
+
+        String pkgName = getContext().getPackageName();
+        if(piece.getColour() == Colour.WHITE){
+            Uri path = Uri.parse("android.resource://"+pkgName+"/drawable/" + piece.getName() + "_piece");
+            image.setImageURI(path);
+        }else{
+            Uri path = Uri.parse("android.resource://"+pkgName+"/drawable/black_" + piece.getName() + "_piece");
+            image.setImageURI(path);
+        }
+
     }
 
 }

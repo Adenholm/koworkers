@@ -25,10 +25,7 @@ public class Hive implements IPublisher{
 
     private final ArrayList<Isubscriber> subscribers = new ArrayList<>(); // a list of subscibers
 
-    /**
-     * Constructor that should never be called, use getInstance() instead.
-     */
-    protected Hive(){
+    public Hive(){
         currentPlayer = whiteHand;
         //test();
     }
@@ -36,7 +33,7 @@ public class Hive implements IPublisher{
     /**
      * Returns the single instance of the PlayerTurn class.
      */
-    public static Hive getInstance(){
+    public static Hive getInstance(){ //TODO remove signleton pattern
         if (instance == null) {
             instance = new Hive();
         }
@@ -70,8 +67,10 @@ public class Hive implements IPublisher{
             }
             board.movePiece(selectedPiece, point);
 
-            if(round > 3 && board.aQueenIsSurrounded()){ //TODO alert subscribers and create win view
-
+            if(round > 3 && board.aQueenIsSurrounded()){
+                for(Isubscriber subscriber: subscribers){
+                    subscriber.playerWon(board.getWinner());
+                }
             }
 
 
@@ -131,7 +130,7 @@ public class Hive implements IPublisher{
      * @return True if the player has played 3 turns and still haven't placed their queen.
      */
     public boolean playersQueenShouldBePlaced(){
-        return !currentPlayer.queenHasBeenPlayed() && round == 3;
+        return !currentPlayer.queenHasBeenPlayed() && round >= 3;
     }
 
 

@@ -18,7 +18,7 @@ public class Board implements IPublisher {
 
     private IPiece blackQueen;
     private IPiece whiteQueen;
-    private String winner;
+    private Colour winner;
 
     /**
      * Checks where it possible to place a new piece. The first piece is only able to be placed in origo
@@ -175,14 +175,28 @@ public class Board implements IPublisher {
      * @return true if one of the queens been surrounding.
      */
     boolean aQueenIsSurrounded (){
+        int blackCount = 0;
         for (Point point:blackQueen.getSurroundingCoordinates(playedPieces.get(blackQueen))){
-            if (!playedPieces.containsValue(point)) break;
-            winner="Winner: Black";
+            for(Point boardPoint: playedPieces.values()){
+                if(point.equals(boardPoint)){
+                    blackCount ++;
+                }
+            }
+        }
+        if(blackCount == 6){
+            winner = Colour.WHITE;
             return true;
         }
+        int whiteCount = 0;
         for (Point point:whiteQueen.getSurroundingCoordinates(playedPieces.get(whiteQueen))){
-            if(!playedPieces.containsValue(point)) break;
-            winner="Winner: White";
+            for(Point boardPoint: playedPieces.values()){
+                if(point.equals(boardPoint)){
+                    whiteCount ++;
+                }
+            }
+        }
+        if(whiteCount == 6){
+            winner = Colour.BLACK;
             return true;
         }
 
@@ -190,10 +204,10 @@ public class Board implements IPublisher {
     }
 
     /**
-     * Returns a string with the winner.
-     * @return String with the winner.
+     * Returns the colour of the winner.
+     * @return Colour of the winner.
      */
-    public String getWinner() {
+    public Colour getWinner() {
         return winner;
     }
 
