@@ -1,9 +1,9 @@
 package com.example.koworkers;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
-
-import android.os.Bundle;
 
 import com.example.koworkers.model.Hive;
 import com.example.koworkers.model.Isubscriber;
@@ -26,5 +26,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentContainerView playerHandFragmentContainerView = findViewById(R.id.playerHandFragmentContainerView);
         Isubscriber playerHandFragment = playerHandFragmentContainerView.getFragment();
         Hive.getInstance().subscribe(playerHandFragment);
+
+        FragmentContainerView pausebuttonFragmentContainerView = findViewById(R.);
+        Isubscriber boardFragment = boardFragmentContainerView.getFragment();
     }
 }
