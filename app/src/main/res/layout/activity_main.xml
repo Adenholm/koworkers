@@ -6,26 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/boardFragmentContainerView"
-        android:name="com.example.koworkers.view.BoardFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <FrameLayout
+        android:id="@+id/boardFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginBottom="96dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/playerHandFragmentContainerView"
-        android:name="com.example.koworkers.view.PlayerhandFragment"
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/playerhandFrame"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boardFragmentContainerView" />
+        app:layout_constraintTop_toBottomOf="@+id/boardFrame">
+
+    </FrameLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/winScreenContainer"
