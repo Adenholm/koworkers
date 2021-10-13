@@ -67,13 +67,21 @@ public class Hive implements IPublisher{
                 }
             }
 
-
             switchPlayer();
             for(Isubscriber subscriber: subscribers){
                 subscriber.pieceWasMoved(selectedPiece, point);
             }
             deSelectPiece();
+
+            if(newPlayerCantMove()){
+                switchPlayer();
+            }
         }
+    }
+
+    private boolean newPlayerCantMove(){
+        return (currentPlayer.getPieces().isEmpty() || board.getPossibleplacements(currentPlayer.getColour()).isEmpty())
+                && !board.playerCanMakeMove(currentPlayer.getColour());
     }
 
     /**
