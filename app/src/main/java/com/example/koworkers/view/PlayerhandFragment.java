@@ -1,22 +1,19 @@
 package com.example.koworkers.view;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.Colour;
@@ -25,7 +22,6 @@ import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,6 +104,10 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
 
     }
 
+    @Override
+    public void gameWasRestarted() {
+        populate();
+    }
 
     /**
      * Creates stacks of pieces and adds to the linear layout.

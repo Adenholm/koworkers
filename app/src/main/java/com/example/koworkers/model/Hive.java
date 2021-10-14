@@ -44,6 +44,9 @@ public class Hive implements IPublisher{
         whiteHand = new PlayerHand(Colour.WHITE);
         board = new Board();
         currentPlayer = whiteHand;
+        for (Isubscriber sub:subscribers){
+            sub.gameWasRestarted();
+        }
     }
 
 

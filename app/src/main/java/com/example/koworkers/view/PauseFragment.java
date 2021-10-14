@@ -1,16 +1,19 @@
-package com.example.koworkers;
+package com.example.koworkers.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.koworkers.MainActivity;
+import com.example.koworkers.R;
 import com.example.koworkers.viewmodel.PauseViewModel;
 
 
@@ -52,25 +55,47 @@ public class PauseFragment extends Fragment {
 
     private PauseViewModel mViewModel;
 
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_pause, container, false);
     }
 
+
+    public void closePausePopup(){
+        ((MainActivity)getActivity()).hidePausePopup();
+    }
+    private final View.OnClickListener restartListener= new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            restartGame(view);
+        }
+    };
+    public void restartGame(View view) {
+        mViewModel.restart();
+        closePausePopup();
+    }
     private  final View.OnClickListener pauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            mViewModel.restart();
+            ((MainActivity)getActivity()).hidePausePopup();
         }
     };
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(PauseViewModel.class);
         restartButton =getView().findViewById(R.id.btn_restart);
+        ImageView imageView = getView().findViewById(R.id.closePauseButton);
+        imageView.setOnClickListener(pauseListener);
+        Button restartButton =getView().findViewById(R.id.btn_restart);
+        restartButton.setOnClickListener(restartListener);
     }
 
 }
