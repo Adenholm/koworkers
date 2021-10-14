@@ -204,6 +204,20 @@ public class Board implements IPublisher {
     }
 
     /**
+     * Checks if the provided colour is able to make a move on the board
+     * @param colour the colour of the pieces to be checked if able to move
+     * @return true if any piece is able to move
+     */
+    public boolean playerCanMakeMove(Colour colour){
+        for (IPiece piece: playedPieces.keySet()){
+            if (piece.getColour().equals(colour) && !getPossibleMoves(piece).isEmpty()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns the colour of the winner.
      * @return Colour of the winner.
      */
