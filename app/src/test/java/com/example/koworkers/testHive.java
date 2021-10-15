@@ -184,7 +184,37 @@ public class testHive {
     }
 
     @Test
-    public void testWinCondition(){
+    public void testWhenPlayerCantMove(){
+        Hive hive = new Hive();
+        //hive.subscribe(new testSubscriber());
+
+        IPiece whitePiece = hive.getCurrentPlayerHandPieces().get(0);
+
+        //place first piece in 0,0
+        hive.selectPiece(whitePiece);
+        hive.movePiece(new Point());
+
+        //place all but the last pieces in a line
+        int max = hive.getCurrentPlayerHandPieces().size()-1;
+        int i;
+        for (i = 0; i < max; i++) {
+            hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+            hive.movePiece(new Point(i+1, 0));
+            hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+            hive.movePiece(new Point(-i-1, 0));
+        }
+
+        //place the last piece at the furthest end of the white side of the line to make white unable to make move
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(new Point(-i-1,0));
+
+        //try selecting a white piece to see if it is still blacks turn
+        hive.selectPiece(whitePiece);
+        assertFalse(hive.aPieceIsSelected());
+    }
+
+    @Test
+    public void testWinConditionBlackWins(){
         Hive hive = initTestBoard();
         hive.subscribe(new testSubscriber());
 
