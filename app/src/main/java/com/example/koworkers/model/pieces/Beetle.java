@@ -36,12 +36,22 @@ public class Beetle extends Piece {
         for(Point point: currentList){
             for(Point surroundpoint: getSurroundingCoordinates(point)) {
                 //checks if the piece is still connected to the hive if it moves to the place
-                if (!surroundpoint.equals(beetlePoint) && isInList(surroundpoint, boardPositions) && !isInList(point, possibleMoves) && !pieceIsStuck(boardPositions,point)) {
+                /*if (!surroundpoint.equals(beetlePoint) && isInList(surroundpoint, boardPositions) && !isInList(point, possibleMoves) && !pieceIsStuck(boardPositions,point)) {
+                    possibleMoves.add(point);
+                }
+
+                 */
+                if (!surroundpoint.equals(beetlePoint) && boardPositions.contains(surroundpoint) && !possibleMoves.contains(point) && !pieceIsStuck(boardPositions,point)) {
                     possibleMoves.add(point);
                 }
             }
             //beetle can jump on top of other pieces
-            if(isInList(point, boardPositions) && !isInList(point, possibleMoves)){
+            /*if(isInList(point, boardPositions) && !isInList(point, possibleMoves)){
+                possibleMoves.add(point);
+            }
+
+             */
+            if(boardPositions.contains(point) && !possibleMoves.contains(point)){
                 possibleMoves.add(point);
             }
         }

@@ -61,7 +61,11 @@ public class Point {
      * @param point provided point to which the point is compared with
      * @return return true if provided point has the same x and y as the point
      */
-    public boolean equals(Point point){
-        return point.x==this.x && point.y==this.y;
+    @Override
+    public boolean equals(Object point){
+        if(point instanceof Point){
+            return ((Point) point).getX()==this.x && ((Point) point).getY()==this.y;
+        }
+        return false;
     }
 }

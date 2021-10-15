@@ -32,7 +32,12 @@ public class Ant extends Piece {
         for(int i=1;i<boardPositions.size();i++){
             ArrayList<Point> currentList = getSurroundingCoordinates(boardPositions.get(i));
             for(Point surroundPoint : currentList){
-                if(!isInList(surroundPoint,possibleMoves) && !isInList(surroundPoint, boardPositions) && !surroundPoint.equals(antPoint) && !pieceIsStuck(boardPositions,surroundPoint)){
+                /*if(!isInList(surroundPoint,possibleMoves) && !isInList(surroundPoint, boardPositions) && !surroundPoint.equals(antPoint) && !pieceIsStuck(boardPositions,surroundPoint)){
+                    possibleMoves.add(surroundPoint);
+                }
+
+                 */
+                if(!possibleMoves.contains(surroundPoint) && !boardPositions.contains(surroundPoint) && !surroundPoint.equals(antPoint) && !pieceIsStuck(boardPositions,surroundPoint)){
                     possibleMoves.add(surroundPoint);
                 }
             }
