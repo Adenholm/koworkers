@@ -34,6 +34,9 @@ public class PauseFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * constructor
+     */
     public PauseFragment() {
         // Required empty public constructor
     }
@@ -65,7 +68,9 @@ public class PauseFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_pause, container, false);
     }
 
-
+    /**
+     * sets pausePopup to gone
+     */
     public void closePausePopup(){
         ((MainActivity)getActivity()).hidePausePopup();
     }
@@ -75,6 +80,11 @@ public class PauseFragment extends Fragment {
             restartGame(view);
         }
     };
+
+    /**
+     * restarts the game when the restart-button is clicked
+     * @param view
+     */
     public void restartGame(View view) {
         mViewModel.restart();
         closePausePopup();
@@ -86,7 +96,10 @@ public class PauseFragment extends Fragment {
         }
     };
 
-
+    /**
+     * when created, adds listeners
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
