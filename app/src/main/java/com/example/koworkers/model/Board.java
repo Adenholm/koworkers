@@ -12,7 +12,7 @@ import java.util.HashMap;
  * A class representing the board of the game. Holds the pieces and their position. Moves and places pieces on the board.
  * @Author Qwinth, Adenholm, Hansson
  */
-public class Board implements IPublisher {
+public class Board{
 
     private final HashMap<IPiece, Point> playedPieces = new HashMap<>(); //Hashmap med piece som key
 
@@ -120,7 +120,6 @@ public class Board implements IPublisher {
      */
     public void movePiece(IPiece piece, Point point) {
         playedPieces.put(piece, point);
-        notifySubscribers();
     }
 
     /**
@@ -134,28 +133,6 @@ public class Board implements IPublisher {
         boardPoints.remove(playedPieces.get(piece));
         boardPoints.add(0, playedPieces.get(piece));
         return piece.getPossibleMoves(boardPoints);
-    }
-
-    private final ArrayList<Isubscriber> subscribers = new ArrayList<>();
-
-    /**
-     * adds a subscriber subscribers
-     * @param isubscriber the subscriber to be added
-     */
-    @Override
-    public void subscribe(Isubscriber isubscriber) {
-
-        subscribers.add(isubscriber);
-    }
-
-    /**
-     * Notifyes the subscribers in subscribers
-     */
-    @Override
-    public void notifySubscribers() {
-        for (Isubscriber subscriber : subscribers) {
-            //subscriber.update();
-        }
     }
 
 
@@ -201,6 +178,20 @@ public class Board implements IPublisher {
         }
 
        return false;
+    }
+
+    /**
+     * Checks if the provided colour is able to make a move on the board
+     * @param colour the colour of the pieces to be checked if able to move
+     * @return true if any piece is able to move
+     */
+    public boolean playerCanMakeMove(Colour colour){
+        for (IPiece piece: playedPieces.keySet()){
+            if (piece.getColour().equals(colour) && !getPossibleMoves(piece).isEmpty()){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *
  * @author Hanna Adenholm
  */
-public class Hive implements IPublisher{
+public class Hive{
 
     private static Hive instance = null; //TODO remove singleton pattern
 
@@ -27,7 +27,6 @@ public class Hive implements IPublisher{
 
     public Hive(){
         currentPlayer = whiteHand;
-        //test();
     }
 
     /**
@@ -60,7 +59,7 @@ public class Hive implements IPublisher{
         if (aPieceIsSelected()){
             if(getCurrentPlayerHandPieces().contains(selectedPiece)){ // checks if the selected piece is in the player hand, if so remove it from there
                 if(currentPlayer.thisIsMyQueen(selectedPiece)){     //checks if the selected piece is a queen
-                    if(currentPlayer.getColour() == Colour.BLACK)
+                    if(selectedPiece.getColour() == Colour.BLACK)
                         board.setBlackQueen(selectedPiece);
                     else{
                         board.setWhiteQueen(selectedPiece);
@@ -70,19 +69,29 @@ public class Hive implements IPublisher{
             }
             board.movePiece(selectedPiece, point);
 
+            for(Isubscriber subscriber: subscribers){
+                subscriber.pieceWasMoved(selectedPiece, point);
+            }
+
             if(round > 3 && board.aQueenIsSurrounded()){
                 for(Isubscriber subscriber: subscribers){
                     subscriber.playerWon(board.getWinner());
                 }
+                return;
             }
 
-
-            switchPlayer();
-            for(Isubscriber subscriber: subscribers){
-                subscriber.pieceWasMoved(selectedPiece, point);
-            }
             deSelectPiece();
+            switchPlayer();
+
+            if(newPlayerCantMove()){
+                switchPlayer();
+            }
         }
+    }
+
+    private boolean newPlayerCantMove(){
+        return (currentPlayer.getPieces().isEmpty() || board.getPossibleplacements(currentPlayer.getColour()).isEmpty())
+                && !board.playerCanMakeMove(currentPlayer.getColour());
     }
 
     /**
@@ -93,8 +102,10 @@ public class Hive implements IPublisher{
      * @return True if success.
      */
     public boolean selectPiece(IPiece piece){
-        for(Isubscriber subscriber: subscribers){
-            subscriber.pieceWasDeselected();
+        if(aPieceIsSelected()){
+            for(Isubscriber subscriber: subscribers){
+                subscriber.pieceWasDeselected();
+            }
         }
         if(piece.getColour().equals(currentPlayer.getColour()) && (!playersQueenShouldBePlaced() || currentPlayer.thisIsMyQueen(piece))){
             selectedPiece = piece;
@@ -170,18 +181,8 @@ public class Hive implements IPublisher{
         }
     }
 
-
-    @Override
     public void subscribe(Isubscriber subscriber){
         subscribers.add(subscriber);
-    }
-
-
-    @Override
-    public void notifySubscribers(){
-        for(Isubscriber subscriber: subscribers){
-            //subscriber.update();
-        }
     }
 
 
@@ -198,14 +199,5 @@ public class Hive implements IPublisher{
         for(Isubscriber subscriber: subscribers){
             subscriber.playerWasChanged(currentPlayer.getColour());
         }
-    }
-
-
-    private void test(){
-        selectPiece(getCurrentPlayerHandPieces().get(1));
-        movePiece(new Point(0,0));
-        selectPiece(getCurrentPlayerHandPieces().get(1));
-        movePiece(new Point(1,-1));
-        selectPiece(getCurrentPlayerHandPieces().get(1));
     }
 }
