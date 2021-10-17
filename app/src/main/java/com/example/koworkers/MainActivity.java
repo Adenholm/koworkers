@@ -1,11 +1,10 @@
 package com.example.koworkers;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentContainerView;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentContainerView;
 
 import com.example.koworkers.model.Hive;
 import com.example.koworkers.model.Isubscriber;
@@ -37,4 +36,13 @@ public class MainActivity extends AppCompatActivity {
         winScreenContainer.setVisibility(View.VISIBLE);
         ((WinScreenFragment)winScreenContainer.getFragment()).setWinnerText(winner);
     }
+    public void showPausePopup(View v){
+        FragmentContainerView pauseFragmentContainer = findViewById(R.id.pauseFragmentContainer);
+        pauseFragmentContainer.setVisibility(View.VISIBLE);
+    }
+    public void hidePausePopup(){
+        FragmentContainerView pauseFragmentContainer = findViewById(R.id.pauseFragmentContainer);
+        pauseFragmentContainer.setVisibility(View.GONE);
+    }
+
 }

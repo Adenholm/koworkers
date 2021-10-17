@@ -13,9 +13,9 @@ public class Hive{
 
     private static Hive instance = null; //TODO remove singleton pattern
 
-    private final Board board = new Board();
-    private final PlayerHand blackHand = new PlayerHand(Colour.BLACK);
-    private final PlayerHand whiteHand = new PlayerHand(Colour.WHITE);
+    private Board board = new Board();
+    private PlayerHand blackHand = new PlayerHand(Colour.BLACK);
+    private PlayerHand whiteHand = new PlayerHand(Colour.WHITE);
 
     private PlayerHand currentPlayer;
 
@@ -37,6 +37,15 @@ public class Hive{
             instance = new Hive();
         }
         return instance;
+    }
+    public void restart(){
+        blackHand = new PlayerHand(Colour.BLACK);
+        whiteHand = new PlayerHand(Colour.WHITE);
+        board = new Board();
+        currentPlayer = whiteHand;
+        for (Isubscriber sub:subscribers){
+            sub.gameWasRestarted();
+        }
     }
 
 

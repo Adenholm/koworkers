@@ -1,6 +1,5 @@
 package com.example.koworkers.view;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.MainActivity;
@@ -23,12 +21,10 @@ import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
-
+import com.example.koworkers.viewmodel.BoardViewModel;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import com.example.koworkers.viewmodel.BoardViewModel;
 
 /**
  * The view that represents the board.
@@ -147,6 +143,13 @@ public class BoardFragment extends Fragment implements Isubscriber {
     @Override
     public void playerWon(Colour winningColour){
         showWinScreen(winningColour.toString());
+    }
+
+    @Override
+    public void gameWasRestarted(){
+        boardFrame.removeAllViews();
+        pieceMap.clear();
+        imageMap.clear();
     }
 
     public void showWinScreen(String winner){
