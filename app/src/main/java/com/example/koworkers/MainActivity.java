@@ -33,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
         boardViewModel.init(hive);
         hive.subscribe(boardViewModel);
         PlayerhandViewModel playerhandViewModel = new ViewModelProvider(this).get(PlayerhandViewModel.class);
-        playerhandViewModel.setHive(hive);
+        playerhandViewModel.init(hive);
+        hive.subscribeSimple(playerhandViewModel);
 
         BoardFragment boardFragment = new BoardFragment();
         FrameLayout boardFrame = findViewById(R.id.boardFrame);
 
         PlayerhandFragment playerhandFragment = new PlayerhandFragment();
         FrameLayout playerhandFrame = findViewById(R.id.playerhandFrame);
-        hive.subscribe(playerhandFragment);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.boardFrame, boardFragment);
