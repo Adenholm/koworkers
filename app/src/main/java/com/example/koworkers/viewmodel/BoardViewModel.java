@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The viewmodel for the board view
+ * The viewModel for the board view
+ *
+ * Implements the Isubscriber inteface to be able to observe changes from the model. Contains LiveData that the view can observe.
  *
  * @author Hanna Adenholm
  * @author Lisa Qwinth
@@ -23,13 +25,17 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
 
     private Hive hive;
 
+    private final MutableLiveData<List<IPiece>> piecesOnBoard = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> pieceIsSelected = new MutableLiveData<>();
+    private final MutableLiveData<String> currentPlayer = new MutableLiveData<>();
+
     private final int PIECE_SIZE = 90;          // size of piece in dp
     private final int RADIUS = PIECE_SIZE/2;
 
-    private MutableLiveData<List<IPiece>> piecesOnBoard = new MutableLiveData<>();
-    private MutableLiveData<Boolean> pieceIsSelected = new MutableLiveData<>();
-    private MutableLiveData<String> currentPlayer = new MutableLiveData<>();
-
+    /**
+     * Sets the hive and Initializes the liveData
+     * @param hive the instance of hive to get data from
+     */
     public void init(Hive hive){
         this.hive = hive;
         piecesOnBoard.postValue(new ArrayList<>());
@@ -37,20 +43,32 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
         currentPlayer.postValue("White");
     }
 
+    /**
+     * Returns the LiveData of a list with the pieces on the board
+     * @return LiveData with list of pieces on board
+     */
     public LiveData<List<IPiece>> getPiecesOnBoard(){
         return piecesOnBoard;
     }
 
+    /**
+     * Returns LiveData of a boolean that says whether a piece is selected
+     * @return LiveData of a boolean that says whether a piece is selected
+     */
     public LiveData<Boolean> getPieceIsSelected() {
         return pieceIsSelected;
     }
 
+    /**
+     * Returns LiveData of String containing the current player
+     * @return String of currentPlayer
+     */
     public LiveData<String> getCurrentPlayer() {
         return currentPlayer;
     }
 
     /**
-     * Returns the calculated coordinates for placement on a view based on the hexagonsystems.
+     * Returns the calculated coordinates for placement on a view based on the hexagon systems.
      *
      * @param point the point to be converted into a position on the view
      * @return the calculated coordinate of the position on the view
@@ -109,18 +127,21 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
         return hive.selectPiece(piece);
     }
 
+    /**
+     * Handles the boardClick by running the deselect method in the model
+     */
     public void handleBoardClick(){
         hive.deSelectPiece();
     }
 
     @Override
     public void pieceWasSelected(IPiece piece) {
-        pieceIsSelected.postValue(true);
+        pieceIsSelected.setValue(true);
     }
 
     @Override
     public void pieceWasDeselected() {
-        pieceIsSelected.postValue(false);
+        pieceIsSelected.setValue(false);
     }
 
     @Override
