@@ -2,23 +2,24 @@ package com.example.koworkers;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.model.Hive;
 import com.example.koworkers.model.Isubscriber;
+import com.example.koworkers.view.BoardFragment;
+import com.example.koworkers.view.PlayerhandFragment;
 import com.example.koworkers.view.WinScreenFragment;
 import com.example.koworkers.viewmodel.BoardViewModel;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Hive hive;
-
-    private BoardViewModel boardViewModel;
-    private PlayerhandViewModel playerhandViewModel;
+    private final Hive hive = new Hive();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +29,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-        hive = new Hive();
+        BoardViewModel boardViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
+        boardViewModel.setHive(hive);
+        PlayerhandViewModel playerhandViewModel = new ViewModelProvider(this).get(PlayerhandViewModel.class);
+        playerhandViewModel.setHive(hive);
 
-        boardViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
-        playerhandViewModel = new ViewModelProvider(this).get(PlayerhandViewModel.class);
+        BoardFragment boardFragment = new BoardFragment();
+        FrameLayout boardFrame = findViewById(R.id.boardFrame);
+        hive.subscribe(boardFragment);
 
-        FragmentContainerView boardFragmentContainerView = findViewById(R.id.boardFragmentContainerView);
-        Isubscriber boardFragment = boardFragmentContainerView.getFragment();
-        Hive.getInstance().subscribe(boardFragment);
+        PlayerhandFragment playerhandFragment = new PlayerhandFragment();
+        FrameLayout playerhandFrame = findViewById(R.id.playerhandFrame);
+        hive.subscribe(playerhandFragment);
 
-        FragmentContainerView playerHandFragmentContainerView = findViewById(R.id.playerHandFragmentContainerView);
-        Isubscriber playerHandFragment = playerHandFragmentContainerView.getFragment();
-        Hive.getInstance().subscribe(playerHandFragment);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.boardFrame, boardFragment);
+        ft.add(R.id.playerhandFrame, playerhandFragment);
+        ft.commit();
     }
 
     public void showWinPopup(String winner){
