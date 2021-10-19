@@ -7,7 +7,12 @@ import com.example.koworkers.model.Hive;
  *
  */
 public class PauseViewModel extends ViewModel {
-    private final Hive hive = Hive.getInstance();
+    private Hive hive;
+
+    public void init(Hive hive){
+        this.hive = hive;
+    }
+
     public void restart(){
         hive.restart();
     }

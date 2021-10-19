@@ -33,7 +33,7 @@ public class WinScreenFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(WinScreenViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(WinScreenViewModel.class);
     }
 
     public void setWinnerText(String winner){

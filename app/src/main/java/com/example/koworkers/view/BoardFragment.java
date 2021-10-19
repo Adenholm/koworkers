@@ -142,15 +142,14 @@ public class BoardFragment extends Fragment{
         ImageView image;
         if(pieceMap.containsKey(piece)){
             image = pieceMap.get(piece);
-            setLayout(image, point);
         }else{
             image = new ImageView(getContext());
             setPieceImage(image, piece);
             image.setOnClickListener(pieceListener);
             pieceMap.put(piece,image);
             imageMap.put(image, piece);
-            setLayout(image, point);
         }
+        setLayout(image, point);
         boardFrame.addView(image);
         image.bringToFront();
     }
