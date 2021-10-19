@@ -46,7 +46,7 @@ public class Hive{
         for (Isubscriber sub:subscribers){
             sub.gameWasRestarted();
         }
-    }
+     }
 
 
     /**
@@ -69,7 +69,7 @@ public class Hive{
             }
             board.movePiece(selectedPiece, point);
 
-            for(Isubscriber subscriber: subscribers){
+           for(Isubscriber subscriber: subscribers){
                 subscriber.pieceWasMoved(selectedPiece, point);
             }
 

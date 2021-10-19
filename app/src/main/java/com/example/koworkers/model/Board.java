@@ -10,7 +10,9 @@ import java.util.HashMap;
 
 /**
  * A class representing the board of the game. Holds the pieces and their position. Moves and places pieces on the board.
- * @Author Qwinth, Adenholm, Hansson
+ * @Author Hanna Adenholm
+ * @Author Stina Hansson
+ * @Author Lisa Qwinth
  */
 public class Board{
 
@@ -40,15 +42,54 @@ public class Board{
             }
             possiblePlacements=checkAdd(possiblePlacements, getSurroundOnePlayerPieces(currentPlayersColour));
             possiblePlacements = checkRemove(possiblePlacements, getSurroundOnePlayerPieces(nemesisColour));
+            possiblePlacements = checkAdd(possiblePlacements,  checkedStackedPieces(possiblePlacements, currentPlayersColour));
+
             if (playedPieces.size() == 1) { //If there is less than three played pieces, you can place a piece beside your nemesis's piece.
                 possiblePlacements.addAll(getSurroundOnePlayerPieces(nemesisColour));
             }
             possiblePlacements = checkRemove(possiblePlacements, playedPoints);
 
         }
-
-
         return possiblePlacements;
+    }
+    private ArrayList<Point> checkedStackedPieces(ArrayList<Point> placements, Colour currentPlayersColour){
+        if (topStacked != null) {
+
+            for (IPiece piece : topStacked) {
+                if (piece.getColour() == currentPlayersColour) {
+                    if (placements.contains(playedPieces.get(piece))) {
+                        continue;
+                    }
+                    placements.add(playedPieces.get(piece));
+                }
+            }
+        }
+        return placements;
+    }
+
+    private ArrayList<IPiece> topStacked=new ArrayList<IPiece>();
+    private boolean isStacked(IPiece playPiece, Point playPoint){
+      Collection<Point> playedPoints=playedPieces.values();
+      for (Point boardPoint:playedPoints){
+          if (boardPoint.equals(playPoint)) {
+              topStacked.add(playPiece);
+              return true;
+          }
+      }
+      return false;
+    }
+
+    /**
+     * checks if the piece was on top of another piece and in that case remove it from the topStacked list
+     * @param playPiece the played piece
+     * @return true if it was on top of another piece
+     */
+    private boolean isUnStacked(IPiece playPiece){
+        if (topStacked!= null && topStacked.contains(playPiece)){
+            topStacked.remove(playPiece);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -119,6 +160,8 @@ public class Board{
      * @param point the added point
      */
     public void movePiece(IPiece piece, Point point) {
+        isUnStacked(piece);
+        isStacked(piece,point);
         playedPieces.put(piece, point);
     }
 
