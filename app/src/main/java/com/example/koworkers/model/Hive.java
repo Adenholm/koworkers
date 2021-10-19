@@ -23,8 +23,9 @@ public class Hive{
 
     private IPiece selectedPiece; //the currently selected piece
 
-    private final ArrayList<Isubscriber> subscribers = new ArrayList<>(); // a list of subscibers
-    private final ArrayList<IWinSubscriber> winSubscribers = new ArrayList<>(); //list containing subscribers who want to know if a player won
+    private final ArrayList<Isubscriber> subscribers = new ArrayList<>();               // a list of subscibers
+    private final ArrayList<IWinSubscriber> winSubscribers = new ArrayList<>();         //list containing subscribers who want to know if a player won
+    private final ArrayList<ISimpleSubscriber> simpleSubscribers = new ArrayList<>();   //list of subscribers who only wants to know when model updates or something is selected/deselected
 
     public Hive(){
         currentPlayer = whiteHand;
@@ -33,7 +34,7 @@ public class Hive{
     /**
      * Returns the single instance of the PlayerTurn class.
      */
-    public static Hive getInstance(){ //TODO remove signleton pattern
+    public static Hive getInstance(){ //TODO remove singleton pattern
         if (instance == null) {
             instance = new Hive();
         }
@@ -71,7 +72,7 @@ public class Hive{
             }
             board.movePiece(selectedPiece, point);
 
-            notifyPieceWasMoved(selectedPiece, point);
+            notifyPieceWasMoved(selectedPiece);
 
             if(round > 3 && board.aQueenIsSurrounded()){
                 notifyPlayerWon(board.getWinner());
@@ -115,9 +116,7 @@ public class Hive{
      * Deselects the currently selected piece.
      */
     public void deSelectPiece(){
-        if(aPieceIsSelected()){
-            notifyPieceWasDeselected();
-        }
+        notifyPieceWasDeselected();
         selectedPiece = null;
     }
 
@@ -183,9 +182,16 @@ public class Hive{
         winSubscribers.add(winSubscriber);
     }
 
+    public void subscribeSimple(ISimpleSubscriber simpleSubscriber){
+        simpleSubscribers.add(simpleSubscriber);
+    }
+
     private void notifyPieceWasSelected(IPiece piece){
         for(Isubscriber subscriber: subscribers){
             subscriber.pieceWasSelected(piece);
+        }
+        for(ISimpleSubscriber simpleSubscriber: simpleSubscribers){
+            simpleSubscriber.pieceWasSelected(piece);
         }
     }
 
@@ -193,23 +199,35 @@ public class Hive{
         for(Isubscriber subscriber: subscribers){
             subscriber.pieceWasDeselected();
         }
+        for(ISimpleSubscriber simpleSubscriber: simpleSubscribers){
+            simpleSubscriber.pieceWasDeselected();
+        }
     }
 
-    private void notifyPieceWasMoved(IPiece piece, Point point){
+    private void notifyPieceWasMoved(IPiece piece){
         for(Isubscriber subscriber: subscribers){
-            subscriber.pieceWasMoved(piece, point);
+            subscriber.pieceWasMoved(piece);
         }
+        notifyUpdate();
     }
 
     private void notifyPlayerWasChanged(Colour colour){
         for(Isubscriber subscriber: subscribers){
             subscriber.playerWasChanged(colour);
         }
+        notifyUpdate();
     }
 
     private void notifyPlayerWon(Colour winner){
         for(IWinSubscriber winSubscriber: winSubscribers){
             winSubscriber.playerWon(winner);
+        }
+        notifyUpdate();
+    }
+
+    private void notifyUpdate(){
+        for(ISimpleSubscriber simpleSubscriber: simpleSubscribers){
+            simpleSubscriber.modelWasUpdated();
         }
     }
 
