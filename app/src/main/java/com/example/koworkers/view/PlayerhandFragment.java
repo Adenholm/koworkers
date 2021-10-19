@@ -100,11 +100,6 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     }
 
     @Override
-    public void playerWon(Colour winningColour) {
-
-    }
-
-    @Override
     public void gameWasRestarted() {
         populate();
     }

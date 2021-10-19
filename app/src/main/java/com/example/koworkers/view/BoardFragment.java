@@ -141,11 +141,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
     }
 
     @Override
-    public void playerWon(Colour winningColour){
-        showWinScreen(winningColour.toString());
-    }
-
-    @Override
     public void gameWasRestarted(){
         boardFrame.removeAllViews();
         pieceMap.clear();

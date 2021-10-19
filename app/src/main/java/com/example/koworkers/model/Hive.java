@@ -24,6 +24,7 @@ public class Hive{
     private IPiece selectedPiece; //the currently selected piece
 
     private final ArrayList<Isubscriber> subscribers = new ArrayList<>(); // a list of subscibers
+    private final ArrayList<IWinSubscriber> winSubscribers = new ArrayList<>(); //list containing subscribers who want to know if a player won
 
     public Hive(){
         currentPlayer = whiteHand;
@@ -38,6 +39,7 @@ public class Hive{
         }
         return instance;
     }
+
     public void restart(){
         blackHand = new PlayerHand(Colour.BLACK);
         whiteHand = new PlayerHand(Colour.WHITE);
@@ -69,14 +71,10 @@ public class Hive{
             }
             board.movePiece(selectedPiece, point);
 
-            for(Isubscriber subscriber: subscribers){
-                subscriber.pieceWasMoved(selectedPiece, point);
-            }
+            notifyPieceWasMoved(selectedPiece, point);
 
             if(round > 3 && board.aQueenIsSurrounded()){
-                for(Isubscriber subscriber: subscribers){
-                    subscriber.playerWon(board.getWinner());
-                }
+                notifyPlayerWon(board.getWinner());
                 return;
             }
 
@@ -103,15 +101,11 @@ public class Hive{
      */
     public boolean selectPiece(IPiece piece){
         if(aPieceIsSelected()){
-            for(Isubscriber subscriber: subscribers){
-                subscriber.pieceWasDeselected();
-            }
+            notifyPieceWasDeselected();
         }
         if(piece.getColour().equals(currentPlayer.getColour()) && (!playersQueenShouldBePlaced() || currentPlayer.thisIsMyQueen(piece))){
             selectedPiece = piece;
-            for(Isubscriber subscriber: subscribers){
-                subscriber.pieceWasSelected(selectedPiece);
-            }
+            notifyPieceWasSelected(piece);
             return true;
         }
         return false;
@@ -121,8 +115,8 @@ public class Hive{
      * Deselects the currently selected piece.
      */
     public void deSelectPiece(){
-        for(Isubscriber subscriber: subscribers) {
-            subscriber.pieceWasDeselected();
+        if(aPieceIsSelected()){
+            notifyPieceWasDeselected();
         }
         selectedPiece = null;
     }
@@ -185,9 +179,43 @@ public class Hive{
         subscribers.add(subscriber);
     }
 
+    public void subscribeWin(IWinSubscriber winSubscriber){
+        winSubscribers.add(winSubscriber);
+    }
+
+    private void notifyPieceWasSelected(IPiece piece){
+        for(Isubscriber subscriber: subscribers){
+            subscriber.pieceWasSelected(piece);
+        }
+    }
+
+    private void notifyPieceWasDeselected(){
+        for(Isubscriber subscriber: subscribers){
+            subscriber.pieceWasDeselected();
+        }
+    }
+
+    private void notifyPieceWasMoved(IPiece piece, Point point){
+        for(Isubscriber subscriber: subscribers){
+            subscriber.pieceWasMoved(piece, point);
+        }
+    }
+
+    private void notifyPlayerWasChanged(Colour colour){
+        for(Isubscriber subscriber: subscribers){
+            subscriber.playerWasChanged(colour);
+        }
+    }
+
+    private void notifyPlayerWon(Colour winner){
+        for(IWinSubscriber winSubscriber: winSubscribers){
+            winSubscriber.playerWon(winner);
+        }
+    }
+
 
     /**
-     * Changes currentPlayer to the other colour that's not currently playing.
+     * Changes currentPlayer to the other colour that's not currently playing and notifies subscribers
      */
     private void switchPlayer(){
         if (currentPlayer == whiteHand){
@@ -196,8 +224,6 @@ public class Hive{
             currentPlayer = whiteHand;
             round++;
         }
-        for(Isubscriber subscriber: subscribers){
-            subscriber.playerWasChanged(currentPlayer.getColour());
-        }
+        notifyPlayerWasChanged(currentPlayer.getColour());
     }
 }

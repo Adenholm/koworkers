@@ -32,8 +32,6 @@ public interface Isubscriber {
      */
     void playerWasChanged(Colour colour);
 
-    void playerWon(Colour winningColour);
-
     /**
      * Runs when game is restarted.
      */
