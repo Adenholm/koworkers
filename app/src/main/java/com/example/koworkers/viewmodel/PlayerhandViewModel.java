@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class PlayerhandViewModel extends ViewModel {
 
-    private final Hive hive = Hive.getInstance();
+    private Hive hive = Hive.getInstance();
 
     /**
      * Returns a list with the current Players pieces in hand.
@@ -37,5 +37,9 @@ public class PlayerhandViewModel extends ViewModel {
      */
     public boolean queenShouldBePlaced(){
         return hive.playersQueenShouldBePlaced();
+    }
+
+    public void setHive(Hive hive) {
+        this.hive = hive;
     }
 }

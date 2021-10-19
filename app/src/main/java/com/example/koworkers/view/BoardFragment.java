@@ -83,7 +83,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(BoardViewModel.class);
 
         boardFrame = getView().findViewById(R.id.boardFrame);
         boardFrame.setOnClickListener(boardClick);

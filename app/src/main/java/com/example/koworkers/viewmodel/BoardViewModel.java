@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class BoardViewModel extends ViewModel{
 
-    private final Hive hive = Hive.getInstance();
+    private Hive hive = Hive.getInstance();
 
     private final int PIECE_SIZE = 90;          // size of piece in dpi
     private final int RADIE = PIECE_SIZE/2;
@@ -92,5 +92,9 @@ public class BoardViewModel extends ViewModel{
      */
     public void deSelectPiece(){
         hive.deSelectPiece();
+    }
+
+    public void setHive(Hive hive) {
+        this.hive = hive;
     }
 }

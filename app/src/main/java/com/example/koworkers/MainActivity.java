@@ -5,13 +5,20 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.model.Hive;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.view.WinScreenFragment;
+import com.example.koworkers.viewmodel.BoardViewModel;
+import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Hive hive;
+
+    private BoardViewModel boardViewModel;
+    private PlayerhandViewModel playerhandViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
+        hive = new Hive();
+
+        boardViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
+        playerhandViewModel = new ViewModelProvider(this).get(PlayerhandViewModel.class);
 
         FragmentContainerView boardFragmentContainerView = findViewById(R.id.boardFragmentContainerView);
         Isubscriber boardFragment = boardFragmentContainerView.getFragment();

@@ -66,7 +66,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(PlayerhandViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(PlayerhandViewModel.class);
 
         handLinearLayout = getView().findViewById(R.id.handLinearLayout);
 
