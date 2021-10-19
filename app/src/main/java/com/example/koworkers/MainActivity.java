@@ -30,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void init(){
         BoardViewModel boardViewModel = new ViewModelProvider(this).get(BoardViewModel.class);
-        boardViewModel.setHive(hive);
+        boardViewModel.init(hive);
+        hive.subscribe(boardViewModel);
         PlayerhandViewModel playerhandViewModel = new ViewModelProvider(this).get(PlayerhandViewModel.class);
         playerhandViewModel.setHive(hive);
 
         BoardFragment boardFragment = new BoardFragment();
         FrameLayout boardFrame = findViewById(R.id.boardFrame);
-        hive.subscribe(boardFragment);
 
         PlayerhandFragment playerhandFragment = new PlayerhandFragment();
         FrameLayout playerhandFrame = findViewById(R.id.playerhandFrame);

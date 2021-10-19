@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.MainActivity;
@@ -23,7 +24,9 @@ import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.BoardViewModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +34,7 @@ import java.util.Map;
  *
  * @author Hanna Adenholm
  */
-public class BoardFragment extends Fragment implements Isubscriber {
+public class BoardFragment extends Fragment{
 
     private BoardViewModel mViewModel;
 
@@ -59,7 +62,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private final View.OnClickListener pieceListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(mViewModel.selectPiece(imageMap.get(v))){
+            if(mViewModel.handlePieceClick(imageMap.get(v))){
                 setLayout(selectImage, mViewModel.getPoint(imageMap.get(v)));
                 boardFrame.addView(selectImage);
             }
@@ -69,7 +72,7 @@ public class BoardFragment extends Fragment implements Isubscriber {
     private final View.OnClickListener boardClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mViewModel.deSelectPiece();
+            mViewModel.handleBoardClick();
         }
     };
 
@@ -97,58 +100,41 @@ public class BoardFragment extends Fragment implements Isubscriber {
 
         selectImage = new ImageView(getContext());
         selectImage.setImageResource(R.drawable.select_hexagon);
+
+        mViewModel.getPieceIsSelected().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean pieceIsSelected) {
+                if(pieceIsSelected){
+                    displayPossibleMoves();
+                }else{
+                    removePossibleMoves();
+                    boardFrame.removeView(selectImage);
+                }
+            }
+        });
+
+        mViewModel.getCurrentPlayer().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                playerTextView.setText(s);
+            }
+        });
+
+        mViewModel.getPiecesOnBoard().observe(getViewLifecycleOwner(), new Observer<List<IPiece>>() {
+            @Override
+            public void onChanged(List<IPiece> pieces) {
+                displayBoardPieces(pieces);
+            }
+        });
     }
 
-    /**
-     * Displays the possible moves for the selected piece.
-     *
-     * @param piece The selected piece
-     */
-    @Override
-    public void pieceWasSelected(IPiece piece) {
-        displayPossibleMoves();
-    }
-
-    /**
-     * Removes the possible moves and removes the selection.
-     */
-    @Override
-    public void pieceWasDeselected() {
-        removePossibleMoves();
-        boardFrame.removeView(selectImage);
-   }
-
-    /**
-     * Moves the provided piece on the board to the provided point.
-     *
-     * @param piece The piece to be moved.
-     * @param point The point where the piece should be moved.
-     */
-    @Override
-    public void pieceWasMoved(IPiece piece, Point point){
-        displayBoardPiece(piece, point);
-    }
-
-    /**
-     * Changes the playerTextView to show which players turn it is.
-     *
-     * @param colour The colour of the current player.
-     */
-    @Override
-    public void playerWasChanged(Colour colour) {
-        playerTextView.setText(colour.toString());
-
-    }
-
-    @Override
-    public void gameWasRestarted(){
-        boardFrame.removeAllViews();
-        pieceMap.clear();
-        imageMap.clear();
-    }
-
-    public void showWinScreen(String winner){
-        ((MainActivity)getActivity()).showWinPopup(winner);
+    private void displayBoardPieces(List<IPiece> pieces){
+        for(View v: imageMap.keySet()){
+            boardFrame.removeView(v);
+        }
+        for(IPiece piece: pieces){
+            displayBoardPiece(piece, mViewModel.getPoint(piece));
+        }
     }
 
     private void displayBoardPiece(IPiece piece, Point point){
@@ -163,8 +149,8 @@ public class BoardFragment extends Fragment implements Isubscriber {
             pieceMap.put(piece,image);
             imageMap.put(image, piece);
             setLayout(image, point);
-            boardFrame.addView(image);
         }
+        boardFrame.addView(image);
         image.bringToFront();
     }
 
@@ -213,7 +199,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
     }
 
     private void setPieceImage(ImageView image, IPiece piece){
-
         String pkgName = getContext().getPackageName();
         if(piece.getColour() == Colour.WHITE){
             Uri path = Uri.parse("android.resource://"+pkgName+"/drawable/" + piece.getName() + "_piece");
@@ -222,7 +207,6 @@ public class BoardFragment extends Fragment implements Isubscriber {
             Uri path = Uri.parse("android.resource://"+pkgName+"/drawable/black_" + piece.getName() + "_piece");
             image.setImageURI(path);
         }
-
     }
 
 }
