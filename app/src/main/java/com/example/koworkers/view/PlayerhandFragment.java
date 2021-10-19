@@ -34,7 +34,7 @@ import java.util.Map;
 public class PlayerhandFragment extends Fragment implements Isubscriber {
 
     private final Map<ImageView, Integer> numberImageMap = new HashMap<>(); // HashMap with the number of pieces there are in each stack
-    private final Map<View, IPiece> imagePieceMap = new HashMap<>();        // HashMap of images with the piece that are "on top" of the stack
+    private final Map<View, IPiece> imagePieceMap = new HashMap<>();        // HashMap of images with the piece that are "on top" of the stack as value
 
     private ImageView selectImage;
 
@@ -90,7 +90,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     }
 
     @Override
-    public void pieceWasMoved(IPiece piece, Point point) {
+    public void pieceWasMoved(IPiece piece) {
         populate();
     }
 

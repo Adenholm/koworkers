@@ -126,9 +126,7 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
     @Override
     public void pieceWasMoved(IPiece piece) {
         List<IPiece> updatedList = piecesOnBoard.getValue();
-        if(updatedList.contains(piece)){
-            updatedList.remove(piece);
-        }
+        updatedList.remove(piece);
         updatedList.add(piece);
         piecesOnBoard.postValue(updatedList);
     }
