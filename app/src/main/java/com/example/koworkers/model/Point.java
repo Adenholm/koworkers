@@ -1,7 +1,7 @@
 package com.example.koworkers.model;
 
 /**
- * A point. Has a x-coordinate and a y-coordinate.
+ * An immutable point. Has a x-coordinate and a y-coordinate.
  * @Author Qwinth
  */
 public class Point {
@@ -41,20 +41,6 @@ public class Point {
         return y;
     }
 
-    /**
-     * sets x to the provided x
-     * @param x the provided x which x is set to
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-    /**
-     * sets y to the provided y
-     * @param y the provided y which y is set to
-     */
-    public void setY(int y) {
-        this.y = y;
-    }
 
     /**
      * Checks if point are equal to another point

@@ -74,13 +74,19 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
      * @return the calculated coordinate of the position on the view
      */
     public Point getCoordinates(Point point){
-        Point coordinate = new Point();
+        int x, y;
 
+        x = point.getX()*2* RADIUS;
+        y = point.getX()* RADIUS;
+        y = y + point.getY()*2* RADIUS;
+
+        /*
         coordinate.setX(point.getX()*2* RADIUS); //När x ökar flyttar viewcoordinate 2r i x-led...
         coordinate.setY(point.getX()* RADIUS);//...och r i y-led
         coordinate.setY(coordinate.getY()+point.getY()*2* RADIUS); //När y ändras flyttas viewcoordinate enbart i y-led
+         */
 
-        return coordinate;
+        return new Point(x,y);
     }
 
     /**
