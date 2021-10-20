@@ -65,7 +65,6 @@ abstract class Piece implements IPiece{
         int occupiedNeighbours = 0;
         Point ownPosition = boardPositions.get(0);
         for(Point p: getSurroundingCoordinates(position)){
-            //checks ig
             if(boardPositions.contains(p) && !p.equals(ownPosition)){
                 occupiedNeighbours++;
             }
@@ -101,9 +100,15 @@ abstract class Piece implements IPiece{
      * @return True if the hive still is cohesive, false if it isn't
      */
     protected boolean isHiveCohesiveAfterMove(ArrayList<Point> boardPositions){
-        boolean visited[] = new boolean[boardPositions.size()];
+        ArrayList<Point> noDuplicates = new ArrayList<>();
+        for(Point p:boardPositions){
+            if(!noDuplicates.contains(p)){
+                noDuplicates.add(p);
+            }
+        }
+        boolean visited[] = new boolean[noDuplicates.size()];
         //doesn't want to include first element of boardpositions, since that is the piece we want to move
-        DFS(1,boardPositions,visited);
+        DFS(1,noDuplicates,visited);
 
         //check if all pieces has been visited, if yes then the hive is cohesive
         int count =0;
@@ -112,7 +117,7 @@ abstract class Piece implements IPiece{
                 count++;
             }
         }
-        if(boardPositions.size()-1 == count){
+        if(noDuplicates.size()-1 == count){
             return true;
         }
         else{
