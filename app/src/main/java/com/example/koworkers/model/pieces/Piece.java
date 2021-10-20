@@ -66,7 +66,7 @@ abstract class Piece implements IPiece{
         Point ownPosition = boardPositions.get(0);
         for(Point p: getSurroundingCoordinates(position)){
             //checks ig
-            if(isInList(p,boardPositions) && !p.equals(ownPosition)){
+            if(boardPositions.contains(p) && !p.equals(ownPosition)){
                 occupiedNeighbours++;
             }
         }
@@ -84,7 +84,7 @@ abstract class Piece implements IPiece{
                 else{
                     nextPoint = 0;
                 }
-                if(!isInList(surroundPoints.get(i),boardPositions) && !isInList(surroundPoints.get(nextPoint),boardPositions)){
+                if(!boardPositions.contains(surroundPoints.get(i)) && !boardPositions.contains(surroundPoints.get(nextPoint))){
                     return false;
                 }
             }
@@ -136,34 +136,17 @@ abstract class Piece implements IPiece{
             //if the coordinate isn't occupied by a piece, go to next
             //the piece that is moving is here seen as an empty space
             int neighbour;
-            if(!isInList(currentPoint,boardPositions) || currentPoint.equals(boardPositions.get(0))){
+            if(!boardPositions.contains(currentPoint) || currentPoint.equals(boardPositions.get(0))){
                 continue;
             }
             else{
-                neighbour = indexOfPoint(boardPositions, currentPoint);
+                neighbour = boardPositions.indexOf(currentPoint);
             }
             if(visited[neighbour] == false){
                 DFS(neighbour,boardPositions,visited);
             }
         }
     }
-
-    /**
-     * If the point is an element in the list, the index is returned
-     * @param list The list that is searched within
-     * @param point The point that is searched for
-     * @return The index of the point is returned if it's in the list, otherwise -1 is returned
-     */
-    private int indexOfPoint(ArrayList<Point> list, Point point){
-        for(int i = 0;i<list.size();i++){
-            if(list.get(i).equals(point)){
-                return i;
-            }
-        }
-        return -1;
-    }
-
-
 
     /**
      * Returns the colour of the piece
@@ -183,19 +166,6 @@ abstract class Piece implements IPiece{
         return name;
     }
 
-    /**
-     * Checks if a certain position is in a list
-     * @param point The point that is searched for
-     * @param points The list that is searched within
-     * @return True if the point is in the list, and false otherwise
-     */
-    protected boolean isInList(Point point, ArrayList<Point> points){
-        for(Point listPoint: points){
-            if(point.equals(listPoint)){
-                return true;
-            }
-        }
-        return false;
-    }
+
 
 }
