@@ -31,6 +31,8 @@ public class Spider extends Piece {
         for(int i=0;i<secondPositions.size();i++){
             thirdPositions.addAll(calculateMoves(boardPositions,secondPositions.get(i)));
         }
+        //make sure none of the possiblemoves are the wrong positions
+        thirdPositions.removeAll(firstPositions);
 
         return thirdPositions;
     }
