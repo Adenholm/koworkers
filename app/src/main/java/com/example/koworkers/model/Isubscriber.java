@@ -22,17 +22,14 @@ public interface Isubscriber {
     /**
      * Runs if a piece was moved.
      * @param piece piece that was moved.
-     * @param point Point the piece was moved to.
      */
-    void pieceWasMoved(IPiece piece, Point point);
+    void pieceWasMoved(IPiece piece);
 
     /**
      * Runs if Player was changed.
      * @param colour Colour of new player.
      */
     void playerWasChanged(Colour colour);
-
-    void playerWon(Colour winningColour);
 
     /**
      * Runs when game is restarted.

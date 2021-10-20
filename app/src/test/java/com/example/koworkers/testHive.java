@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Hive;
+import com.example.koworkers.model.ISimpleSubscriber;
+import com.example.koworkers.model.IWinSubscriber;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.PlayerHand;
 import com.example.koworkers.model.Point;
@@ -214,9 +216,97 @@ public class testHive {
     }
 
     @Test
+    public void testRestart(){
+        Hive hive = initTestBoard();
+
+        hive.restart();
+
+        assertEquals(11, hive.getCurrentPlayerHandPieces().size());
+        assertEquals(Colour.WHITE, hive.getCurrentPlayerHandPieces().get(0).getColour());
+    }
+
+    @Test
+    public void testSubscriber(){
+        Hive hive = new Hive();
+        hive.subscribe(new testSubscriber(hive));
+
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(hive.getPossibleMoves().get(0));
+
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(1));
+        hive.movePiece(hive.getPossibleMoves().get(0));
+
+        hive.restart();
+    }
+
+    class testSubscriber implements Isubscriber{
+        private final Hive hive;
+
+        public testSubscriber(Hive hive){
+            this.hive = hive;
+        }
+
+        @Override
+        public void pieceWasSelected(IPiece piece) {
+            System.out.println(piece.getColour().toString() + " " + piece.getName() + " was selected");
+        }
+
+        @Override
+        public void pieceWasDeselected() {
+            System.out.println("Piece was deselected");
+        }
+
+        @Override
+        public void pieceWasMoved(IPiece piece) {
+            System.out.println("Piece: " + piece.getColour().toString() + " " + piece.getName() + " was moved to point " + hive.getPoint(piece).getX() + ", " + hive.getPoint(piece).getY());
+        }
+
+        @Override
+        public void playerWasChanged(Colour colour) {
+            System.out.println("Player was changed to " + colour.toString());
+        }
+
+        @Override
+        public void gameWasRestarted() {
+            System.out.println("Game was restarted");
+        }
+    }
+
+    @Test
+    public void testSimpleSubscriber(){
+        Hive hive = new Hive();
+        hive.subscribeSimple(new testSimpleSubscriber());
+
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(hive.getPossibleMoves().get(0));
+
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(1));
+        hive.movePiece(hive.getPossibleMoves().get(0));
+    }
+
+    class testSimpleSubscriber implements ISimpleSubscriber {
+        @Override
+        public void modelWasUpdated() {
+            System.out.println("The model was updated");
+        }
+
+        @Override
+        public void pieceWasSelected(IPiece piece) {
+            System.out.println(piece.getColour().toString() + " " + piece.getName() + " was selected");
+        }
+
+        @Override
+        public void pieceWasDeselected() {
+            System.out.println("Piece was deselected");
+        }
+
+
+    }
+
+    @Test
     public void testWinConditionBlackWins(){
         Hive hive = initTestBoard();
-        hive.subscribe(new testSubscriber());
+        hive.subscribeWin(new testBlackWinsSubscriber());
 
         //place white queen in spot 0,-1
         hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
@@ -236,44 +326,45 @@ public class testHive {
         hive.movePiece(new Point(1,-2));
     }
 
-    @Test
-    public void testSubscriber(){
-        Hive hive = new Hive();
-        hive.subscribe(new testSubscriber());
-
-        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
-        hive.movePiece(hive.getPossibleMoves().get(0));
-
-        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(1));
-        hive.movePiece(hive.getPossibleMoves().get(0));
-    }
-
-    class testSubscriber implements Isubscriber{
-
-        @Override
-        public void pieceWasSelected(IPiece piece) {
-            System.out.println(piece.getColour().toString() + " " + piece.getName() + " was selected");
-        }
-
-        @Override
-        public void pieceWasDeselected() {
-            System.out.println("Piece was deselected");
-        }
-
-        @Override
-        public void pieceWasMoved(IPiece piece, Point point) {
-            System.out.println("Piece: " + piece.getColour().toString() + " " + piece.getName() + " was moved to point " + point.getX() + ", " + point.getY());
-        }
-
-        @Override
-        public void playerWasChanged(Colour colour) {
-            System.out.println("Player was changed to " + colour.toString());
-        }
-
+    class testBlackWinsSubscriber implements IWinSubscriber {
         @Override
         public void playerWon(Colour winningColour) {
             System.out.println(winningColour.toString() + " won!");
             assertEquals(winningColour, Colour.BLACK);
+        }
+    }
+
+    @Test
+    public void testWinConditionWhiteWins(){
+        Hive hive = initTestBoard();
+        hive.subscribeWin(new testWhiteWinsSubscriber());
+
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(new Point(0,1));
+
+        //place black queen in spot 0,-1
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(new Point(0, -1));
+
+        //surround the black queen with other pieces
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(new Point(-1,0));
+
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(new Point(-1,-1));
+
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(new Point(0,-2));
+
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(new Point(1,-2));
+    }
+
+    class testWhiteWinsSubscriber implements IWinSubscriber {
+        @Override
+        public void playerWon(Colour winningColour) {
+            System.out.println(winningColour.toString() + " won!");
+            assertEquals(winningColour, Colour.WHITE);
         }
     }
 }

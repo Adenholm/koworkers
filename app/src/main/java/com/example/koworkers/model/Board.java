@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 /**
  * A class representing the board of the game. Holds the pieces and their position. Moves and places pieces on the board.
- * @Author Qwinth, Adenholm, Hansson
+ * @author Qwinth, Adenholm, Hansson
  */
 public class Board{
 
