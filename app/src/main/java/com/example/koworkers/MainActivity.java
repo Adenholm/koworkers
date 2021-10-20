@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements IWinSubscriber {
         ((WinScreenFragment)winScreenContainer.getFragment()).setWinnerText(winner);
     }
 
-    public void HideWinPopup(){
+    public void hideWinPopup(){
         FragmentContainerView winScreenContainer = findViewById(R.id.winScreenContainer);
         winScreenContainer.setVisibility(View.GONE);
     }

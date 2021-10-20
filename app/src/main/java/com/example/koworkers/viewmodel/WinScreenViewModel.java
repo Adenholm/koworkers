@@ -11,7 +11,7 @@ public class WinScreenViewModel extends ViewModel {
         this.hive = hive;
     }
 
-    public void handleRestartButtonClick(){
+    public void handleNewGameButtonClick(){
         hive.restart();
     }
 }
