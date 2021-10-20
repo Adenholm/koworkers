@@ -11,8 +11,6 @@ import java.util.ArrayList;
  */
 public class Hive{
 
-    private static Hive instance = null; //TODO remove singleton pattern
-
     private Board board = new Board();
     private PlayerHand blackHand = new PlayerHand(Colour.BLACK);
     private PlayerHand whiteHand = new PlayerHand(Colour.WHITE);
@@ -31,24 +29,14 @@ public class Hive{
         currentPlayer = whiteHand;
     }
 
-    /**
-     * Returns the single instance of the PlayerTurn class.
-     */
-    public static Hive getInstance(){ //TODO remove singleton pattern
-        if (instance == null) {
-            instance = new Hive();
-        }
-        return instance;
-    }
 
     public void restart(){
         blackHand = new PlayerHand(Colour.BLACK);
         whiteHand = new PlayerHand(Colour.WHITE);
         board = new Board();
         currentPlayer = whiteHand;
-        for (Isubscriber sub:subscribers){
-            sub.gameWasRestarted();
-        }
+        round = 1;
+        notifyGameWasRestarted();
     }
 
 
@@ -229,6 +217,13 @@ public class Hive{
         for(ISimpleSubscriber simpleSubscriber: simpleSubscribers){
             simpleSubscriber.modelWasUpdated();
         }
+    }
+
+    private void notifyGameWasRestarted(){
+        for(Isubscriber subscriber: subscribers){
+            subscriber.gameWasRestarted();
+        }
+        notifyUpdate();
     }
 
 
