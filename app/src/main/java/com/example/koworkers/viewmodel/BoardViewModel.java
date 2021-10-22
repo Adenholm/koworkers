@@ -1,76 +1,92 @@
 package com.example.koworkers.viewmodel;
 
-import static java.lang.Math.sqrt;
-
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Hive;
-import com.example.koworkers.model.IPublisher;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The viewmodel for the board view
+ * The viewModel for the board view
+ *
+ * Implements the Isubscriber inteface to be able to observe changes from the model. Contains LiveData that the view can observe.
  *
  * @author Hanna Adenholm
  * @author Lisa Qwinth
  */
-public class BoardViewModel extends ViewModel{
+public class BoardViewModel extends ViewModel implements Isubscriber {
 
-    private final Hive hive = Hive.getInstance();
+    private Hive hive;
 
-    private final int PIECE_SIZE = 90;          // size of piece in dpi
-    private final int RADIE = PIECE_SIZE/2;
+    private final MutableLiveData<List<IPiece>> piecesOnBoard = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> pieceIsSelected = new MutableLiveData<>();
+    private final MutableLiveData<String> currentPlayer = new MutableLiveData<>();
 
+    private final int PIECE_SIZE = 90;          // size of piece in dp
+    private final int RADIUS = PIECE_SIZE/2;
 
-    private  final int r=60; //från hexagonens mitt till hörn
-
-    /*Metod som tar koordinat från hexagon-griden och placerar ut på skärmen. Punkten som tas fram är mitten av hexagonen och läggs sedan till i viewCoordinates*/
-    public void placement(IPiece piece, Point point){
-        Point viewCoordinate=new Point(0,0);
-        double side=(2*r)/sqrt(3); // hexagonens sida, samband med r
-        viewCoordinate.setX(point.getX()*r); //När x ökar flyttar viewcoordinate r i x-led...
-        viewCoordinate.setY(point.getX()*2*r);//...och 2r i y-led
-        viewCoordinate.setY(viewCoordinate.getY()+point.getY()*2*r); //När y ändras flyytas viewcoordinate enbart i y-led
-
-        /* GAMMALT HEXAGONSYSTEM, kvar ifall att
-        int y_offset=2*r;
-        double x_offset=r+side;
-        double xy_offset=r+(side/2); //offset i x-led vid ojämnt i hives y-led
-        double yx_offset=r; //offset i y-led vid ojämnt i hives x-led
-        viewCoordinate.setY(y_offset*point.getY());
-        if (point.getX()%2==1){
-            viewCoordinate.setX((point.getX()-1)*(int)x_offset+(int)xy_offset);
-            viewCoordinate.setY(viewCoordinate.getY()+r);
-        }
-        else {
-            viewCoordinate.setX(point.getX()*(int)x_offset);
-        }
-
-
-
-        viewCoordinates.put(piece, viewCoordinate);
-        notifySubscribers();
-        */
+    /**
+     * Sets the hive and Initializes the liveData
+     * @param hive the instance of hive to get data from
+     */
+    public void init(Hive hive){
+        this.hive = hive;
+        piecesOnBoard.postValue(new ArrayList<>());
+        pieceIsSelected.postValue(false);
+        currentPlayer.postValue("White");
     }
 
     /**
-     * Returns the calculated coordinates for placement on a view based on the hexagonsystems.
+     * Returns the LiveData of a list with the pieces on the board
+     * @return LiveData with list of pieces on board
+     */
+    public LiveData<List<IPiece>> getPiecesOnBoard(){
+        return piecesOnBoard;
+    }
+
+    /**
+     * Returns LiveData of a boolean that says whether a piece is selected
+     * @return LiveData of a boolean that says whether a piece is selected
+     */
+    public LiveData<Boolean> getPieceIsSelected() {
+        return pieceIsSelected;
+    }
+
+    /**
+     * Returns LiveData of String containing the current player
+     * @return String of currentPlayer
+     */
+    public LiveData<String> getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
+     * Returns the calculated coordinates for placement on a view based on the hexagon systems.
      *
      * @param point the point to be converted into a position on the view
      * @return the calculated coordinate of the position on the view
      */
     public Point getCoordinates(Point point){
-        Point coordinate = new Point();
+        int x, y;
 
-        coordinate.setX(point.getX()*2*RADIE); //När x ökar flyttar viewcoordinate 2r i x-led...
-        coordinate.setY(point.getX()*RADIE);//...och r i y-led
-        coordinate.setY(coordinate.getY()+point.getY()*2*RADIE); //När y ändras flyttas viewcoordinate enbart i y-led
+        x = point.getX()*2* RADIUS;
+        y = point.getX()* RADIUS;
+        y = y + point.getY()*2* RADIUS;
 
-        return coordinate;
+        /*
+        coordinate.setX(point.getX()*2* RADIUS); //När x ökar flyttar viewcoordinate 2r i x-led...
+        coordinate.setY(point.getX()* RADIUS);//...och r i y-led
+        coordinate.setY(coordinate.getY()+point.getY()*2* RADIUS); //När y ändras flyttas viewcoordinate enbart i y-led
+         */
+
+        return new Point(x,y);
     }
 
     /**
@@ -103,7 +119,7 @@ public class BoardViewModel extends ViewModel{
      *
      * @param point Point where the selected piece is to be moved.
      */
-    public void movePiece(Point point){
+    public void handlePossibleMovesClick(Point point){
         hive.movePiece(point);
     }
 
@@ -113,14 +129,44 @@ public class BoardViewModel extends ViewModel{
      * @param piece Piece to be selected.
      * @return True if the piece was able to be selected.
      */
-    public boolean selectPiece(IPiece piece){
+    public boolean handlePieceClick(IPiece piece){
         return hive.selectPiece(piece);
     }
 
     /**
-     * Runs the Deselect method in the Model.
+     * Handles the boardClick by running the deselect method in the model
      */
-    public void deSelectPiece(){
+    public void handleBoardClick(){
         hive.deSelectPiece();
+    }
+
+    @Override
+    public void pieceWasSelected(IPiece piece) {
+        pieceIsSelected.setValue(true);
+    }
+
+    @Override
+    public void pieceWasDeselected() {
+        pieceIsSelected.setValue(false);
+    }
+
+    @Override
+    public void pieceWasMoved(IPiece piece) {
+        List<IPiece> updatedList = piecesOnBoard.getValue();
+        updatedList.remove(piece);
+        updatedList.add(piece);
+        piecesOnBoard.postValue(updatedList);
+    }
+
+    @Override
+    public void playerWasChanged(Colour colour) {
+        currentPlayer.postValue(colour.toString());
+    }
+
+    @Override
+    public void gameWasRestarted() {
+        piecesOnBoard.postValue(new ArrayList<>());
+        pieceIsSelected.postValue(false);
+        currentPlayer.postValue("White");
     }
 }

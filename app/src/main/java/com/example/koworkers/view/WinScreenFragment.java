@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.koworkers.MainActivity;
 import com.example.koworkers.R;
 import com.example.koworkers.viewmodel.WinScreenViewModel;
 
@@ -33,7 +35,16 @@ public class WinScreenFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(WinScreenViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(WinScreenViewModel.class);
+
+        Button newGameButton = getView().findViewById(R.id.newGameButton);
+        newGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.handleNewGameButtonClick();
+                ((MainActivity)getActivity()).hideWinPopup();
+            }
+        });
     }
 
     public void setWinnerText(String winner){

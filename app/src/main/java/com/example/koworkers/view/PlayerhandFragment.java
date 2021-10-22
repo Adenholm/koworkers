@@ -13,17 +13,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Isubscriber;
-import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,14 +32,12 @@ import java.util.Map;
  *
  * @author Hanna Adenholm
  */
-public class PlayerhandFragment extends Fragment implements Isubscriber {
+public class PlayerhandFragment extends Fragment{
 
     private final Map<ImageView, Integer> numberImageMap = new HashMap<>(); // HashMap with the number of pieces there are in each stack
-    private final Map<View, IPiece> imagePieceMap = new HashMap<>();        // HashMap of images with the piece that are "on top" of the stack
+    private final Map<View, IPiece> imagePieceMap = new HashMap<>();        // HashMap of images with the piece that are "on top" of the stack as value
 
     private ImageView selectImage;
-
-    private IPiece selectedPiece;
 
     private LinearLayout handLinearLayout;
 
@@ -49,7 +48,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     private final View.OnClickListener stackListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mViewModel.selectPiece(imagePieceMap.get(v));
+            mViewModel.handlePieceClick(imagePieceMap.get(v));
         }
     };
 
@@ -66,7 +65,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(PlayerhandViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(PlayerhandViewModel.class);
 
         handLinearLayout = getView().findViewById(R.id.handLinearLayout);
 
@@ -74,49 +73,22 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
         selectImage.setImageResource(R.drawable.select_hexagon);
         setLayout(selectImage, -90, 0,0,0,90);
 
-        populate();
-    }
-
-    @Override
-    public void pieceWasSelected(IPiece piece) {
-        selectedPiece = piece;
-        populate();
-    }
-
-    @Override
-    public void pieceWasDeselected() {
-        selectedPiece = null;
-        populate();
-    }
-
-    @Override
-    public void pieceWasMoved(IPiece piece, Point point) {
-        populate();
-    }
-
-    @Override
-    public void playerWasChanged(Colour colour) {
-        populate();
-    }
-
-    @Override
-    public void playerWon(Colour winningColour) {
-
-    }
-
-    @Override
-    public void gameWasRestarted() {
-        populate();
+        mViewModel.getPlayerHandPieces().observe(getViewLifecycleOwner(), new Observer<List<IPiece>>() {
+            @Override
+            public void onChanged(List<IPiece> pieces) {
+                populate(pieces);
+            }
+        });
     }
 
     /**
      * Creates stacks of pieces and adds to the linear layout.
      */
-    private void populate(){
+    private void populate(List<IPiece> pieces){
 
         ArrayList<ImageView> images = new ArrayList<>();
         boolean stackAlreadyExist = false;
-        for (IPiece piece: mViewModel.getPieces()){
+        for (IPiece piece: pieces){
             for(ImageView image: images){
                 if (imagePieceMap.get(image).getName().equals(piece.getName())) { //checks if stack already exists
                    numberImageMap.put(image, numberImageMap.get(image) + 1);
@@ -163,7 +135,7 @@ public class PlayerhandFragment extends Fragment implements Isubscriber {
     private void addToLinearLayout(ArrayList<ImageView> images){
         for(ImageView image: images){
             handLinearLayout.addView(image);
-            if(imagePieceMap.get(image) == selectedPiece){
+            if(imagePieceMap.get(image) == mViewModel.getSelectedPiece()){
                 handLinearLayout.addView(selectImage);
             }
             TextView textView1 = new TextView(getContext());
