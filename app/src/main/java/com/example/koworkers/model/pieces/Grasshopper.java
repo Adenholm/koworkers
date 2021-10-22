@@ -22,8 +22,6 @@ public class Grasshopper extends Piece {
         setName("grass");
     }
 
-
-    //TODO check so that the grasshopper can't jump over gaps
     @Override
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         Point grassPosition = boardPositions.get(0);
@@ -32,36 +30,28 @@ public class Grasshopper extends Piece {
             return possibleMoves;
         }
 
-        ArrayList<Point> relevantPieces = new ArrayList<>();
-        for(int i=1;i<boardPositions.size();i++){
-            if(isOnStraightLine(grassPosition, boardPositions.get(i))){
-                relevantPieces.add(boardPositions.get(i));
-            }
-        }
-        for(Point currentPoint:relevantPieces) {
-            for (Point surroundPoint : getSurroundingCoordinates(currentPoint)) {
-                if(isOnStraightLine(grassPosition, surroundPoint) && !boardPositions.contains(surroundPoint)){
-                    possibleMoves.add(surroundPoint);
-                }
+        for(Point currentPoint: getSurroundingCoordinates(grassPosition)){
+            if(boardPositions.contains(currentPoint)){
+                Point comparePoint = new Point(currentPoint.getX()-grassPosition.getX(),currentPoint.getY()- grassPosition.getY());
+                possibleMoves.add(getPossiblePosition(boardPositions,currentPoint,comparePoint));
 
             }
         }
-
         return possibleMoves;
 
     }
 
-    private boolean isOnStraightLine(Point grassPosition, Point otherPosition){
-        if(grassPosition.getX() == otherPosition.getX()){
-            return true;
+    private Point getPossiblePosition(ArrayList<Point> boardPositions, Point currentPoint, Point comparePoint){
+        Point nextPoint = new Point(currentPoint.getX()+comparePoint.getX(),currentPoint.getY()+comparePoint.getY());
+        if(boardPositions.contains(nextPoint) ){
+            nextPoint = getPossiblePosition(boardPositions,nextPoint,comparePoint);
         }
-        else if(otherPosition.getX()+otherPosition.getY() == grassPosition.getX()+grassPosition.getY()){
-            return true;
-        }
-        else if(grassPosition.getY() == otherPosition.getY()){
-            return true;
-        }
-        return false;
+        return nextPoint;
     }
+
+
+
+
+
 
 }
