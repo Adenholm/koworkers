@@ -41,9 +41,17 @@ public class Board{
                nemesisColour = Colour.BLACK;
             }
             possiblePlacements=checkAdd(possiblePlacements, getSurroundOnePlayerPieces(currentPlayersColour));
-            possiblePlacements = checkRemove(possiblePlacements, getSurroundOnePlayerPieces(nemesisColour));
-            possiblePlacements = checkAdd(possiblePlacements,  checkedStackedPieces(possiblePlacements, currentPlayersColour));
+            ArrayList <Point> stackedSurroundingPoint = new ArrayList<Point>();
+            for (IPiece piece: topStacked){
+                if(!topStackedPoints.contains(playedPieces.get(piece))) {
+                    topStackedPoints.add(playedPieces.get(piece));
+                    stackedSurroundingPoint.addAll(piece.getSurroundingCoordinates(playedPieces.get(piece)));
+                }
+            }
 
+           // ArrayList<Point> stackSafeRemove =checkRemove(getSurroundOnePlayerPieces(nemesisColour), stackedSurroundingPoint);//Takes away all stacked surrounding from remove so they stay in place.
+         //   possiblePlacements = checkRemove(possiblePlacements, stackSafeRemove);
+                possiblePlacements=checkRemove(possiblePlacements,getSurroundOnePlayerPiecesEXCEPTSTACKED(nemesisColour));
             if (playedPieces.size() == 1) { //If there is less than three played pieces, you can place a piece beside your nemesis's piece.
                 possiblePlacements.addAll(getSurroundOnePlayerPieces(nemesisColour));
             }
@@ -57,10 +65,7 @@ public class Board{
 
             for (IPiece piece : topStacked) {
                 if (piece.getColour() == currentPlayersColour) {
-                    if (placements.contains(playedPieces.get(piece))) {
-                        continue;
-                    }
-                    placements.add(playedPieces.get(piece));
+                   placements.addAll(piece.getSurroundingCoordinates(playedPieces.get(piece)));
                 }
             }
         }
@@ -68,11 +73,13 @@ public class Board{
     }
 
     private ArrayList<IPiece> topStacked=new ArrayList<IPiece>();
+    private ArrayList<Point> topStackedPoints=new ArrayList<Point>();
+
     private boolean isStacked(IPiece playPiece, Point playPoint){
       Collection<Point> playedPoints=playedPieces.values();
       for (Point boardPoint:playedPoints){
           if (boardPoint.equals(playPoint)) {
-              topStacked.add(playPiece);
+
               return true;
           }
       }
@@ -118,16 +125,17 @@ public class Board{
      * @return addTo with the elements from addFrom
      */
     private ArrayList<Point> checkAdd(ArrayList<Point> addTo, ArrayList<Point> addFrom) {
-
+        ArrayList<Point> addedTo=new ArrayList<>();
+        addedTo.addAll(addTo);
         for (Point point : addFrom) {
             for (int i=0; i< addTo.size(); i++) { //Shouldn't be replaced with an enhanced for-loop.
                 if (addTo.get(i).equals(point)) {
-                    addTo.remove(addTo.get(i));
+                    addedTo.remove(addTo.get(i));
                 }
             }
-            addTo.add(point);
+            addedTo.add(point);
         }
-        return addTo;
+        return addedTo;
     }
 
     /**
@@ -151,6 +159,24 @@ public class Board{
         return surroundingPlayedPieces;
     }
 
+   private ArrayList<Point> getSurroundOnePlayerPiecesEXCEPTSTACKED(Colour playerColour) {
+        ArrayList<Point> surroundingPlayedPieces = new ArrayList<>();
+
+        for (IPiece pie : playedPieces.keySet()) {
+            if (pie.getColour() == playerColour) {
+                if (!topStacked.contains(pie)) {
+
+                    for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie)))//Goes through the surrounding coordinates for every piece on the board
+
+                        if (!surroundingPlayedPieces.contains(surroundingPoint)) {
+                            surroundingPlayedPieces.add(surroundingPoint);
+                        }
+                }
+            }
+        }
+        return surroundingPlayedPieces;
+    }
+
 
 
     /**
@@ -160,8 +186,17 @@ public class Board{
      * @param point the added point
      */
     public void movePiece(IPiece piece, Point point) {
-        isUnStacked(piece);
-        isStacked(piece,point);
+        if(isUnStacked(piece)){
+
+        }
+        if(isStacked(piece,point)){
+            topStacked.add(piece);
+        }
+        for (IPiece playedPiece:playedPieces.keySet()){ //HATAR DUBLETTER PLZGIB VÄRLD UTAN DUBLICATED POINTS
+            if (playedPieces.get(playedPiece).equals(point)) {
+                point=playedPieces.get(playedPiece);
+            }
+        }
         playedPieces.put(piece, point);
     }
 
@@ -228,7 +263,7 @@ public class Board{
      * @param colour the colour of the pieces to be checked if able to move
      * @return true if any piece is able to move
      */
-    public boolean playerCanMakeMove(Colour colour){
+   public boolean playerCanMakeMove(Colour colour){
         for (IPiece piece: playedPieces.keySet()){
             if (piece.getColour().equals(colour) && !getPossibleMoves(piece).isEmpty()){
                 return true;

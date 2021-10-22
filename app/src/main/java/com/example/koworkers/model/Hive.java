@@ -27,7 +27,9 @@ public class Hive{
 
     public Hive(){
         currentPlayer = whiteHand;
+
     }
+
 
     /**
      * Returns the single instance of the PlayerTurn class.
