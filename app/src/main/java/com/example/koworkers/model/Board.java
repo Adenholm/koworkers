@@ -156,23 +156,42 @@ public class Board{
                     }
                 }
         }
-        return surroundingPlayedPieces;
+        return surroundingPlayedPieces;//Kollar alla pjäser som nuddar motståndarens färg och tar nort dem. för en spelad pjäs om den är av motståndarens färg läggs den till. vi kollar just nu om den inte finns i topstacked. det
+        //jag istället vill göra är att kolla om den har samma koordinat som ngn i topstacked och i det fallet inte fortsätta.
     }
 
    private ArrayList<Point> getSurroundOnePlayerPiecesEXCEPTSTACKED(Colour playerColour) {
         ArrayList<Point> surroundingPlayedPieces = new ArrayList<>();
 
+
         for (IPiece pie : playedPieces.keySet()) {
-            if (pie.getColour() == playerColour) {
-                if (!topStacked.contains(pie)) {
+            for (IPiece piece:topStacked) {//vi kollar först om pjäsen är en toppbit. isf ska vi ignorera bottenbiten. men hur gör vi det? jo, vi kollar om pie har samma koordinater men inte samma piece som toppen
+                if (pie.equals(piece) || !playedPieces.get(pie).equals(playedPieces.get(piece))) {//Om vi vänder på det, den får enbart fortsätta om den inte har samma koordinater som någon i toppiece elr om den finns i topstacked
+                    if (pie.getColour() == playerColour) {
 
-                    for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie)))//Goes through the surrounding coordinates for every piece on the board
+                        for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie)))//Goes through the surrounding coordinates for every piece on the board
 
-                        if (!surroundingPlayedPieces.contains(surroundingPoint)) {
-                            surroundingPlayedPieces.add(surroundingPoint);
-                        }
+                            if (!surroundingPlayedPieces.contains(surroundingPoint)) {
+                                surroundingPlayedPieces.add(surroundingPoint);
+                            }
+                    }
                 }
             }
+                if (topStacked.size()==0){
+                    if (pie.getColour() == playerColour) {
+
+                        for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie)))//Goes through the surrounding coordinates for every piece on the board
+
+                            if (!surroundingPlayedPieces.contains(surroundingPoint)) {
+                                surroundingPlayedPieces.add(surroundingPoint);
+                            }
+                    }
+                }
+                //Vi har nu lagt till alla som rör motståndarens pjäser från listan. Men vi vill inte ta bort de som rör ngn i topstacked från listan om topstacked är av spelarens färg. vi
+
+
+
+
         }
         return surroundingPlayedPieces;
     }
