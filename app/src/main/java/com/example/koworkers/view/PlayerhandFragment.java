@@ -43,6 +43,8 @@ public class PlayerhandFragment extends Fragment{
 
     private PlayerhandViewModel mViewModel;
 
+    private final int PIECESIZE = 80;
+
     private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density;
 
     private final View.OnClickListener stackListener = new View.OnClickListener() {
@@ -71,7 +73,7 @@ public class PlayerhandFragment extends Fragment{
 
         selectImage = new ImageView(getContext());
         selectImage.setImageResource(R.drawable.select_hexagon);
-        setLayout(selectImage, -90, 0,0,0,90);
+        setLayout(selectImage, -PIECESIZE, 0,0,0,PIECESIZE);
 
         mViewModel.getPlayerHandPieces().observe(getViewLifecycleOwner(), new Observer<List<IPiece>>() {
             @Override
@@ -107,7 +109,7 @@ public class PlayerhandFragment extends Fragment{
                 setPieceImage(newImage, piece);
 
                 newImage.setOnClickListener(stackListener);
-                setLayout(newImage, 20,0,  0,0,  90);
+                setLayout(newImage, 15,0,  0,0,  PIECESIZE);
                 imagePieceMap.put(newImage, piece);
                 numberImageMap.put(newImage, 1);
                 images.add(newImage);

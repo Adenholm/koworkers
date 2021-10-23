@@ -29,7 +29,7 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
     private final MutableLiveData<Boolean> pieceIsSelected = new MutableLiveData<>();
     private final MutableLiveData<String> currentPlayer = new MutableLiveData<>();
 
-    private final int PIECE_SIZE = 90;          // size of piece in dp
+    private final int PIECE_SIZE = 80;          // size of piece in dp
     private final int RADIUS = PIECE_SIZE/2;
 
     /**
