@@ -22,7 +22,6 @@ public class Grasshopper extends Piece {
         setName("grass");
     }
 
-    //TODO check so that the grasshopper can't jump over gaps
     @Override
     public ArrayList<Point> getPossibleMoves(ArrayList<Point> boardPositions) {
         Point grassPosition = boardPositions.get(0);
@@ -30,23 +29,29 @@ public class Grasshopper extends Piece {
         if(!isHiveCohesiveAfterMove(boardPositions)){
             return possibleMoves;
         }
-        for(int i= 1;i<boardPositions.size();i++){
-            Point currentPoint = boardPositions.get(i);
-            for(Point surroundPoint:getSurroundingCoordinates(currentPoint)){
-                //checks if the current point is on a straight line (diagonal or vertical) from the start position
-                if(grassPosition.getX() == surroundPoint.getX() && !isInList(surroundPoint,boardPositions)){
-                    possibleMoves.add(surroundPoint);
-                }
-                else if(surroundPoint.getX()+surroundPoint.getY() == boardPositions.get(0).getX()+boardPositions.get(0).getY() && !isInList(surroundPoint,boardPositions)){
-                    possibleMoves.add(surroundPoint);
-                }
-                else if(grassPosition.getY() == surroundPoint.getY() && !isInList(surroundPoint,boardPositions)){
-                    possibleMoves.add(surroundPoint);
-                }
-            }
 
+        for(Point currentPoint: getSurroundingCoordinates(grassPosition)){
+            if(boardPositions.contains(currentPoint)){
+                Point comparePoint = new Point(currentPoint.getX()-grassPosition.getX(),currentPoint.getY()- grassPosition.getY());
+                possibleMoves.add(getPossiblePosition(boardPositions,currentPoint,comparePoint));
+
+            }
         }
         return possibleMoves;
+
     }
+
+    private Point getPossiblePosition(ArrayList<Point> boardPositions, Point currentPoint, Point comparePoint){
+        Point nextPoint = new Point(currentPoint.getX()+comparePoint.getX(),currentPoint.getY()+comparePoint.getY());
+        if(boardPositions.contains(nextPoint) ){
+            nextPoint = getPossiblePosition(boardPositions,nextPoint,comparePoint);
+        }
+        return nextPoint;
+    }
+
+
+
+
+
 
 }

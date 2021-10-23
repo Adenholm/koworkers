@@ -31,6 +31,8 @@ public class Spider extends Piece {
         for(int i=0;i<secondPositions.size();i++){
             thirdPositions.addAll(calculateMoves(boardPositions,secondPositions.get(i)));
         }
+        //make sure none of the possiblemoves are the wrong positions
+        thirdPositions.removeAll(firstPositions);
 
         return thirdPositions;
     }
@@ -46,7 +48,7 @@ public class Spider extends Piece {
         //checks if the piece is still connected to the hive if it moves to the place, and makes sure the place isn't already occupied
         for(Point point:currentList){
             for(Point surroundPoint:getSurroundingCoordinates(point)){
-                if(isInList(surroundPoint,boardPositions) && !surroundPoint.equals(spiderPosition) && !isInList(point,boardPositions) && !isInList(point,possibleMoves) && !pieceIsStuck(boardPositions,point)){
+                if(boardPositions.contains(surroundPoint) && !surroundPoint.equals(spiderPosition) && !boardPositions.contains(point) && !possibleMoves.contains(point) && !pieceIsStuck(boardPositions,point)){
                     possibleMoves.add(point);
                 }
             }
