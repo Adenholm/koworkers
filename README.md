@@ -1,4 +1,5 @@
 # koworkers
+Hive rules: https://www.ultraboardgames.com/hive/game-rules.php  
 
 Trello: https://trello.com/b/CwQU0LA8
 
