@@ -26,7 +26,9 @@ public class Hive{
 
     public Hive(){
         currentPlayer = whiteHand;
+
     }
+
 
 
     public void restart(){
@@ -75,7 +77,7 @@ public class Hive{
     }
 
     private boolean newPlayerCantMove(){
-        return (currentPlayer.getPieces().isEmpty() || board.getPossibleplacements(currentPlayer.getColour()).isEmpty())
+        return (currentPlayer.getPieces().isEmpty() || board.getPossiblePlacements(currentPlayer.getColour()).isEmpty())
                 && !board.playerCanMakeMove(currentPlayer.getColour());
     }
 
@@ -170,7 +172,7 @@ public class Hive{
      */
     public ArrayList<Point> getPossibleMoves(){
         if(getCurrentPlayerHandPieces().contains(selectedPiece)){
-            return board.getPossibleplacements(currentPlayer.getColour());
+            return board.getPossiblePlacements(currentPlayer.getColour());
         } else {
             return board.getPossibleMoves(selectedPiece);
         }
