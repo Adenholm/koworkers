@@ -44,10 +44,13 @@ public class Board {
             }
             possiblePlacements = checkAdd(possiblePlacements, getSurroundOnePlayerPieces(currentPlayersColour, false));
             possiblePlacements = checkRemove(possiblePlacements, getSurroundOnePlayerPieces(nemesisColour, true));//Removes points which touches pieces of nemesis's colour, if there isn't a piece of playerColour stacked on top.
+            checkAdd(possiblePlacements, getSurroundOnePlayerPieces(currentPlayersColour));
+            checkRemove(possiblePlacements, getSurroundOnePlayerPieces(nemesisColour));
             if (playedPieces.size() == 1) { //If there is less than three played pieces, you can place a piece beside your nemesis's piece.
                 possiblePlacements.addAll(getSurroundOnePlayerPieces(nemesisColour, false));
             }
             possiblePlacements = checkRemove(possiblePlacements, playedPoints);//You can never place a piece if there already is a piece in that point
+            checkRemove(possiblePlacements, playedPoints);
 
         }
         return possiblePlacements;
@@ -83,7 +86,7 @@ public class Board {
         }
         return false;
     }
-    
+
 
     /**
      * Checks if the elements of a list has the equal element as another list and in that case removes them
@@ -225,6 +228,16 @@ public class Board {
      */
     public Point getPoint(IPiece piece) {
         return playedPieces.get(piece);
+    }
+
+    /**
+     * Returns the pieces on the board
+     * @return Arraylist with pieces on the board
+     */
+    public ArrayList<IPiece> getPiecesOnBoard(){
+        ArrayList<IPiece> pieces = new ArrayList<>();
+        pieces.addAll(playedPieces.keySet());
+        return pieces;
     }
 
 

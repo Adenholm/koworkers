@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * The viewModel for the board view
  *
- * Implements the Isubscriber inteface to be able to observe changes from the model. Contains LiveData that the view can observe.
+ * Implements the Isubscriber interface to be able to observe changes from the model. Contains LiveData that the view can observe.
  *
  * @author Hanna Adenholm
  * @author Lisa Qwinth
@@ -29,7 +29,7 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
     private final MutableLiveData<Boolean> pieceIsSelected = new MutableLiveData<>();
     private final MutableLiveData<String> currentPlayer = new MutableLiveData<>();
 
-    private final int PIECE_SIZE = 90;          // size of piece in dp
+    private final int PIECE_SIZE = 80;          // size of piece in dp
     private final int RADIUS = PIECE_SIZE/2;
 
     /**
@@ -79,12 +79,6 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
         x = point.getX()*2* RADIUS;
         y = point.getX()* RADIUS;
         y = y + point.getY()*2* RADIUS;
-
-        /*
-        coordinate.setX(point.getX()*2* RADIUS); //När x ökar flyttar viewcoordinate 2r i x-led...
-        coordinate.setY(point.getX()* RADIUS);//...och r i y-led
-        coordinate.setY(coordinate.getY()+point.getY()*2* RADIUS); //När y ändras flyttas viewcoordinate enbart i y-led
-         */
 
         return new Point(x,y);
     }
@@ -141,32 +135,9 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
     }
 
     @Override
-    public void pieceWasSelected(IPiece piece) {
-        pieceIsSelected.setValue(true);
-    }
-
-    @Override
-    public void pieceWasDeselected() {
-        pieceIsSelected.setValue(false);
-    }
-
-    @Override
-    public void pieceWasMoved(IPiece piece) {
-        List<IPiece> updatedList = piecesOnBoard.getValue();
-        updatedList.remove(piece);
-        updatedList.add(piece);
-        piecesOnBoard.postValue(updatedList);
-    }
-
-    @Override
-    public void playerWasChanged(Colour colour) {
-        currentPlayer.postValue(colour.toString());
-    }
-
-    @Override
-    public void gameWasRestarted() {
-        piecesOnBoard.postValue(new ArrayList<>());
-        pieceIsSelected.postValue(false);
-        currentPlayer.postValue("White");
+    public void update(){
+        pieceIsSelected.setValue(hive.aPieceIsSelected());
+        piecesOnBoard.setValue(hive.getPiecesOnBoard());
+        currentPlayer.setValue((hive.getCurrentPlayerColour()).toString());
     }
 }
