@@ -23,7 +23,6 @@ public class Hive{
 
     private final ArrayList<Isubscriber> subscribers = new ArrayList<>();               // a list of subscibers
     private final ArrayList<IWinSubscriber> winSubscribers = new ArrayList<>();         //list containing subscribers who want to know if a player won
-    private final ArrayList<ISimpleSubscriber> simpleSubscribers = new ArrayList<>();   //list of subscribers who only wants to know when model updates or something is selected/deselected
 
     public Hive(){
         currentPlayer = whiteHand;
@@ -36,7 +35,7 @@ public class Hive{
         board = new Board();
         currentPlayer = whiteHand;
         round = 1;
-        notifyGameWasRestarted();
+        notifyUpdate();
     }
 
 
@@ -60,18 +59,17 @@ public class Hive{
             }
             board.movePiece(selectedPiece, point);
 
-            notifyPieceWasMoved(selectedPiece);
-
             if(round > 3 && board.aQueenIsSurrounded()){
                 notifyPlayerWon(board.getWinner());
                 return;
             }
 
-            deSelectPiece();
             switchPlayer();
+            deSelectPiece();
 
             if(newPlayerCantMove()){
                 switchPlayer();
+                notifyUpdate();
             }
         }
     }
@@ -90,11 +88,11 @@ public class Hive{
      */
     public boolean selectPiece(IPiece piece){
         if(aPieceIsSelected()){
-            notifyPieceWasDeselected();
+            deSelectPiece();
         }
         if(piece.getColour().equals(currentPlayer.getColour()) && (!playersQueenShouldBePlaced() || currentPlayer.thisIsMyQueen(piece))){
             selectedPiece = piece;
-            notifyPieceWasSelected(piece);
+            notifyUpdate();
             return true;
         }
         return false;
@@ -104,8 +102,8 @@ public class Hive{
      * Deselects the currently selected piece.
      */
     public void deSelectPiece(){
-        notifyPieceWasDeselected();
         selectedPiece = null;
+        notifyUpdate();
     }
 
     /**
@@ -148,6 +146,22 @@ public class Hive{
         return board.getPoint(piece);
     }
 
+    /**
+     * Returns list with the pieces on the board.
+     *
+     * @return pieces on the board
+     */
+    public ArrayList<IPiece> getPiecesOnBoard(){
+        return board.getPiecesOnBoard();
+    }
+
+    public Colour getCurrentPlayerColour(){
+        return currentPlayer.getColour();
+    }
+
+    public IPiece getSelectedPiece(){
+        return selectedPiece;
+    }
 
     /**
      * Returns a list of possible positions the selected piece are able to move to.
@@ -170,42 +184,6 @@ public class Hive{
         winSubscribers.add(winSubscriber);
     }
 
-    public void subscribeSimple(ISimpleSubscriber simpleSubscriber){
-        simpleSubscribers.add(simpleSubscriber);
-    }
-
-    private void notifyPieceWasSelected(IPiece piece){
-        for(Isubscriber subscriber: subscribers){
-            subscriber.pieceWasSelected(piece);
-        }
-        for(ISimpleSubscriber simpleSubscriber: simpleSubscribers){
-            simpleSubscriber.pieceWasSelected(piece);
-        }
-    }
-
-    private void notifyPieceWasDeselected(){
-        for(Isubscriber subscriber: subscribers){
-            subscriber.pieceWasDeselected();
-        }
-        for(ISimpleSubscriber simpleSubscriber: simpleSubscribers){
-            simpleSubscriber.pieceWasDeselected();
-        }
-    }
-
-    private void notifyPieceWasMoved(IPiece piece){
-        for(Isubscriber subscriber: subscribers){
-            subscriber.pieceWasMoved(piece);
-        }
-        notifyUpdate();
-    }
-
-    private void notifyPlayerWasChanged(Colour colour){
-        for(Isubscriber subscriber: subscribers){
-            subscriber.playerWasChanged(colour);
-        }
-        notifyUpdate();
-    }
-
     private void notifyPlayerWon(Colour winner){
         for(IWinSubscriber winSubscriber: winSubscribers){
             winSubscriber.playerWon(winner);
@@ -214,16 +192,9 @@ public class Hive{
     }
 
     private void notifyUpdate(){
-        for(ISimpleSubscriber simpleSubscriber: simpleSubscribers){
-            simpleSubscriber.modelWasUpdated();
-        }
-    }
-
-    private void notifyGameWasRestarted(){
         for(Isubscriber subscriber: subscribers){
-            subscriber.gameWasRestarted();
+            subscriber.update();
         }
-        notifyUpdate();
     }
 
 
@@ -237,6 +208,5 @@ public class Hive{
             currentPlayer = whiteHand;
             round++;
         }
-        notifyPlayerWasChanged(currentPlayer.getColour());
     }
 }

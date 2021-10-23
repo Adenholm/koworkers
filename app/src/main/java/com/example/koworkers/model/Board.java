@@ -7,6 +7,7 @@ import com.example.koworkers.model.pieces.IPiece;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A class representing the board of the game. Holds the pieces and their position. Moves and places pieces on the board.
@@ -38,12 +39,12 @@ public class Board{
             if (currentPlayersColour == Colour.WHITE) {
                nemesisColour = Colour.BLACK;
             }
-            possiblePlacements=checkAdd(possiblePlacements, getSurroundOnePlayerPieces(currentPlayersColour));
-            possiblePlacements = checkRemove(possiblePlacements, getSurroundOnePlayerPieces(nemesisColour));
+            checkAdd(possiblePlacements, getSurroundOnePlayerPieces(currentPlayersColour));
+            checkRemove(possiblePlacements, getSurroundOnePlayerPieces(nemesisColour));
             if (playedPieces.size() == 1) { //If there is less than three played pieces, you can place a piece beside your nemesis's piece.
                 possiblePlacements.addAll(getSurroundOnePlayerPieces(nemesisColour));
             }
-            possiblePlacements = checkRemove(possiblePlacements, playedPoints);
+            checkRemove(possiblePlacements, playedPoints);
 
         }
 
@@ -144,6 +145,16 @@ public class Board{
      */
     public Point getPoint(IPiece piece) {
         return playedPieces.get(piece);
+    }
+
+    /**
+     * Returns the pieces on the board
+     * @return Arraylist with pieces on the board
+     */
+    public ArrayList<IPiece> getPiecesOnBoard(){
+        ArrayList<IPiece> pieces = new ArrayList<>();
+        pieces.addAll(playedPieces.keySet());
+        return pieces;
     }
 
 

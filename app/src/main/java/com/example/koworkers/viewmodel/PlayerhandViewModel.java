@@ -5,17 +5,16 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.koworkers.model.Hive;
-import com.example.koworkers.model.ISimpleSubscriber;
+import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.pieces.IPiece;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The viewModel for the Player Hand view.
  * @author Hanna Adenholm
  */
-public class PlayerhandViewModel extends ViewModel implements ISimpleSubscriber {
+public class PlayerhandViewModel extends ViewModel implements Isubscriber {
 
     private Hive hive;
 
@@ -65,19 +64,8 @@ public class PlayerhandViewModel extends ViewModel implements ISimpleSubscriber 
 
 
     @Override
-    public void modelWasUpdated() {
-        playerHandPieces.setValue(hive.getCurrentPlayerHandPieces());
-    }
-
-    @Override
-    public void pieceWasSelected(IPiece piece) {
-        selectedPiece = piece;
-        playerHandPieces.setValue(hive.getCurrentPlayerHandPieces());
-    }
-
-    @Override
-    public void pieceWasDeselected() {
-        selectedPiece = null;
+    public void update() {
+        selectedPiece = hive.getSelectedPiece();
         playerHandPieces.setValue(hive.getCurrentPlayerHandPieces());
     }
 }

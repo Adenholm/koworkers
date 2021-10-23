@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements IWinSubscriber {
         //initiate PlayerHandViewModel
         PlayerhandViewModel playerhandViewModel = new ViewModelProvider(this).get(PlayerhandViewModel.class);
         playerhandViewModel.init(hive);
-        hive.subscribeSimple(playerhandViewModel);
+        hive.subscribe(playerhandViewModel);
 
         //initiate WinScreenViewModel
         WinScreenViewModel winScreenViewModel = new ViewModelProvider(this).get(WinScreenViewModel.class);

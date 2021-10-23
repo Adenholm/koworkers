@@ -40,6 +40,7 @@ public class BoardFragment extends Fragment{
     private BoardViewModel mViewModel;
 
     private FrameLayout boardFrame;
+    private HorizontalScrollView hScrollView;
     private TextView playerTextView;
 
     private final Map<IPiece, ImageView> pieceMap = new HashMap<>();    //map of pieces and images
@@ -91,6 +92,8 @@ public class BoardFragment extends Fragment{
 
         boardFrame = getView().findViewById(R.id.boardFrame);
         boardFrame.setOnClickListener(boardClick);
+
+        hScrollView = getView().findViewById(R.id.hScrollView);
 
         playerTextView = getView().findViewById(R.id.playerTextView);
         playerTextView.setText(Colour.WHITE.toString());
@@ -178,6 +181,7 @@ public class BoardFragment extends Fragment{
         if(coordinate.getX() + leftOffset - 200 < 0 ){
             leftOffset += 200;
             updateView();
+            hScrollView.smoothScrollTo(leftOffset, 0);
         }
         if(coordinate.getY() + topOffset - 200 < 0 ){
             topOffset += 100;
@@ -208,5 +212,4 @@ public class BoardFragment extends Fragment{
             image.setImageURI(path);
         }
     }
-
 }

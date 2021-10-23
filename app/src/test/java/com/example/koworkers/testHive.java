@@ -6,14 +6,11 @@ import static org.junit.Assert.assertTrue;
 
 import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Hive;
-import com.example.koworkers.model.ISimpleSubscriber;
 import com.example.koworkers.model.IWinSubscriber;
 import com.example.koworkers.model.Isubscriber;
-import com.example.koworkers.model.PlayerHand;
 import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.model.pieces.PieceFactory;
-import com.example.koworkers.model.pieces.Queen;
 
 import org.junit.Test;
 
@@ -188,7 +185,7 @@ public class testHive {
     @Test
     public void testWhenPlayerCantMove(){
         Hive hive = new Hive();
-        //hive.subscribe(new testSubscriber());
+        //hive.subscribe(new testSubscriber(hive));
 
         IPiece whitePiece = hive.getCurrentPlayerHandPieces().get(0);
 
@@ -207,12 +204,18 @@ public class testHive {
         }
 
         //place the last piece at the furthest end of the white side of the line to make white unable to make move
-        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        IPiece lastPiece = hive.getCurrentPlayerHandPieces().get(0);
+        hive.selectPiece(lastPiece);
         hive.movePiece(new Point(-i-1,0));
 
-        //try selecting a white piece to see if it is still blacks turn
-        hive.selectPiece(whitePiece);
-        assertFalse(hive.aPieceIsSelected());
+        //Make sure its still black turns since white cant make a move
+        assertEquals(Colour.BLACK, hive.getCurrentPlayerColour());
+
+        hive.selectPiece(lastPiece);
+        hive.movePiece(new Point(i+1, 0));
+
+        //Make sure white can play again when black moved it's piece
+        assertEquals(Colour.WHITE, hive.getCurrentPlayerColour());
     }
 
     @Test
@@ -247,60 +250,20 @@ public class testHive {
         }
 
         @Override
-        public void pieceWasSelected(IPiece piece) {
-            System.out.println(piece.getColour().toString() + " " + piece.getName() + " was selected");
+        public void update(){
+            System.out.println("Model Updated!");
+            System.out.println("Current player is " + hive.getCurrentPlayerColour().toString());
+            if(hive.aPieceIsSelected()){
+                System.out.println("The selected Piece is: " + hive.getSelectedPiece().getColour().toString() + " " + hive.getSelectedPiece().getName());
+            }else{
+                System.out. println("There is no selected piece");
+            }
+            System.out.println("Pieces on board:");
+            for(IPiece piece: hive.getPiecesOnBoard()){
+                System.out.println(piece.getColour().toString() + " " + piece.getName() + ": " + hive.getPoint(piece).getX() + ", " + hive.getPoint(piece).getY());
+            }
+            System.out.println();
         }
-
-        @Override
-        public void pieceWasDeselected() {
-            System.out.println("Piece was deselected");
-        }
-
-        @Override
-        public void pieceWasMoved(IPiece piece) {
-            System.out.println("Piece: " + piece.getColour().toString() + " " + piece.getName() + " was moved to point " + hive.getPoint(piece).getX() + ", " + hive.getPoint(piece).getY());
-        }
-
-        @Override
-        public void playerWasChanged(Colour colour) {
-            System.out.println("Player was changed to " + colour.toString());
-        }
-
-        @Override
-        public void gameWasRestarted() {
-            System.out.println("Game was restarted");
-        }
-    }
-
-    @Test
-    public void testSimpleSubscriber(){
-        Hive hive = new Hive();
-        hive.subscribeSimple(new testSimpleSubscriber());
-
-        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
-        hive.movePiece(hive.getPossibleMoves().get(0));
-
-        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(1));
-        hive.movePiece(hive.getPossibleMoves().get(0));
-    }
-
-    class testSimpleSubscriber implements ISimpleSubscriber {
-        @Override
-        public void modelWasUpdated() {
-            System.out.println("The model was updated");
-        }
-
-        @Override
-        public void pieceWasSelected(IPiece piece) {
-            System.out.println(piece.getColour().toString() + " " + piece.getName() + " was selected");
-        }
-
-        @Override
-        public void pieceWasDeselected() {
-            System.out.println("Piece was deselected");
-        }
-
-
     }
 
     @Test
