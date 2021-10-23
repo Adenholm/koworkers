@@ -44,8 +44,6 @@ public class Board {
             }
             possiblePlacements = checkAdd(possiblePlacements, getSurroundOnePlayerPieces(currentPlayersColour, false));
             possiblePlacements = checkRemove(possiblePlacements, getSurroundOnePlayerPieces(nemesisColour, true));//Removes points which touches pieces of nemesis's colour, if there isn't a piece of playerColour stacked on top.
-            checkAdd(possiblePlacements, getSurroundOnePlayerPieces(currentPlayersColour));
-            checkRemove(possiblePlacements, getSurroundOnePlayerPieces(nemesisColour));
             if (playedPieces.size() == 1) { //If there is less than three played pieces, you can place a piece beside your nemesis's piece.
                 possiblePlacements.addAll(getSurroundOnePlayerPieces(nemesisColour, false));
             }
