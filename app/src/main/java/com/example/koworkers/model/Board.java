@@ -145,11 +145,13 @@ public class Board {
             withStack = false;
         }
         for (IPiece pie : playedPieces.keySet()) {
-
-            for (IPiece piece : topStacked) {
+            if (!withStack) {
+                surroundingPlayedPieces.addAll(getSurroundingPlayedPoints(pie, playerColour));
+            }
+            else {
+                for (IPiece piece : topStacked) {
                     if (!playedPieces.get(pie).equals(playedPieces.get(piece)) || pie.equals(piece)) { //Adds point to surroundingPlayedPieces if the point has the same coordinate as a topStacked piece, but isn't the topStacked piece, aka a bottomStacked piece
-                        if (!withStack) {
-                           surroundingPlayedPieces.addAll(getSurroundingPlayedPoints(pie, playerColour));
+                        surroundingPlayedPieces.addAll(getSurroundingPlayedPoints(pie, playerColour));
                     }
                 }
             }
