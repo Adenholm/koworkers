@@ -30,7 +30,7 @@ public class Beetle extends Piece {
         Point beetlePoint = boardPositions.get(0);
         //if beetle is stacked on top of another piece, the hive is always cohesive even if the beetle moves, and the beetle is neve stuck
         if(!isBeetleStacked(boardPositions)){
-            if(!isHiveCohesiveAfterMove(boardPositions) || pieceIsStuck(boardPositions,beetlePoint)){
+            if(!isHiveCohesiveAfterMove(boardPositions)){
                 return possibleMoves;
             }
         }
@@ -38,6 +38,10 @@ public class Beetle extends Piece {
         ArrayList<Point> currentList = getSurroundingCoordinates(beetlePoint);
         for(Point point: currentList){
             for(Point surroundpoint: getSurroundingCoordinates(point)) {
+                //if the beetle is stuck, it should not be able to slide out to an empty space, but it should still be able to jump on top of other pieces
+                if(pieceIsStuck(boardPositions,beetlePoint)){
+                    break;
+                }
                 //checks if the piece is still connected to the hive if it moves to the place
                 if (!surroundpoint.equals(beetlePoint) && boardPositions.contains(surroundpoint) && !possibleMoves.contains(point) && !pieceIsStuck(boardPositions,point)) {
                     possibleMoves.add(point);
