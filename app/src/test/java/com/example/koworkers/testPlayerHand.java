@@ -7,13 +7,8 @@ import static org.junit.Assert.assertTrue;
 import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.PlayerHand;
 import com.example.koworkers.model.Point;
-import com.example.koworkers.model.pieces.Ant;
-import com.example.koworkers.model.pieces.Beetle;
-import com.example.koworkers.model.pieces.Grasshopper;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.model.pieces.PieceFactory;
-import com.example.koworkers.model.pieces.Queen;
-import com.example.koworkers.model.pieces.Spider;
 
 import org.junit.Test;
 
@@ -53,7 +48,7 @@ public class testPlayerHand {
     @Test
     public void testGetPieces(){
         PlayerHand playerHand = new PlayerHand(Colour.WHITE);
-        assertTrue(playerHand.getPieces().get(0) instanceof Queen);
+        assertTrue(playerHand.thisIsMyQueen(playerHand.getPieces().get(0)));
     }
 
     @Test

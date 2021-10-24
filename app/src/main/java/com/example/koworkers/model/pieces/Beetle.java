@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Stina Hansson
  * @author Hanna Adenholm
  */
-public class Beetle extends Piece {
+class Beetle extends Piece {
 
     /**
      * Creates a beetle

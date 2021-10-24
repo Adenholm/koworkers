@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * The ant have an unlimited amount of steps, and can move around the hive in any direction
  * @author Stina Hansson
  */
-public class Ant extends Piece {
+class Ant extends Piece {
 
     /**
      * Creates an ant

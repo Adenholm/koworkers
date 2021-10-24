@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /** The spider piece
  * The spider can move 3 steps, and can move around the hive in any direction
  */
-public class Spider extends Piece {
+class Spider extends Piece {
 
     /**
      * Creates a spider

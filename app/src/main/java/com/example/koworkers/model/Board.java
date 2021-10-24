@@ -15,7 +15,7 @@ import java.util.HashMap;
  * @Author Stina Hansson
  * @Author Lisa Qwinth
  */
-public class Board {
+class Board {
 
     private final HashMap<IPiece, Point> playedPieces = new HashMap<>(); //Hashmap med piece som key
 

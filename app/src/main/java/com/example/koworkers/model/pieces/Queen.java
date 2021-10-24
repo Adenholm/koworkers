@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * The queen can only move one step at a time
  * @author Stina Hansson
  */
-public class Queen extends Piece {
+class Queen extends Piece {
 
     /**
      * Creates a queen
