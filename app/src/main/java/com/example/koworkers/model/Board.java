@@ -226,14 +226,25 @@ class Board {
     }
 
     /**
-     * Returns the pieces on the board
+     * Returns the pieces on the board except for the pieces under another piece
      * @return Arraylist with pieces on the board
      */
     public ArrayList<IPiece> getPiecesOnBoard(){
         ArrayList<IPiece> pieces = new ArrayList<>();
         pieces.addAll(playedPieces.keySet());
+        ArrayList<IPiece> remove = new ArrayList<>();
+        for(IPiece piece: pieces){
+            for(IPiece topPiece: topStacked){
+                if(playedPieces.get(piece).equals(playedPieces.get(topPiece))){
+                    remove.add(piece);
+                }
+            }
+        }
+        pieces.removeAll(remove);
+        pieces.addAll(topStacked);
         return pieces;
     }
+
 
 
     /**
