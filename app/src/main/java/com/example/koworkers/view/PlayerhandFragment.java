@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koworkers.R;
 import com.example.koworkers.model.Colour;
-import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.PlayerhandViewModel;
 

@@ -2,7 +2,6 @@ package com.example.koworkers;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
@@ -12,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Hive;
 import com.example.koworkers.model.IWinSubscriber;
-import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.view.BoardFragment;
 import com.example.koworkers.view.PlayerhandFragment;
 import com.example.koworkers.view.WinScreenFragment;
