@@ -118,7 +118,7 @@ public class testHive {
         hive.selectPiece(pieceToBePlaced);
         hive.movePiece(new Point(0,0));
 
-        assertTrue(pointToPlacePiece.equals(hive.getPoint(pieceToBePlaced)));
+        assertEquals(pointToPlacePiece, hive.getPoint(pieceToBePlaced));
 
         //Do another turn in order to get the original player back
         hive.selectPiece(PieceFactory.createNewBeetle(Colour.BLACK));
@@ -131,19 +131,20 @@ public class testHive {
     @Test
     public void testMovePieceOnBoard(){
         Hive hive = initTestBoard();
+        hive.subscribe(new testSubscriber(hive));
 
-        IPiece pieceToMove = hive.getCurrentPlayerHandPieces().get(1);
+        IPiece pieceToMove = hive.getCurrentPlayerHandPieces().get(0);
         hive.selectPiece(pieceToMove);
-        hive.movePiece(new Point(0,1));
+        hive.movePiece(hive.getPossibleMoves().get(0));
         //Do another turn in order to get the original player back
-        hive.selectPiece(PieceFactory.createNewBeetle(Colour.BLACK));
-        hive.movePiece(new Point(2,-2));
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
+        hive.movePiece(hive.getPossibleMoves().get(0));
 
-        Point pointToMoveTo = new Point(3,-3);
         hive.selectPiece(pieceToMove);
+        Point pointToMoveTo = hive.getPossibleMoves().get(0);
         hive.movePiece(pointToMoveTo);
 
-        //assertTrue(hive.getPoint(pieceToMove).equals(pointToMoveTo));
+        assertEquals(hive.getPoint(pieceToMove), pointToMoveTo);
     }
 
     @Test
@@ -231,7 +232,7 @@ public class testHive {
     @Test
     public void testSubscriber(){
         Hive hive = new Hive();
-        hive.subscribe(new testSubscriber(hive));
+        //hive.subscribe(new testSubscriber(hive));
 
         hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
         hive.movePiece(hive.getPossibleMoves().get(0));
