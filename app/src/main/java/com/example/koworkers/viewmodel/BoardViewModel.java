@@ -79,6 +79,8 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
         y = point.getX()* RADIUS;
         y = y + point.getY()*2* RADIUS;
 
+        x = (int) (x * 0.85);
+
         return new Point(x,y);
     }
 
