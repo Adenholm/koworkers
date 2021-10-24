@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Point;
-import com.example.koworkers.model.pieces.Ant;
 import com.example.koworkers.model.pieces.IPiece;
+import com.example.koworkers.model.pieces.PieceFactory;
 
 
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class testPiece {
     @Test
     public void testPieceIsStuckBetween4(){
         ArrayList<Point> boardPositions = new ArrayList<>(Arrays.asList(new Point(0, 0),new Point(-1, 1),new Point(1, 0),new Point(-1, 0),new Point(1, -1)));
-        IPiece ant = new Ant(Colour.BLACK);
+        IPiece ant = PieceFactory.createNewAnt(Colour.BLACK);
         ArrayList<Point> actualMoves = ant.getPossibleMoves(boardPositions);
         if (actualMoves.size()==0) {
             assertTrue(true);
@@ -37,7 +37,7 @@ public class testPiece {
     @Test
     public void testPieceIsNotStuckBetween4(){
         ArrayList<Point> boardPositions = new ArrayList<>(Arrays.asList(new Point(0, 0),new Point(-1, 1),new Point(1, 0),new Point(-1, 0),new Point(0, 1)));
-        IPiece ant = new Ant(Colour.BLACK);
+        IPiece ant = PieceFactory.createNewAnt(Colour.BLACK);
         ArrayList<Point> actualMoves = ant.getPossibleMoves(boardPositions);
         if (actualMoves.size()!=0) {
             assertTrue(true);
@@ -50,7 +50,7 @@ public class testPiece {
     @Test
     public void testPieceIsStuckBetween5(){
         ArrayList<Point> boardPositions = new ArrayList<>(Arrays.asList(new Point(0, 0),new Point(-1, 1),new Point(1, 0),new Point(-1, 0),new Point(1, -1),new Point(0, -1)));
-        IPiece ant = new Ant(Colour.BLACK);
+        IPiece ant = PieceFactory.createNewAnt(Colour.BLACK);
         ArrayList<Point> actualMoves = ant.getPossibleMoves(boardPositions);
         if (actualMoves.size()==0) {
             assertTrue(true);

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Stina Hansson
  * @author Hanna Adenholm
  */
-public class Grasshopper extends Piece {
+class Grasshopper extends Piece {
 
     /**
      * Creates a grasshopper
