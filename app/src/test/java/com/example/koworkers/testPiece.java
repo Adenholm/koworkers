@@ -6,11 +6,8 @@ import static org.junit.Assert.assertTrue;
 import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.Ant;
-import com.example.koworkers.model.pieces.Beetle;
-import com.example.koworkers.model.pieces.Grasshopper;
 import com.example.koworkers.model.pieces.IPiece;
-import com.example.koworkers.model.pieces.Queen;
-import com.example.koworkers.model.pieces.Spider;
+
 
 import org.junit.Test;
 
