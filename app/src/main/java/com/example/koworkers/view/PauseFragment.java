@@ -18,7 +18,7 @@ import com.example.koworkers.viewmodel.PauseViewModel;
 
 
 /**
- *
+ * @author Lisa Qwinth
  */
 public class PauseFragment extends Fragment {
 
