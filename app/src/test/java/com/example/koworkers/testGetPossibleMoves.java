@@ -23,7 +23,7 @@ import java.util.Arrays;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ExampleUnitTest {
+public class testGetPossibleMoves {
 
     @Test
     public void getSurroundingCoordinates_isCorrect(){
@@ -57,10 +57,37 @@ public class ExampleUnitTest {
     }
 
     @Test
+    public void beetleIsStuckPossibleMoves_isCorrect(){
+        ArrayList<Point> boardPositions = new ArrayList<>(Arrays.asList(new Point(0, 0),new Point(-1, 1),new Point(1, 0),new Point(-1, 0),new Point(1, -1),new Point(0, -1)));
+        IPiece beetle = new Beetle(Colour.BLACK);
+        ArrayList<Point> actualMoves = beetle.getPossibleMoves(boardPositions);
+        ArrayList<Point> predictedMoves = new ArrayList<>(Arrays.asList(new Point(-1, 1),new Point(1, 0),new Point(-1, 0),new Point(1, -1),new Point(0, -1)));
+        if (actualMoves.containsAll(predictedMoves) && predictedMoves.containsAll(actualMoves) && (actualMoves.size() == predictedMoves.size())) {
+            assertTrue(true);
+        } else {
+            assertFalse(false);
+        }
+    }
+
+   @Test
+    public void beetleIsStackedPossibleMoves_isCorrect(){
+        ArrayList<Point> boardPositions = new ArrayList<>(Arrays.asList(new Point(0, 0),new Point(0, 0)));
+        IPiece beetle = new Beetle(Colour.BLACK);
+        ArrayList<Point> actualMoves = beetle.getPossibleMoves(boardPositions);
+        ArrayList<Point> predictedMoves = new ArrayList<>(Arrays.asList(new Point(-1, 1),new Point(1, 0),new Point(-1, 0),new Point(1, -1),new Point(0, -1),new Point(0, 1)));
+        if (actualMoves.containsAll(predictedMoves) && predictedMoves.containsAll(actualMoves) && (actualMoves.size() == predictedMoves.size())) {
+            assertTrue(true);
+        } else {
+            assertFalse(false);
+        }
+    }
+
+
+    @Test
     public void grassHopperMoves_isCorrect(){
-        ArrayList<Point> boardPositions = new ArrayList<>(Arrays.asList(new Point(0,0),new Point(0,-1),new Point(1,0)));
+        ArrayList<Point> boardPositions = new ArrayList<>(Arrays.asList(new Point(0,0), new Point(1,0),new Point(2,0)));
         IPiece grasshopper = new Grasshopper(Colour.BLACK);
-        ArrayList<Point> predictedMoves = new ArrayList<>(Arrays.asList(new Point[]{new Point(2,0),new Point(0,-2)}));
+        ArrayList<Point> predictedMoves = new ArrayList<>(Arrays.asList(new Point[]{new Point(3,0)}));
         ArrayList<Point> actualMoves = grasshopper.getPossibleMoves(boardPositions);
         if (actualMoves.containsAll(predictedMoves) && predictedMoves.containsAll(actualMoves) && (actualMoves.size() == predictedMoves.size())) {
             assertTrue(true);
@@ -121,18 +148,5 @@ public class ExampleUnitTest {
             assertFalse(false);
         }
     }
-
-//    @Test
-//    public void checkRemove_isCorrect(){
-//        ArrayList <Point> whiteSP = new ArrayList<>(Arrays.asList(new Point(1, 0),new Point(1, -1),new Point(-1, 1),new Point(-1, 0),new Point(0, 1),new Point(0, -1)));
-//        ArrayList <Point> blackSP = new ArrayList<>(Arrays.asList(new Point(1, 0),new Point(1, -1)));
-//        ArrayList <Point> predicted = new ArrayList<>(Arrays.asList(new Point(-1, 1),new Point(-1, 0),new Point(0, 1),new Point(0, -1)));
-//        ArrayList <Point>  actual = Board.checkRemove(whiteSP,blackSP);
-//        if (actual.containsAll(predicted) && predicted.containsAll(actual) && (actual.size() == predicted.size())) {
-//            assertTrue(true);
-//        } else {
-//            assertFalse(false);
-//        }
-//    }
 
 }
