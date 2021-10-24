@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.koworkers.model.Colour;
 import com.example.koworkers.model.Hive;
 import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.Point;
@@ -136,8 +135,8 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
 
     @Override
     public void update(){
-        pieceIsSelected.setValue(hive.aPieceIsSelected());
         piecesOnBoard.setValue(hive.getPiecesOnBoard());
+        pieceIsSelected.setValue(hive.aPieceIsSelected());
         currentPlayer.setValue((hive.getCurrentPlayerColour()).toString());
     }
 }
