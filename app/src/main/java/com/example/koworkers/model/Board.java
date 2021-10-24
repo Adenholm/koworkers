@@ -247,6 +247,7 @@ class Board {
             for (Point boardPoint : playedPieces.values()) {
                 if (point.equals(boardPoint)) {
                     blackCount++;
+                    break;
                 }
             }
         }
@@ -259,6 +260,7 @@ class Board {
             for (Point boardPoint : playedPieces.values()) {
                 if (point.equals(boardPoint)) {
                     whiteCount++;
+                    break;
                 }
             }
         }
