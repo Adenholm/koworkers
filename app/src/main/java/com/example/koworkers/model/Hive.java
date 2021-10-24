@@ -37,6 +37,7 @@ public class Hive{
         board = new Board();
         currentPlayer = whiteHand;
         round = 1;
+        selectedPiece = null;
         notifyUpdate();
     }
 

@@ -135,8 +135,8 @@ public class BoardViewModel extends ViewModel implements Isubscriber {
 
     @Override
     public void update(){
-        pieceIsSelected.setValue(hive.aPieceIsSelected());
         piecesOnBoard.setValue(hive.getPiecesOnBoard());
+        pieceIsSelected.setValue(hive.aPieceIsSelected());
         currentPlayer.setValue((hive.getCurrentPlayerColour()).toString());
     }
 }

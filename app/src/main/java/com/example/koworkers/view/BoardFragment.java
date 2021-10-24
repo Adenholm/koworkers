@@ -52,7 +52,6 @@ public class BoardFragment extends Fragment{
     private int topOffset = 500;                                        //the offset that the pieces have from the top of the board
     private int leftOffset = 400;                                       // the offset that the pieces have from the left of the board
     private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density; //the ratio to convert from pixels to dpi for the program to be portable to other devices
-    private Boolean firstImage = true;
 
     private final View.OnClickListener possibleMovesListener = new View.OnClickListener() {
         @Override
@@ -165,6 +164,11 @@ public class BoardFragment extends Fragment{
     }
 
     private void displayPossibleMoves(){
+        boolean boardIsEmpty = false;
+        if(boardFrame.getChildCount() == 0){
+            boardIsEmpty = true;
+        }
+
         possibleMovesMap.clear();
         for(Point point: mViewModel.getPossibleMoves()){
             ImageView image = new ImageView(getContext());
@@ -174,9 +178,10 @@ public class BoardFragment extends Fragment{
             possibleMovesMap.put(image, point);
             boardFrame.addView(image);
         }
-        if(firstImage) {
-            hScrollView.scrollTo((leftOffset + 100) * dpiRatio, 0);
-            firstImage = false;
+
+        if(boardIsEmpty){
+            hScrollView.scrollTo(leftOffset - 300, 0);
+            scrollview.scrollTo(0, topOffset - 500);
         }
     }
 
@@ -192,22 +197,22 @@ public class BoardFragment extends Fragment{
         if(coordinate.getX() + leftOffset - 200 * dpiRatio < 0 ){
             leftOffset = leftOffset + 200;
             updateView();
-            hScrollView.scrollTo(leftOffset -100, 0);
+            hScrollView.scrollTo(leftOffset - 300, 0);
         }
         if(coordinate.getY() + topOffset - 200 * dpiRatio < 0 ){
             topOffset += 100;
             updateView();
-            scrollview.scrollTo(0, topOffset - 400);
+            scrollview.scrollTo(0, topOffset - 500);
         }
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mViewModel.getPieceSize() * dpiRatio, mViewModel.getPieceSize() * dpiRatio);
-        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 300 * dpiRatio, 400 * dpiRatio);
+        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 400 * dpiRatio, 500 * dpiRatio);
         view.setLayoutParams(params);
     }
 
     private void updateView(){
-        for(View image: imageMap.keySet()){
-            setLayout(image, mViewModel.getPoint(imageMap.get(image)));
+        for(IPiece piece: mViewModel.getPiecesOnBoard().getValue()){
+            setLayout(pieceMap.get(piece), mViewModel.getPoint(piece));
         }
         for(View image: possibleMovesMap.keySet()){
             setLayout(image, possibleMovesMap.get(image));

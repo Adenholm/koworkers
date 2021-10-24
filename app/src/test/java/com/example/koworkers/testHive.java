@@ -232,7 +232,7 @@ public class testHive {
     @Test
     public void testSubscriber(){
         Hive hive = new Hive();
-        //hive.subscribe(new testSubscriber(hive));
+        hive.subscribe(new testSubscriber(hive));
 
         hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));
         hive.movePiece(hive.getPossibleMoves().get(0));
