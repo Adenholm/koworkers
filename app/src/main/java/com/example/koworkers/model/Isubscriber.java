@@ -2,7 +2,8 @@ package com.example.koworkers.model;
 
 /**
  * A interface with subsciber-methods. Will be used to make classes able to listen to a publisher-class.
- * @author Qwinth, Adenholm
+ * @author Lisa Qwinth
+ * @author Hanna Adenholm
  */
 public interface Isubscriber {
     /**

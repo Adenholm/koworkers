@@ -2,6 +2,10 @@ package com.example.koworkers.model.pieces;
 
 import com.example.koworkers.model.Colour;
 
+/**
+ * Class that can create all different types of pieces
+ * @author Hanna Adenholm
+ */
 public class PieceFactory {
     public static IPiece createNewQueen(Colour colour){
         return new Queen(colour);

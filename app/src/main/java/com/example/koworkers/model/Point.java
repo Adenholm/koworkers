@@ -2,7 +2,7 @@ package com.example.koworkers.model;
 
 /**
  * An immutable point. Has a x-coordinate and a y-coordinate.
- * @Author Qwinth
+ * @Author Lisa Qwinth
  */
 public class Point {
     private int x;

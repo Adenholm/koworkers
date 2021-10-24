@@ -2,6 +2,7 @@ package com.example.koworkers.model;
 
 /**
  * The colour of the players and pieces
+ * @author Hanna Adenholm
  */
 public enum Colour {
     /**
