@@ -117,12 +117,7 @@ abstract class Piece implements IPiece{
                 count++;
             }
         }
-        if(noDuplicates.size()-1 == count){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return noDuplicates.size() - 1 == count;
     }
 
     /**

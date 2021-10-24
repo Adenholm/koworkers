@@ -68,9 +68,6 @@ public class Beetle extends Piece {
                 count++;
             }
         }
-        if(count>1){
-            return true;
-        }
-        return false;
+        return count > 1;
     }
 }

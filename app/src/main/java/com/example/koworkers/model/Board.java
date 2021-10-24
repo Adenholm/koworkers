@@ -22,7 +22,7 @@ public class Board {
     private IPiece blackQueen;
     private IPiece whiteQueen;
     private Colour winner;
-    private ArrayList<IPiece> topStacked = new ArrayList<>();
+    private final ArrayList<IPiece> topStacked = new ArrayList<>();
 
     /**
      * Checks where it possible to place a new piece. The first piece is only able to be placed in origo
@@ -78,11 +78,7 @@ public class Board {
      * @return true if it was on top of another piece
      */
     private boolean isUnStacked(IPiece playPiece) {
-        if (topStacked != null && topStacked.contains(playPiece)) {
-
-            return true;
-        }
-        return false;
+        return topStacked.size() != 0 && topStacked.contains(playPiece);
     }
 
 
@@ -173,11 +169,12 @@ public class Board {
         ArrayList<Point> surroundingPlayedPoints = new ArrayList<>();
         if (pie.getColour() == playerColour) {
 
-            for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie)))//Goes through the surrounding coordinates for every piece on the board
+            for (Point surroundingPoint : pie.getSurroundingCoordinates(playedPieces.get(pie))) {//Goes through the surrounding coordinates for every piece on the board
 
                 if (!surroundingPlayedPoints.contains(surroundingPoint)) {
                     surroundingPlayedPoints.add(surroundingPoint);
                 }
+            }
         }
         return surroundingPlayedPoints;
     }

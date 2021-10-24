@@ -51,9 +51,9 @@ public class Hive{
         if (aPieceIsSelected()){
             if(getCurrentPlayerHandPieces().contains(selectedPiece)){ // checks if the selected piece is in the player hand, if so remove it from there
                 if(currentPlayer.thisIsMyQueen(selectedPiece)){     //checks if the selected piece is a queen
-                    if(selectedPiece.getColour() == Colour.BLACK)
+                    if(selectedPiece.getColour() == Colour.BLACK) {
                         board.setBlackQueen(selectedPiece);
-                    else{
+                    }else{
                         board.setWhiteQueen(selectedPiece);
                     }
                 }

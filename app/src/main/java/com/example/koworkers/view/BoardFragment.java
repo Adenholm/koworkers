@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,15 +18,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.koworkers.MainActivity;
 import com.example.koworkers.R;
 import com.example.koworkers.model.Colour;
-import com.example.koworkers.model.Isubscriber;
 import com.example.koworkers.model.Point;
 import com.example.koworkers.model.pieces.IPiece;
 import com.example.koworkers.viewmodel.BoardViewModel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +39,7 @@ public class BoardFragment extends Fragment{
 
     private FrameLayout boardFrame;
     private HorizontalScrollView hScrollView;
+    private ScrollView scrollview;
     private TextView playerTextView;
 
     private final Map<IPiece, ImageView> pieceMap = new HashMap<>();    //map of pieces and images
@@ -50,9 +49,10 @@ public class BoardFragment extends Fragment{
 
     private ImageView selectImage;                                      // the image that shows which piece is selected
 
-    private int topOffset = 400;                                        //the offset that the pieces have from the top of the board
-    private int leftOffset = 150;                                       // the offset that the pieces have from the left of the board
+    private int topOffset = 500;                                        //the offset that the pieces have from the top of the board
+    private int leftOffset = 400;                                       // the offset that the pieces have from the left of the board
     private final int dpiRatio = (int) Resources.getSystem().getDisplayMetrics().density; //the ratio to convert from pixels to dpi for the program to be portable to other devices
+    private Boolean firstImage = true;
 
     private final View.OnClickListener possibleMovesListener = new View.OnClickListener() {
         @Override
@@ -94,12 +94,14 @@ public class BoardFragment extends Fragment{
         boardFrame.setOnClickListener(boardClick);
 
         hScrollView = getView().findViewById(R.id.hScrollView);
+        scrollview = getView().findViewById(R.id.scrollView);
 
         playerTextView = getView().findViewById(R.id.playerTextView);
         playerTextView.setText(Colour.WHITE.toString());
         playerTextView.setTextColor(getResources().getColor(R.color.white));
-        playerTextView.setTextSize(20);
+        playerTextView.setTextSize(30);
         playerTextView.setBackgroundColor(getResources().getColor(R.color.orangeBrown));
+        playerTextView.setPadding(10,10,10,10);
         playerTextView.setBackgroundResource(R.drawable.rounded_corners);
 
         selectImage = new ImageView(getContext());
@@ -121,6 +123,11 @@ public class BoardFragment extends Fragment{
             @Override
             public void onChanged(String s) {
                 playerTextView.setText(s);
+                if(s.equals("White")){
+                    playerTextView.setTextColor(getResources().getColor(R.color.white));
+                }else{
+                    playerTextView.setTextColor(getResources().getColor(R.color.black));
+                }
             }
         });
 
@@ -167,6 +174,10 @@ public class BoardFragment extends Fragment{
             possibleMovesMap.put(image, point);
             boardFrame.addView(image);
         }
+        if(firstImage) {
+            hScrollView.scrollTo((leftOffset + 100) * dpiRatio, 0);
+            firstImage = false;
+        }
     }
 
     private void removePossibleMoves(){
@@ -178,18 +189,19 @@ public class BoardFragment extends Fragment{
     private void setLayout(View view, Point point){
         Point coordinate = mViewModel.getCoordinates(point);
 
-        if(coordinate.getX() + leftOffset - 200 < 0 ){
-            leftOffset += 200;
+        if(coordinate.getX() + leftOffset - 200 * dpiRatio < 0 ){
+            leftOffset = leftOffset + 200;
             updateView();
-            hScrollView.smoothScrollTo(leftOffset, 0);
+            hScrollView.scrollTo(leftOffset -100, 0);
         }
-        if(coordinate.getY() + topOffset - 200 < 0 ){
+        if(coordinate.getY() + topOffset - 200 * dpiRatio < 0 ){
             topOffset += 100;
             updateView();
+            scrollview.scrollTo(0, topOffset - 400);
         }
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mViewModel.getPieceSize() * dpiRatio, mViewModel.getPieceSize() * dpiRatio);
-        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 100, 400);
+        params.setMargins((coordinate.getX() + leftOffset)*dpiRatio, (coordinate.getY() + topOffset)*dpiRatio, 300 * dpiRatio, 400 * dpiRatio);
         view.setLayoutParams(params);
     }
 
