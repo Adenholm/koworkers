@@ -62,13 +62,13 @@ public class Hive{
             }
             board.movePiece(selectedPiece, point);
 
+            switchPlayer();
+            deSelectPiece();
+
             if(round > 3 && board.aQueenIsSurrounded()){
                 notifyPlayerWon(board.getWinner());
                 return;
             }
-
-            switchPlayer();
-            deSelectPiece();
 
             if(newPlayerCantMove()){
                 switchPlayer();
