@@ -330,4 +330,36 @@ public class testHive {
             assertEquals(winningColour, Colour.WHITE);
         }
     }
+
+    @Test public void testIsUnStacked(){
+        Hive hive = new Hive();
+
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));//WHITEPLAYER
+        hive.movePiece(new Point(0,0));
+        //add a new piece to get back the beetle playerColour
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(0));//BLACKPLAYER
+        hive.movePiece(new Point(0,1));
+        //player
+        IPiece pieceToMove = hive.getCurrentPlayerHandPieces().get(9);//WHITE
+        hive.movePiece(new Point(-1,0));
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(1));
+        hive.movePiece(new Point(0,1));
+
+        //nemesis
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(3)); //BLACK
+        hive.movePiece(new Point(1,1));
+        //player move up
+        hive.selectPiece(pieceToMove);//WHITE
+        hive.movePiece(new Point(0,0));
+
+        //nemesis
+        hive.selectPiece(hive.getCurrentPlayerHandPieces().get(3));//BLACKPLAYER
+        hive.movePiece(new Point(-1,1));
+        //Unstacks
+        Point pointToMoveTo = new Point(0,-1);
+        hive.selectPiece(pieceToMove);
+        hive.movePiece(pointToMoveTo);
+
+        assertTrue(hive.getPoint(pieceToMove).equals(pointToMoveTo));
+    }
 }
