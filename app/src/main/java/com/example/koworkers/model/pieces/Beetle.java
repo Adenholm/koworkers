@@ -42,14 +42,13 @@ class Beetle extends Piece {
                 if(pieceIsStuck(boardPositions,beetlePoint)){
                     break;
                 }
-                //checks if the piece is still connected to the hive if it moves to the place
-                boolean stillConnectedToHive = !surroundpoint.equals(beetlePoint) && boardPositions.contains(surroundpoint);
-                //if the beetle is stacked on top of another piece, it can move to spaces that is surrounded by other pieces
-                if(isBeetleStacked(boardPositions) && stillConnectedToHive && !possibleMoves.contains(point)){
+                //if the beetle is stacked on top of another piece, it can move to spaces that is surrounded by other pieces, and is always connected to the hive
+                if(isBeetleStacked(boardPositions) && !surroundpoint.equals(beetlePoint) && !possibleMoves.contains(point)){
                     possibleMoves.add(point);
                 }
                 //if the beetle is not stacked it cant move to spaces that is surrounded by other pieces
-                else if (stillConnectedToHive && !possibleMoves.contains(point) && !pieceIsStuck(boardPositions,point)) {
+                //checks if the piece is still connected to the hive if it moves to the place
+                else if (!surroundpoint.equals(beetlePoint) && boardPositions.contains(surroundpoint) && !possibleMoves.contains(point) && !pieceIsStuck(boardPositions,point)) {
                     possibleMoves.add(point);
                 }
             }
