@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.koworkers.model.Hive;
 
 /**
- *
+ * @author Lisa Qwinth
  */
 public class PauseViewModel extends ViewModel {
     private Hive hive;
