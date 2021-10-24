@@ -62,18 +62,18 @@ abstract class Piece implements IPiece{
      * @return True if the piece is stuck, and false if it isn't
      */
     protected boolean pieceIsStuck(ArrayList<Point> boardPositions, Point position){
-        int occupiedNeighbours = 0;
+        ArrayList<Point> occupiedNeighbours = new ArrayList<>();
         Point ownPosition = boardPositions.get(0);
         for(Point p: getSurroundingCoordinates(position)){
             if(boardPositions.contains(p) && !p.equals(ownPosition)){
-                occupiedNeighbours++;
+                occupiedNeighbours.add(p);
             }
         }
         //if a piece is surrounded på 5 or more pieces, it's always stuck
-        if(occupiedNeighbours >= 5){
+        if(occupiedNeighbours.size() >= 5){
             return true;
         }
-        else if(occupiedNeighbours == 4){
+        else if(occupiedNeighbours.size() == 4){
             ArrayList<Point> surroundPoints = getSurroundingCoordinates(position);
             int nextPoint;
             for(int i= 0;i<surroundPoints.size();i++){
@@ -83,7 +83,7 @@ abstract class Piece implements IPiece{
                 else{
                     nextPoint = 0;
                 }
-                if(!boardPositions.contains(surroundPoints.get(i)) && !boardPositions.contains(surroundPoints.get(nextPoint))){
+                if(!occupiedNeighbours.contains(surroundPoints.get(i)) && !occupiedNeighbours.contains(surroundPoints.get(nextPoint))){
                     return false;
                 }
             }
